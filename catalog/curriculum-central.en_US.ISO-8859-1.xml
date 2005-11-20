@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<message_catalog package_key="curriculum-central" package_version="0.1d" locale="en_US" charset="ISO-8859-1">
+
+  <msg key="uos">UoS</msg>
+  <msg key="search">Search</msg>
+  <msg key="res_code_to_log_title">resolution code to log title</msg>
+  <msg key="fixed">Fixed</msg>
+  <msg key="wont_fix">Won't fix</msg>
+  <msg key="postponed">Postponed</msg>
+  <msg key="need_info">Need info</msg>
+  <msg key="uos_info">UoS info</msg>
+  <msg key="before_getting_started">Before using Curriculum Central, you need to create at least one stream.  A stream can be a degree, diploma or even a certificate.</msg>
+  <msg key="visit_admin_page">Please visit the &lt;a href=&quot;admin/streams&quot;&gt;stream administration&lt;/a&gt; pages to define a stream.</msg>
+  <msg key="contact_admin">Please contact an administrator to get a stream set up.</msg>
+  <msg key="stream_coordinator">Stream Coordinator</msg>
+  <msg key="stream_coordinators">Stream Coordinators</msg>
+  <msg key="unit_coordinator">Unit Coordinator</msg>
+  <msg key="unit_coordinators">Unit Coordinators</msg>
+  <msg key="lecturer">Lecturer</msg>
+  <msg key="lecturers">Lecturers</msg>
+  <msg key="coordinator">Coordinator</msg>
+  <msg key="open">Open</msg>
+  <msg key="opened">Opened</msg>
+  <msg key="closed">Closed</msg>
+  <msg key="comment">Comment</msg>
+  <msg key="commented">Commented</msg>
+  <msg key="edit">Edit</msg>
+  <msg key="edited">Edited</msg>
+  <msg key="reassign">Reassign</msg>
+  <msg key="reassigned">Reassigned</msg>
+  <msg key="complete">Complete</msg>
+  <msg key="completed">Completed</msg>
+  <msg key="reopen">Reopen</msg>
+  <msg key="reopened">Reopened</msg>
+  <msg key="close">Close</msg>
+  <msg key="closed">Closed</msg>
+  <msg key="admin">Admin</msg>
+  <msg key="assign_roles_to_users">Assign roles to users.</msg>
+  <msg key="create_streams">Create streams.</msg>
+  <msg key="create_faculties">Create faculties.</msg>
+  <msg key="faculties">Faculties</msg>
+  <msg key="roles_admin">Roles Admin</msg>
+  <msg key="streams_admin">Streams Admin</msg>
+  <msg key="stream_code">Stream Code</msg>
+  <msg key="stream_name">Stream Name</msg>
+  <msg key="department">Department</msg>
+  <msg key="faculty">Faculty</msg>
+  <msg key="add_stream">Add Stream</msg>
+  <msg key="edit_stream">Edit Stream</msg>
+  <msg key="no_streams_created">No streams have been created.</msg>
+  <msg key="no_faculties_created">No faculties have been created.</msg>
+  <msg key="edit_stream_info">Edit stream information</msg>
+  <msg key="edit_faculty_info">Edit faculty information</msg>
+  <msg key="faculty_name">Faculty Name</msg>
+  <msg key="dean">Dean</msg>
+  <msg key="add_faculty">Add Faculty</msg>
+  <msg key="edit_faculty">Edit Faculty</msg>
+  <msg key="add_faculty_to_list">Add a faculty to this list.</msg>
+  <msg key="add_stream_to_list">Add a stream to this list.</msg>
+  <msg key="view_faculty_depts">View faculty departments</msg>
+  <msg key="faculty_name_depts">%faculty_name% Departments</msg>
+  <msg key="faculty_depts">Faculty Departments</msg>
+  <msg key="add_dept">Add Department</msg>
+  <msg key="no_depts_created">No departments have been created.</msg>
+  <msg key="hod">Head of Department</msg>
+  <msg key="dept_name">Department Name</msg>
+  <msg key="add_dept_to_list">Add a department to the list</msg>
+  <msg key="edit_dept_info">Edit department information</msg>
+
+</message_catalog>

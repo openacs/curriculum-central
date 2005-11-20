@@ -1,0 +1,141 @@
+<?xml version='1.0'?>
+
+<!DOCTYPE article PUBLIC "-//OASIS//DTD DocBook XML V4.2//EN" "http://www.oasis-open.org/docbook/xml/4.2/docbookx.dtd" >
+<article>
+  <title>Curriculum Central</title>
+  <articleinfo>
+    <author>
+      <firstname>Nick</firstname>
+      <surname>Carroll</surname>
+    </author>
+  </articleinfo>
+
+  <sect1 id="requirements">
+    <title>Requirements Document</title>
+    <abstract>
+      <para>This document describes the requirements for the Curriculum Central application.  Curriculum Central is an application for professors and teaching staff alike, to organise the curriculum for degree offerings.  The package will be integrated with dotLRN, and will offer course management capabilities to the Learning Management System (LMS).</para>
+    </abstract>
+
+    <sect2 id="requirements-introduction">
+      <title>Introduction</title>
+      <para></para>
+    </sect2>
+
+    <sect2 id="competitive-analysis">
+      <title>Competitive Analysis</title>
+      <para></para>
+    </sect2>
+
+    <sect2 id="design-tradeoffs">
+      <title>Design Tradeoffs</title>
+      <para></para>
+    </sect2>
+
+    <sect2 id="api">
+      <title>API</title>
+      <para></para>
+    </sect2>
+
+    <sect2 id="data-model-discussion">
+      <title>Data Model Discussion</title>
+      <para></para>
+    </sect2>
+
+    <sect2 id="user-interface">
+      <title>User Interface</title>
+      <para></para>
+    </sect2>
+
+    <sect2 id="configuration-parameters">
+      <title>Configuration/Parameters</title>
+      <para></para>
+    </sect2>
+
+    <sect2 id="future-improvements">
+      <title>Future Improvements/Areas of Likely Change</title>
+      <para></para>
+    </sect2>
+  </sect1>
+
+  <sect1 id="design">
+    <title>Design Document</title>
+    <abstract>
+      <para>Design document for Curriculum Central.</para>
+    </abstract>
+
+    <sect2 id="student">
+      <title>Student's Guide</title>
+      <para></para>
+    </sect2>
+
+    <sect2 id="teacher">
+      <title>Teacher's Guide</title>
+      <para></para>
+    <para>
+    DocBook <citation><xref role="bib" linkend="bib.TDG99"
+    endterm="bib.TDG99.abbrev"/></citation> proposes an XML model
+ <citation><xref role="bib" linkend="bib.xml"
+    endterm="bib.xml.abbrev"/></citation> for marking up technical
+    documents.  It is particularly well-suited for software reference
+    guides and computer equipment manuals.
+    </para>
+    </sect2>
+
+  </sect1>
+
+<bibliography>
+    <title>Bibliographic references</title>
+    <biblioentry id="bib.xml">
+    <abbrev id="bib.xml.abbrev">XML98</abbrev>
+    <authorgroup>
+ <author><othername>World Wide Web Consortium</othername></author>
+    <editor><firstname>Tim</firstname><surname>Bray</surname></editor>
+    <editor><firstname>Jean</firstname><surname>Paoli</surname></editor>
+    <editor><firstname>Michael</firstname><surname>Sperberg-McQueen</surname></editor>
+    </authorgroup>
+ <title>
+    <ulink url="http://www.w3.org/TR/REC-xml/">Extensible Markup Language
+    (XML) 1.0</ulink></title>
+    <bibliomisc>
+    See also the <ulink url="http://www.xml.com/axml/axml.html">annotated
+ version of the XML specification</ulink>.</bibliomisc>
+    </biblioentry>
+    <biblioentry id="bib.TDG99">
+    <abbrev id="bib.TDG99.abbrev">TDG1999</abbrev>
+    <authorgroup>
+ <author><firstname>Norman</firstname><surname>Walsh</surname></author>
+    <author><firstname>Leonard</firstname><surname>Muellner</surname></author>
+    </authorgroup>
+    <title>Docbook. The Definitive Guide.</title>
+    <publisher>
+ <publishername>O'Reilly &amp; Associates, Inc.</publishername>
+    </publisher>
+    <copyright><year>1999</year></copyright>
+    <isbn>1-56592-580-7</isbn>
+    <releaseinfo><ulink
+ url= "http://www.oreilly.com/catalog/docbook/index.html">Oreilly's
+    catalog entry</ulink>.
+    </releaseinfo>
+    <bibliomisc>
+    You can also consult the <ulink url="http://www.oasis-open.org/docbook/documentation/reference/html/docbook.html">
+    online version of the DocBook reference guide</ulink> and download the
+    <ulink url="http://sourceforge.net/projects/docbook/">Docbook DTD and XSL
+    stylesheets</ulink>.</bibliomisc>
+    </biblioentry>
+ <biblioentry id="bib.mathml">
+    <abbrev id="bib.mathml.abbrev">MATHML2</abbrev>
+    <authorgroup>
+    <author><othername>World Wide Web Consortium</othername></author>
+    <editor><firstname>David</firstname><surname>Carlisle</surname></editor>
+ <editor><firstname>Patrick</firstname><surname>Ion</surname></editor>
+    <editor><firstname>Robert</firstname><surname>Miner</surname></editor>
+    <editor><firstname>Nico</firstname><surname>Poppelier</surname></editor>
+    </authorgroup>
+    
+ <title><ulink url="http://www.w3.org/TR/MathML2/">Mathematical
+    Markup Language (MathML) Version 2.0</ulink>
+    </title>
+    </biblioentry>
+    </bibliography>
+
+</article>
