@@ -18,6 +18,7 @@
 	       WHERE user_id = hod_id) AS hod
 	   FROM cc_department
            WHERE faculty_id = :faculty_id
+	   [template::list::orderby_clause -orderby -name "depts"]
      </querytext>
    </fullquery>
 </queryset>

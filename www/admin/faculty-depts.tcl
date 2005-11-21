@@ -60,7 +60,8 @@ template::list::create \
 	department_name {orderby {lower(department_name)}}
 	hod {orderby {lower(hod)}}
     } \
-    -pass_properties {faculty_id}
+    -pass_properties {faculty_id} \
+    -filters { faculty_id {} }
 
 db_multirow depts get_depts {} 
 
