@@ -101,20 +101,21 @@ select inline_1 ();
 drop function inline_1 ();
 
 
-select define_function_args('cc_department__new', 'department_id,department_name,hod_id,object_type,creation_user,creation_ip,package_id');
+select define_function_args('cc_department__new', 'department_id,department_name,hod_id,faculty_id,object_type,creation_user,creation_ip,package_id');
 
-create function cc_department__new(integer, varchar, integer, varchar, integer, varchar, integer)
+create function cc_department__new(integer, varchar, integer, integer, varchar, integer, varchar, integer)
 returns integer as'
 
 declare
 
 	p_department_id		alias for $1;
-	p_department_name		alias for $2;
+	p_department_name	alias for $2;
 	p_hod_id		alias for $3;
-	p_object_type		alias for $4;
-	p_creation_user		alias for $5;
-	p_creation_ip		alias for $6;
-	p_package_id		alias for $7;
+	p_faculty_id		alias for $4;
+	p_object_type		alias for $5;
+	p_creation_user		alias for $6;
+	p_creation_ip		alias for $7;
+	p_package_id		alias for $8;
 
 	v_department_id		cc_department.department_id%TYPE;
 begin
@@ -128,7 +129,7 @@ begin
 			p_package_id
 		);
 
-	insert into cc_department values(v_department_id, p_hod_id, p_department_name, p_package_id);
+	insert into cc_department values(v_department_id, p_hod_id, p_department_name, p_faculty_id, p_package_id);
 	
 	return v_department_id;
 

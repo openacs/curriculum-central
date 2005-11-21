@@ -6,6 +6,7 @@ ad_page_contract {
     @cvs-id $Id$
 } {
     faculty_id:integer,notnull
+    {orderby "department_name,asc"}
 }
 
 if { [db_0or1row get_faculty_name {}] } {
@@ -17,7 +18,8 @@ if { [db_0or1row get_faculty_name {}] } {
     set page_title [_ curriculum-central.faculty_depts]
 }
 
-set context [list $page_title]
+set context [list [list faculties [_ curriculum-central.faculties]] \
+		 $page_title]
 
 set elements {
     edit {
@@ -25,7 +27,7 @@ set elements {
 	display_template {
 	    <img src="/shared/images/Edit16.gif" height="16" width="16" border="0">
 	}
-	link_url_eval {[export_vars -base dept-ae { department_id }]}
+	link_url_eval {[export_vars -base dept-ae { faculty_id department_id }]}
 	link_html {title "#curriculum-central.edit_dept_info#"}
     }
     department_name {
@@ -49,13 +51,14 @@ template::list::create \
     -no_data "#curriculum-central.no_depts_created#" \
     -elements $elements \
     -actions [list "#curriculum-central.add_dept#" \
-		  [export_vars -base dept-ae {}] \
+		  [export_vars -base dept-ae { faculty_id }] \
 		  "#curriculum-central.add_dept_to_list#"] \
     -orderby {
 	department_name {orderby {lower(department_name)}}
 	hod {orderby {lower(hod)}}
-    }
+    } \
+    -pass_properties {faculty_id}
 
-db_multirow depts get_depts {}
+db_multirow depts get_depts {} 
 
 ad_return_template

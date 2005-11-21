@@ -61,6 +61,7 @@
   <msg key="faculty_name_depts">%faculty_name% Departments</msg>
   <msg key="faculty_depts">Faculty Departments</msg>
   <msg key="add_dept">Add Department</msg>
+  <msg key="edit_dept">Edit Department</msg>
   <msg key="no_depts_created">No departments have been created.</msg>
   <msg key="hod">Head of Department</msg>
   <msg key="dept_name">Department Name</msg>
