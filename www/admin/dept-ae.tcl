@@ -30,10 +30,12 @@ ad_form -name dept -cancel_url $return_url -form {
     {department_name:text
 	{html {size 50}}
 	{label "#curriculum-central.dept_name#" }
+	{help_text "[_ curriculum-central.help_enter_department_name]"}
     }
     {hod_id:integer(select)
 	{label "#curriculum-central.hod#" }
 	{options [curriculum_central::users_get_options] }
+	{help_text "[_ curriculum-central.help_select_hod]"}
     }
 } -select_query {
        SELECT hod_id, department_name

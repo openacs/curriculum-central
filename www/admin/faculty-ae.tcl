@@ -24,12 +24,12 @@ ad_form -name faculty -cancel_url $return_url -form {
     {faculty_name:text
 	{html {size 50}}
 	{label "#curriculum-central.faculty_name#" }
+	{help_text "[_ curriculum-central.help_enter_faculty_name]"}
     }
-    {dean_id:search
-	{result_datatype integer}
+    {dean_id:integer(select)
 	{label "#curriculum-central.dean#" }
 	{options [curriculum_central::users_get_options] }
-	{search_query {}}
+	{help_text "[_ curriculum-central.help_select_dean]"}
     }
 } -select_query {
        SELECT dean_id, faculty_name

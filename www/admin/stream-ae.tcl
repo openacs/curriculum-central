@@ -24,18 +24,22 @@ ad_form -name stream -cancel_url $return_url -form {
     {stream_name:text
 	{html {size 50}}
 	{label "#curriculum-central.stream_name#" }
+	{help_text "[_ curriculum-central.help_enter_stream_name]"}
     }
     {stream_code:text
 	{html {size 25}}
 	{label "#curriculum-central.stream_code#" }
+	{help_text "[_ curriculum-central.help_enter_stream_code]"}
     }
     {department_id:integer(select)
 	{label "#curriculum-central.department#" }
 	{options [curriculum_central::departments_get_options] }
+	{help_text "[_ curriculum-central.help_select_a_dept]"}
     }
     {coordinator_id:integer(select)
 	{label "#curriculum-central.stream_coordinator#" }
 	{options [curriculum_central::users_get_options] }
+	{help_text "[_ curriculum-central.help_select_stream_coordinator]"}
     }
 } -select_query {
        SELECT coordinator_id, stream_name, stream_code,
@@ -45,6 +49,7 @@ ad_form -name stream -cancel_url $return_url -form {
     package_instantiate_object \
 	-var_list [list [list package_id $package_id] \
 		        [list object_type cc_stream] \
+		        [list department_id $department_id] \
 		        [list coordinator_id $coordinator_id]] \
 	-form_id stream cc_stream
 

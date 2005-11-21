@@ -67,5 +67,15 @@
   <msg key="dept_name">Department Name</msg>
   <msg key="add_dept_to_list">Add a department to the list</msg>
   <msg key="edit_dept_info">Edit department information</msg>
+  <msg key="delete_dept">Delete department</msg>
+  <msg key="want_to_delete_department">Are you sure you want to delete @depts.department_name@?</msg>
+  <msg key="help_select_a_dept">Select a department.  Note: A &lt;a href=faculties&gt;faculty&lt;/a&gt; and department must be created before a list of departments appears in the drop-down box.</msg>
+  <msg key="help_select_stream_coordinator">Select a coordinator for the stream.</msg>
+  <msg key="help_enter_stream_code">Enter a code for this stream.</msg>
+  <msg key="help_enter_stream_name">Enter a name for this stream.  Examples: Bachelor of Engineering; or Diploma of Applied Finance.</msg>
+  <msg key="help_enter_department_name">Enter a name for this department.  Examples: School of Electrical and Information Engineering; or Department of Chemical Engineering.</msg>
+  <msg key="help_select_hod">Select the Head of Department.  Note: The Head of Department must have an account on the system.</msg>
+  <msg key="help_select_dean">Select the Dean.  Note: The Dean must have an account on the system.</msg>
+  <msg key="help_enter_faculty_name">Enter a name for this faculty.  Example: Faculty of Engineering.</msg>
 
 </message_catalog>
