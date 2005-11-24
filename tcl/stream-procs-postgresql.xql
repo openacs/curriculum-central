@@ -5,7 +5,7 @@
 
    <fullquery name="curriculum_central::stream::streams_exist_p.streams_exist">
      <querytext>
-       SELECT * FROM cc_stream LIMIT 1
+       SELECT * FROM cc_stream WHERE package_id = :package_id LIMIT 1
      </querytext>
    </fullquery>
 </queryset>
