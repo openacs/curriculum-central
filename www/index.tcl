@@ -11,7 +11,7 @@ set context [list]
 set admin_p [permission::permission_p -object_id [ad_conn package_id] -privilege admin]
 
 # Check for streams.  If no streams, then display no-streams template.
-if { 1 } {
+if { ![curriculum_central::stream::streams_exist_p] } {
     ad_return_template "no-streams"
     return
 }
