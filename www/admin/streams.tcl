@@ -10,6 +10,12 @@ ad_page_contract {
 
 set page_title "[_ curriculum-central.streams_admin]"
 set context [list [_ curriculum-central.streams_admin]]
+set package_id [ad_conn package_id]
+
+if { ![curriculum_central::faculty::faculties_exist_p] } {
+    ad_return_template "no-faculties"
+    return
+}
 
 set elements {
     edit {

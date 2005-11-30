@@ -12,6 +12,7 @@
 	       FROM cc_users
 	       WHERE user_id = s.coordinator_id) AS stream_coordinator
 	   FROM cc_stream s
+	   WHERE package_id = :package_id
 	   [template::list::orderby_clause -orderby -name "streams"]
      </querytext>
    </fullquery>
