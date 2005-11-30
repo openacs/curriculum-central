@@ -12,6 +12,7 @@
   <msg key="before_getting_started">Before using Curriculum Central, you need to create at least one stream.  A stream can be a degree, diploma or even a certificate.</msg>
   <msg key="visit_admin_page">Please visit the &lt;a href=&quot;admin/streams&quot;&gt;stream administration&lt;/a&gt; pages to define a stream.</msg>
   <msg key="contact_admin">Please contact an administrator to get a stream set up.</msg>
+  <msg key="need_to_create_faculty">NOTE: Need to &lt;a href=&quot;faculties&quot;&gt;create a faculty&lt;/a&gt; and associated departments before proceeding.</msg>
   <msg key="stream_coordinator">Stream Coordinator</msg>
   <msg key="stream_coordinators">Stream Coordinators</msg>
   <msg key="unit_coordinator">Unit Coordinator</msg>
@@ -41,12 +42,18 @@
   <msg key="faculties">Faculties</msg>
   <msg key="roles_admin">Roles Admin</msg>
   <msg key="streams_admin">Streams Admin</msg>
+  <msg key="streams">Streams</msg>
   <msg key="stream_code">Stream Code</msg>
   <msg key="stream_name">Stream Name</msg>
+  <msg key="staff">Staff</msg>
+  <msg key="staff_admin">Staff Admin</msg>
+  <msg key="add_staff">Add staff.</msg>
   <msg key="department">Department</msg>
   <msg key="faculty">Faculty</msg>
   <msg key="add_stream">Add Stream</msg>
   <msg key="edit_stream">Edit Stream</msg>
+  <msg key="add_staff_details">Add Staff Details</msg>
+  <msg key="edit_staff_details">Edit Staff Details</msg>
   <msg key="no_streams_created">No streams have been created.</msg>
   <msg key="no_faculties_created">No faculties have been created.</msg>
   <msg key="edit_stream_info">Edit stream information</msg>
@@ -77,5 +84,11 @@
   <msg key="help_select_hod">Select the Head of Department.  Note: The Head of Department must have an account on the system.</msg>
   <msg key="help_select_dean">Select the Dean.  Note: The Dean must have an account on the system.</msg>
   <msg key="help_enter_faculty_name">Enter a name for this faculty.  Example: Faculty of Engineering.</msg>
+  <msg key="help_select_staff_member">Select a staff member from the list of users.</msg>
+  <msg key="help_enter_staff_title">Enter the staff member's title.  For example: Mr, Mrs, Ms, Dr, Associate Professor, Professor, etc.</msg>
+  <msg key="help_enter_staff_position">Enter the staff member's position.  For example: Honorary Associate Professor, Research Fellow, Adjunct Lecturer, etc.</msg>
+  <msg key="help_select_staff_member_department">Select the department that the staff member belongs to.</msg>
+  <msg key="staff_title">Staff Title</msg>
+  <msg key="staff_position">Staff Position</msg>
 
 </message_catalog>
