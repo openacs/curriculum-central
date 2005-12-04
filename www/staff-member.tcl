@@ -9,7 +9,12 @@ ad_page_contract {
 }
 
 # Set optional fields to the empty string by default.
-set address {}
+set address_line_1 {}
+set address_line_2 {}
+set address_suburb {}
+set address_state {}
+set address_postcode {}
+set address_country {}
 set phone {}
 set fax {}
 set homepage_url {}

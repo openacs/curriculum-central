@@ -7,7 +7,9 @@
      <querytext>
        SELECT s.title || ' ' || u.first_names || ' ' || u.last_name AS name,
          s.position, s.department_id, d.department_name, s.staff_id,
-	 u.email, u.url, s.address, s.phone, s.fax, s.homepage_url
+	 u.email, u.url, s.address_line_1, s.address_line_2, s.address_suburb,
+         s.address_state, s.address_postcode, s.address_country, s.phone,
+         s.fax, s.homepage_url
        FROM cc_users u, cc_staff s, cc_department d
        WHERE s.staff_id = u.user_id
        AND s.staff_id = :staff_id

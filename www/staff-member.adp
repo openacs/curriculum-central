@@ -9,7 +9,11 @@ Need to display the following:
 <li>portrait</li>
 <li>name: @name@</li>
 <li>position: @position@</li>
-<li>address: @address@</li>
+<li>address: @address_line_1@<br />
+@address_line_2@<br />
+@address_suburb@ @address_state@ @address_postcode@<br />
+@address_country@<br />
+</li>
 <li>email: @email@</li>
 <if @phone@ ne ""><li>phone number: @phone@</li></if>
 <if @fax@ ne ""><li>fax number: @fax@</li></if>
