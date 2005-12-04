@@ -1,7 +1,30 @@
 <master>
 <property name="title">@page_title;noquote@</property>
 <property name="context">@context;noquote@</property>
+<property name="header_stuff">
+<link rel="stylesheet" type="text/css" href="/resources/curriculum-central/curriculum-central.css" media="all">
+</property>
 
-<a href="faculties" class="button">#curriculum-central.faculties#</a> - #curriculum-central.create_faculties# <p />
-<a href="staff" class="button">#curriculum-central.staff#</a> - #curriculum-central.add_staff# <p />
-<a href="streams" class="button">#curriculum-central.streams#</a> - #curriculum-central.create_streams#
+
+<div id="cc-linkless-head-narrow-container">
+<ul>
+<li><span>#curriculum-central.faculties#</span>
+  <ul>
+  <li><a href="faculties">#curriculum-central.view_faculties#</a></li>
+  <li><a href="faculty-ae">#curriculum-central.add_faculty#</a></li>
+  </ul>
+</li>
+<li><span>#curriculum-central.staff#</span>
+  <ul>
+  <li><a href="staff">#curriculum-central.view_staff#</a></li>
+  <li><a href="staff-ae">#curriculum-central.add_staff_member#</a></li>
+  </ul>
+</li>
+<li><span>#curriculum-central.streams#</span>
+  <ul>
+  <li><a href="streams">#curriculum-central.view_streams#</a></li>
+  <li><a href="stream-ae">#curriculum-central.add_a_stream#</a></li>
+  </ul>
+</li>
+</ul>
+</div>
