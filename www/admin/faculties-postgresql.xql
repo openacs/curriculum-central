@@ -10,6 +10,7 @@
 	       FROM cc_users
 	       WHERE user_id = dean_id) AS dean
 	   FROM cc_faculty
+	   WHERE package_id = :package_id
 	   [template::list::orderby_clause -orderby -name "faculties"]
      </querytext>
    </fullquery>
