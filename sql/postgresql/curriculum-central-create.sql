@@ -12,3 +12,4 @@
 \i department-create.sql
 \i stream-create.sql
 \i uos-create.sql
+\i staff-create.sql
