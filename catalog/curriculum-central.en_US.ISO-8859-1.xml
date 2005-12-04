@@ -46,8 +46,13 @@
   <msg key="stream_code">Stream Code</msg>
   <msg key="stream_name">Stream Name</msg>
   <msg key="staff">Staff</msg>
+  <msg key="name">Name</msg>
   <msg key="staff_admin">Staff Admin</msg>
+  <msg key="staff_name">Staff Name</msg>
   <msg key="add_staff">Add staff.</msg>
+  <msg key="add_staff_member">Add Staff Member</msg>
+  <msg key="add_staff_to_list">Add a member of staff to this list.</msg>
+  <msg key="no_staff">No staff</msg>
   <msg key="department">Department</msg>
   <msg key="faculty">Faculty</msg>
   <msg key="add_stream">Add Stream</msg>
@@ -57,7 +62,10 @@
   <msg key="no_streams_created">No streams have been created.</msg>
   <msg key="no_faculties_created">No faculties have been created.</msg>
   <msg key="edit_stream_info">Edit stream information</msg>
+  <msg key="edit_staff_info">Edit staff information</msg>
   <msg key="edit_faculty_info">Edit faculty information</msg>
+  <msg key="delete_staff">Delete staff member</msg>
+  <msg key="want_to_delete_staff">Are you sure you want to delete @staff.staff_name@?  Note: This will not delete the user&#146;s account.</msg>
   <msg key="faculty_name">Faculty Name</msg>
   <msg key="dean">Dean</msg>
   <msg key="add_faculty">Add Faculty</msg>
