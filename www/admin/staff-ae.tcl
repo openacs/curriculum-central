@@ -57,15 +57,71 @@ ad_form -extend -name staff -form {
 	{options [curriculum_central::departments_get_options] }
 	{help_text "[_ curriculum-central.help_select_staff_member_department]"}
     }
+    {address_line_1:text,optional
+	{html {size 50}}
+	{label "#curriculum-central.address_line_1#"}
+	{help_text "[_ curriculum-central.help_enter_address_line_1]"}
+    }
+    {address_line_2:text,optional
+	{html {size 50}}
+	{label "#curriculum-central.address_line_2#"}
+	{help_text "[_ curriculum-central.help_enter_address_line_2]"}
+    }
+    {address_suburb:text,optional
+	{html {size 50}}
+	{label "#curriculum-central.suburb#"}
+	{help_text "[_ curriculum-central.help_enter_suburb]"}
+    }
+    {address_state:text,optional
+	{html {size 50}}
+	{label "#curriculum-central.state#"}
+	{help_text "[_ curriculum-central.help_enter_state]"}
+    }
+    {address_postcode:text,optional
+	{html {size 50}}
+	{label "#curriculum-central.postcode#"}
+	{help_text "[_ curriculum-central.help_enter_postcode]"}
+    }
+    {address_country:text,optional
+	{html {size 50}}
+	{label "#curriculum-central.country#"}
+	{help_text "[_ curriculum-central.help_enter_country]"}
+    }
+    {phone:text,optional
+	{html {size 50}}
+	{label "#curriculum-central.phone#"}
+	{help_text "[_ curriculum-central.help_enter_phone]"}
+    }
+    {fax:text,optional
+	{html {size 50}}
+	{label "#curriculum-central.fax#"}
+	{help_text "[_ curriculum-central.help_enter_fax]"}
+    }
+    {homepage_url:text,optional
+	{html {size 50}}
+	{label "#curriculum-central.homepage_url#"}
+	{help_text "[_ curriculum-central.help_enter_homepage_url]"}
+    }
 } -select_query {
-       SELECT title, position, department_id
+       SELECT title, position, department_id, address_line_1,
+           address_line_2, address_suburb, address_state, address_postcode,
+           address_country, phone, fax, homepage_url
 	   FROM cc_staff WHERE staff_id = :staff_id
 } -new_data {
     package_instantiate_object \
 	-var_list [list [list staff_id $staff_id] \
 		        [list title $title] \
 		        [list position $position] \
-		        [list department_id $department_id]] \
+		        [list department_id $department_id] \
+  		        [list address_line_1 $address_line_1] \
+  		        [list address_line_2 $address_line_2] \
+  		        [list address_suburb $address_suburb] \
+  		        [list address_state $address_state] \
+  		        [list address_postcode $address_postcode] \
+  		        [list address_country $address_country] \
+		        [list phone $phone] \
+		        [list fax $fax] \
+ 		        [list homepage_url $homepage_url]] \
 	-form_id staff cc_staff
 } -edit_data {
     db_dml staff_update {}

@@ -42,7 +42,16 @@ create table cc_staff (
 			constraint cc_staff_position_nn not null,
 	department_id	integer
 			constraint cc_staff_department_id_fk
-			references cc_department(department_id)
+			references cc_department(department_id),
+	address_line_1	varchar(256),
+	address_line_2	varchar(256),
+	address_suburb	varchar(256),
+	address_state	varchar(256),
+	address_postcode	varchar(256),
+	address_country	varchar(256),
+	phone		varchar(256),
+	fax		varchar(256),
+	homepage_url	varchar(256)
 );
 
 
@@ -69,11 +78,155 @@ begin
 	);
 
     PERFORM acs_attribute__create_attribute (
-	  ''cc_staff'',		-- object_type
-	  ''position'',			-- attribute_name
-	  ''string'',			-- datatype
-	  ''Position'',			-- pretty_name
-	  ''Positions'',		-- pretty_plural
+	  ''cc_staff'',					-- object_type
+	  ''position'',					-- attribute_name
+	  ''string'',					-- datatype
+	  ''curriculum-central.position'',		-- pretty_name
+	  ''curriculum-central.positions'',		-- pretty_plural
+	  null,				-- table_name
+	  null,				-- column_name
+	  null,				-- default_value
+	  1,				-- min_n_values
+	  1,				-- max_n_values
+	  null,				-- sort_order
+	  ''type_specific'',		-- storage
+	  ''f''				-- static_p
+	);
+
+    PERFORM acs_attribute__create_attribute (
+	  ''cc_staff'',					-- object_type
+	  ''address_line_1'',				-- attribute_name
+	  ''string'',					-- datatype
+	  ''curriculum-central.address_line_1'',	-- pretty_name
+	  ''curriculum-central.address_line_1'',	-- pretty_plural
+	  null,				-- table_name
+	  null,				-- column_name
+	  null,				-- default_value
+	  1,				-- min_n_values
+	  1,				-- max_n_values
+	  null,				-- sort_order
+	  ''type_specific'',		-- storage
+	  ''f''				-- static_p
+	);
+
+    PERFORM acs_attribute__create_attribute (
+	  ''cc_staff'',					-- object_type
+	  ''address_line_2'',				-- attribute_name
+	  ''string'',					-- datatype
+	  ''curriculum-central.address_line_2'',	-- pretty_name
+	  ''curriculum-central.address_line_2'',	-- pretty_plural
+	  null,				-- table_name
+	  null,				-- column_name
+	  null,				-- default_value
+	  1,				-- min_n_values
+	  1,				-- max_n_values
+	  null,				-- sort_order
+	  ''type_specific'',		-- storage
+	  ''f''				-- static_p
+	);
+
+    PERFORM acs_attribute__create_attribute (
+	  ''cc_staff'',					-- object_type
+	  ''address_suburb'',				-- attribute_name
+	  ''string'',					-- datatype
+	  ''curriculum-central.address_suburb'',	-- pretty_name
+	  ''curriculum-central.address_suburbs'',	-- pretty_plural
+	  null,				-- table_name
+	  null,				-- column_name
+	  null,				-- default_value
+	  1,				-- min_n_values
+	  1,				-- max_n_values
+	  null,				-- sort_order
+	  ''type_specific'',		-- storage
+	  ''f''				-- static_p
+	);
+
+    PERFORM acs_attribute__create_attribute (
+	  ''cc_staff'',					-- object_type
+	  ''address_state'',				-- attribute_name
+	  ''string'',					-- datatype
+	  ''curriculum-central.address_state'',		-- pretty_name
+	  ''curriculum-central.address_states'',	-- pretty_plural
+	  null,				-- table_name
+	  null,				-- column_name
+	  null,				-- default_value
+	  1,				-- min_n_values
+	  1,				-- max_n_values
+	  null,				-- sort_order
+	  ''type_specific'',		-- storage
+	  ''f''				-- static_p
+	);
+
+    PERFORM acs_attribute__create_attribute (
+	  ''cc_staff'',					-- object_type
+	  ''address_postcode'',				-- attribute_name
+	  ''string'',					-- datatype
+	  ''curriculum-central.address_postcode'',	-- pretty_name
+	  ''curriculum-central.address_postcodes'',	-- pretty_plural
+	  null,				-- table_name
+	  null,				-- column_name
+	  null,				-- default_value
+	  1,				-- min_n_values
+	  1,				-- max_n_values
+	  null,				-- sort_order
+	  ''type_specific'',		-- storage
+	  ''f''				-- static_p
+	);
+
+    PERFORM acs_attribute__create_attribute (
+	  ''cc_staff'',					-- object_type
+	  ''address_country'',				-- attribute_name
+	  ''string'',					-- datatype
+	  ''curriculum-central.address_country'',	-- pretty_name
+	  ''curriculum-central.address_countries'',	-- pretty_plural
+	  null,				-- table_name
+	  null,				-- column_name
+	  null,				-- default_value
+	  1,				-- min_n_values
+	  1,				-- max_n_values
+	  null,				-- sort_order
+	  ''type_specific'',		-- storage
+	  ''f''				-- static_p
+	);
+
+    PERFORM acs_attribute__create_attribute (
+	  ''cc_staff'',					-- object_type
+	  ''phone'',					-- attribute_name
+	  ''string'',					-- datatype
+	  ''#curriculum-central.phone_number#'',	-- pretty_name
+	  ''#curriculum-central.phone_numbers#'',	-- pretty_plural
+	  null,				-- table_name
+	  null,				-- column_name
+	  null,				-- default_value
+	  1,				-- min_n_values
+	  1,				-- max_n_values
+	  null,				-- sort_order
+	  ''type_specific'',		-- storage
+	  ''f''				-- static_p
+	);
+
+    PERFORM acs_attribute__create_attribute (
+	  ''cc_staff'',					-- object_type
+	  ''fax'',					-- attribute_name
+	  ''string'',					-- datatype
+	  ''#curriculum-central.fax_number#'',		-- pretty_name
+	  ''#curriculum-central.fax_numbers#'',		-- pretty_plural
+	  null,				-- table_name
+	  null,				-- column_name
+	  null,				-- default_value
+	  1,				-- min_n_values
+	  1,				-- max_n_values
+	  null,				-- sort_order
+	  ''type_specific'',		-- storage
+	  ''f''				-- static_p
+	);
+
+    PERFORM acs_attribute__create_attribute (
+	  ''cc_staff'',					-- object_type
+	  ''homepage_url'',				-- attribute_name
+	  ''string'',					-- datatype
+	  ''#curriculum-central.homepage#'',		-- pretty_name
+	  ''#curriculum-central.homepages#'',		-- pretty_plural
 	  null,				-- table_name
 	  null,				-- column_name
 	  null,				-- default_value
@@ -91,9 +244,9 @@ select inline_1 ();
 drop function inline_1 ();
 
 
-select define_function_args('cc_staff__new', 'staff_id,title,position,department_id');
+select define_function_args('cc_staff__new', 'staff_id,title,position,department_id,address_line_1,address_line_2,address_suburb,address_state,address_postcode,address_country,phone,fax,homepage_url');
 
-create function cc_staff__new(integer, varchar, varchar, integer)
+create function cc_staff__new(integer, varchar, varchar, integer, varchar, varchar, varchar, varchar, varchar, varchar, varchar, varchar, varchar)
 returns integer as'
 
 declare
@@ -102,11 +255,20 @@ declare
 	p_title			alias for $2;
 	p_position		alias for $3;
 	p_department_id		alias for $4;
+	p_address_line_1	alias for $5;
+	p_address_line_2	alias for $6;
+	p_address_suburb	alias for $7;
+	p_address_state		alias for $8;
+	p_address_postcode	alias for $9;
+	p_address_country	alias for $10;
+	p_phone			alias for $11;
+	p_fax			alias for $12;
+	p_homepage_url		alias for $13;
 begin
 
 	-- The p_staff_id should already exist in acs_objects and users
 	-- tables.  cc_staff is a "subtype" of the users table.
-	insert into cc_staff values(p_staff_id, p_title, p_position, p_department_id);
+	insert into cc_staff values(p_staff_id, p_title, p_position, p_department_id, p_address_line_1, p_address_line_2, p_address_suburb, p_address_state, p_address_postcode, p_address_country, p_phone, p_fax, p_homepage_url);
 	
 	return p_staff_id;
 

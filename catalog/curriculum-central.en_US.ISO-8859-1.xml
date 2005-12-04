@@ -13,6 +13,18 @@
   <msg key="visit_admin_page">Please visit the &lt;a href=&quot;admin/streams&quot;&gt;stream administration&lt;/a&gt; pages to define a stream.</msg>
   <msg key="contact_admin">Please contact an administrator to get a stream set up.</msg>
   <msg key="need_to_create_faculty">NOTE: Need to &lt;a href=&quot;faculties&quot;&gt;create a faculty&lt;/a&gt; and associated departments before proceeding.</msg>
+  <msg key="address_line_1">Address Line 1</msg>
+  <msg key="address_line_2">Address Line 2</msg>
+  <msg key="suburb">Suburb</msg>
+  <msg key="state">State</msg>
+  <msg key="postcode">Postcode</msg>
+  <msg key="country">Country</msg>
+  <msg key="help_enter_address_line_1">Enter the first line of the address.  For example, office, room, unit number, etc.</msg>
+  <msg key="help_enter_address_line_2">Enter the second line of the address.  For example, building, street, etc.</msg>
+  <msg key="help_enter_suburb">Enter the suburb/town/city.</msg>
+  <msg key="help_enter_state">Enter the state.</msg>
+  <msg key="help_enter_postcode">Enter the postcode.</msg>
+  <msg key="help_enter_country">Enter country component of address.</msg>
   <msg key="stream_coordinator">Stream Coordinator</msg>
   <msg key="stream_coordinators">Stream Coordinators</msg>
   <msg key="unit_coordinator">Unit Coordinator</msg>
@@ -35,9 +47,19 @@
   <msg key="reopened">Reopened</msg>
   <msg key="close">Close</msg>
   <msg key="closed">Closed</msg>
+  <msg key="address">Address</msg>
+  <msg key="phone">Phone</msg>
+  <msg key="fax">Fax</msg>
+  <msg key="homepage_url">Homepage URL</msg>
+  <msg key="help_enter_address">Enter the staff member's office address.</msg>
+  <msg key="help_enter_phone">Enter the staff member's contact number.</msg>
+  <msg key="help_enter_fax">Enter the staff member's fax number.</msg>
+  <msg key="help_enter_homepage_url">Enter a URL for the staff member's personal homepage.</msg>
   <msg key="admin">Admin</msg>
   <msg key="assign_roles_to_users">Assign roles to users.</msg>
   <msg key="create_streams">Create streams.</msg>
+  <msg key="add_a_stream">Add a Stream</msg>
+  <msg key="view_streams">View Streams</msg>
   <msg key="create_faculties">Create faculties.</msg>
   <msg key="faculties">Faculties</msg>
   <msg key="roles_admin">Roles Admin</msg>
@@ -53,6 +75,7 @@
   <msg key="add_staff_member">Add Staff Member</msg>
   <msg key="add_staff_to_list">Add a member of staff to this list.</msg>
   <msg key="no_staff">No staff</msg>
+  <msg key="view_staff">View Staff</msg>
   <msg key="department">Department</msg>
   <msg key="faculty">Faculty</msg>
   <msg key="add_stream">Add Stream</msg>
@@ -73,6 +96,7 @@
   <msg key="add_faculty_to_list">Add a faculty to this list.</msg>
   <msg key="add_stream_to_list">Add a stream to this list.</msg>
   <msg key="view_faculty_depts">View faculty departments</msg>
+  <msg key="view_faculties">View Faculties</msg>
   <msg key="faculty_name_depts">%faculty_name% Departments</msg>
   <msg key="faculty_depts">Faculty Departments</msg>
   <msg key="add_dept">Add Department</msg>
