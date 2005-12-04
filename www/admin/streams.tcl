@@ -55,8 +55,8 @@ template::list::create \
     -orderby {
 	stream_name {orderby {lower(stream_name)}}
 	stream_code {orderby {lower(stream_code)}}
-	department {orderby {lower(department)}}
-	stream_coordinator {orderby {lower(stream_coordinator)}}
+	department {orderby {department_id}}
+	stream_coordinator {orderby {coordinator_id}}
     }
 
 db_multirow streams get_streams {}

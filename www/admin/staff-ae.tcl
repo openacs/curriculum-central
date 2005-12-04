@@ -29,7 +29,7 @@ if { [info exists staff_id] } {
     ad_form -name staff -cancel_url $return_url -form {
 	{staff_id:key,integer(select)
 	    {label "#curriculum-central.staff_name#" }
-	    {options [curriculum_central::users_get_options] }
+	    {options [curriculum_central::non_staff_get_options] }
 	    {help_text "[_ curriculum-central.help_select_staff_member]"}
 	}
     }

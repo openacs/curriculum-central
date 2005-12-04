@@ -58,7 +58,7 @@ template::list::create \
 		  "#curriculum-central.add_dept_to_list#"] \
     -orderby {
 	department_name {orderby {lower(department_name)}}
-	hod {orderby {lower(hod)}}
+	hod {orderby {hod_id}}
     } \
     -pass_properties {faculty_id} \
     -filters { faculty_id {} }

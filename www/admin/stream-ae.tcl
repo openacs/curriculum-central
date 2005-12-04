@@ -38,7 +38,7 @@ ad_form -name stream -cancel_url $return_url -form {
     }
     {coordinator_id:integer(select)
 	{label "#curriculum-central.stream_coordinator#" }
-	{options [curriculum_central::users_get_options] }
+	{options [curriculum_central::staff_get_options] }
 	{help_text "[_ curriculum-central.help_select_stream_coordinator]"}
     }
 } -select_query {

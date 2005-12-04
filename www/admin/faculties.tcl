@@ -45,7 +45,7 @@ template::list::create \
     -actions [list "#curriculum-central.add_faculty#" [export_vars -base faculty-ae {}] "#curriculum-central.add_faculty_to_list#"] \
     -orderby {
 	faculty_name {orderby {lower(faculty_name)}}
-	dean {orderby {lower(dean)}}
+	dean {orderby {dean_id}}
     }
 
 db_multirow faculties get_faculties {}
