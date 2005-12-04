@@ -38,6 +38,24 @@
      </querytext>
    </fullquery>
 
+   <fullquery name="curriculum_central::non_staff_get_options.non_staff">
+     <querytext>
+       SELECT first_names || ' ' || last_name || ' (' || email || ')'  AS name,
+           user_id
+	   FROM   cc_users
+	   WHERE user_id NOT IN (SELECT staff_id FROM cc_staff)
+     </querytext>
+   </fullquery>
+
+   <fullquery name="curriculum_central::staff_get_options.staff">
+     <querytext>
+       SELECT s.title || ' ' || u.first_names || ' ' || u.last_name || ' (' || email || ')'  AS name,
+           staff_id
+	   FROM   cc_staff s, cc_users u
+	   WHERE s.staff_id = u.user_id
+     </querytext>
+   </fullquery>
+
    <fullquery name="curriculum_central::departments_get_options.departments">
      <querytext>
        SELECT department_name, department_id FROM cc_department

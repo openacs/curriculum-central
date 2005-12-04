@@ -58,9 +58,32 @@ ad_proc curriculum_central::curriculum_delete { curriculum_id } {
 }
 
 
+ad_proc curriculum_central::staff_get_options {} {
+    Returns a two-column list of users that are considered to be staff.
+    The first column contains the pretty name of a user, and the second
+    contains their user_id.
+} {
+    set staff_list [db_list_of_lists staff {}]
+
+    return $staff_list
+}
+
+
+ad_proc curriculum_central::non_staff_get_options {} {
+    Returns a two-column list of users that aren't considered to be staff.
+    The first column contains the pretty name of a user, and the second
+    contains the corresponding user_id.
+} {
+    set non_staff_list [db_list_of_lists non_staff {}]
+
+    return $non_staff_list
+}
+
+
 ad_proc curriculum_central::users_get_options {} {
-    Returns a two-column list of users.  The first column contains the
-    pretty name of a user, and the second contains the corresponding user_id.
+    Returns a two-column list of users that have accounts on the system.
+    The first column contains the pretty name of a user, and the second
+    contains the corresponding user_id.
 } {
     set users_list [db_list_of_lists users {}]
 
