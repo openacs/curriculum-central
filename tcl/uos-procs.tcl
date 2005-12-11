@@ -11,8 +11,10 @@ ad_library {
 }
 
 namespace eval curriculum_central::uos {}
-
 namespace eval curriculum_central::uos::format_log_title {}
+namespace eval curriculum_central::uos::get_unit_coordinator {}
+namespace eval curriculum_central::uos::get_stream_coordinator {}
+namespace eval curriculum_central::uos::notification_info {}
 
 ad_proc -public curriculum_central::uos::workflow_short_name {} {
     Get the short name of the workflow for Units of Study.
@@ -267,7 +269,8 @@ ad_proc -public curriculum_central::uos::new {
 	       	 [list objectives $objectives] \
 	         [list outcomes $outcomes] \
      	         [list syllabus $syllabus] \
-		 [list syllabus_format $syllabus_format]] \
+		 [list syllabus_format $syllabus_format] \
+		 [list object_type "cc_uos"]] \
 	     -package_name "cc_uos" \
 	     "cc_uos"]
 
@@ -313,6 +316,43 @@ ad_proc -private curriculum_central::uos::format_log_title::format_log_title {
     } else {
         return {}
     }
+}
+
+
+#####
+#
+# Get Unit Coordinator
+#
+#####
+
+ad_proc -private curriculum_central::uos::get_unit_coordinator::pretty_name {} {
+    return "[_ curriculum-central.unit_coordinator]"
+}
+
+ad_proc -private curriculum_central::uos::get_unit_coordinator::get_assignees {
+    case_id
+    object_id
+    role_id
+} {
+    return [db_list select_unit_coordinators {} -default {}]
+}
+
+#####
+#
+# Get Stream Coordinator
+#
+#####
+
+ad_proc -private curriculum_central::uos::get_stream_coordinator::pretty_name {} {
+    return "[_ curriculum-central.stream_coordinator]"
+}
+
+ad_proc -private curriculum_central::uos::get_stream_coordinator::get_assignees {
+    case_id
+    object_id
+    role_id
+} {
+    return [db_list select_stream_coordinators {} -default {}]
 }
 
 

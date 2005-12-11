@@ -18,6 +18,9 @@ if { ![curriculum_central::stream::streams_exist_p] } {
 }
 
 # Get list of faculties.
-db_multirow faculties faculties {}
+db_multirow -extend {faculty_dept_url} faculties faculties {} {
+    set faculty_dept_url [export_vars -url -base faculty-depts \
+			      {faculty_id faculty_name}]
+}
 
 ad_return_template

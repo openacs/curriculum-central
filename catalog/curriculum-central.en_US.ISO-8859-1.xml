@@ -117,10 +117,12 @@
   <msg key="help_select_dean">Select the Dean.  Note: The Dean must have an account on the system.</msg>
   <msg key="help_enter_faculty_name">Enter a name for this faculty.  Example: Faculty of Engineering.</msg>
   <msg key="help_select_staff_member">Select a staff member from the list of users.</msg>
+  <msg key="help_select_unit_coordinator">Select the Unit Coordinator from the list of staff.</msg>
   <msg key="help_enter_staff_title">Enter the staff member's title.  For example: Mr, Mrs, Ms, Dr, Associate Professor, Professor, etc.</msg>
   <msg key="help_enter_staff_position">Enter the staff member's position.  For example: Honorary Associate Professor, Research Fellow, Adjunct Lecturer, etc.</msg>
   <msg key="help_select_staff_member_department">Select the department that the staff member belongs to.</msg>
   <msg key="staff_title">Staff Title</msg>
   <msg key="staff_position">Staff Position</msg>
+  <msg key="add_unit_of_study">Add Unit of Study</msg>
 
 </message_catalog>

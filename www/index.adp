@@ -11,6 +11,6 @@
 View curriculum for:
 <ul>
 <multiple name="faculties">
-<li><a href="depts?faculty_id=@faculties.faculty_id@">@faculties.faculty_name@</a></li>
+<li><a href="@faculties.faculty_dept_url@">@faculties.faculty_name@</a></li>
 </multiple>
 </ul>

@@ -71,6 +71,8 @@ ad_proc -private curriculum_central::install::package_uninstantiate {
 
 ad_proc -private curriculum_central::install::register_implementations {} {
     db_transaction {
+	curriculum_central::install::register_unit_coordinator_impl
+	curriculum_central::install::register_stream_coordinator_impl	
         curriculum_central::install::register_format_log_title_impl
         curriculum_central::install::register_uos_notification_info_impl
     }
@@ -83,6 +85,15 @@ ad_proc -private curriculum_central::install::unregister_implementations {} {
         acs_sc::impl::delete \
 	    -contract_name [workflow::service_contract::activity_log_format_title] \
 	    -impl_name "FormatLogTitle"
+
+        acs_sc::impl::delete \
+                -contract_name [workflow::service_contract::role_default_assignees]  \
+                -impl_name "UnitCoordinator"
+
+        acs_sc::impl::delete \
+                -contract_name [workflow::service_contract::role_default_assignees] \
+                -impl_name "StreamCoordinator"
+
 
         acs_sc::impl::delete \
 	    -contract_name [workflow::service_contract::notification_info] \
@@ -123,6 +134,42 @@ ad_proc -private curriculum_central::install::register_uos_notification_info_imp
     }
     
     lappend spec contract_name [workflow::service_contract::notification_info]
+    lappend spec owner [curriculum_central::package_key]
+    
+    acs_sc::impl::new_from_spec -spec $spec
+}
+
+
+ad_proc -private curriculum_central::install::register_unit_coordinator_impl {} {
+
+    set spec {
+        name "UnitCoordinator"
+        aliases {
+            GetObjectType curriculum_central::uos::object_type
+            GetPrettyName curriculum_central::uos::get_unit_coordinator::pretty_name
+            GetAssignees  curriculum_central::uos::get_unit_coordinator::get_assignees
+        }
+    }
+    
+    lappend spec contract_name [workflow::service_contract::role_default_assignees]
+    lappend spec owner [curriculum_central::package_key]
+    
+    acs_sc::impl::new_from_spec -spec $spec
+}
+
+
+ad_proc -private curriculum_central::install::register_stream_coordinator_impl {} {
+
+    set spec {
+        name "StreamCoordinator"
+        aliases {
+            GetObjectType curriculum_central::uos::object_type
+            GetPrettyName curriculum_central::uos::get_stream_coordinator::pretty_name
+            GetAssignees  curriculum_central::uos::get_stream_coordinator::get_assignees
+        }
+    }
+    
+    lappend spec contract_name [workflow::service_contract::role_default_assignees]
     lappend spec owner [curriculum_central::package_key]
     
     acs_sc::impl::new_from_spec -spec $spec
