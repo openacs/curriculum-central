@@ -8,7 +8,7 @@
 <li><a href="uos-add">Add Unit of Study</a></li>
 </ul>
 
-View curriculum for:
+#curriculum-central.view_curriculum_for#
 <ul>
 <multiple name="faculties">
 <li><a href="@faculties.faculty_dept_url@">@faculties.faculty_name@</a></li>

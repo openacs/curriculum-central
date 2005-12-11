@@ -60,6 +60,9 @@
   <msg key="create_streams">Create streams.</msg>
   <msg key="add_a_stream">Add a Stream</msg>
   <msg key="view_streams">View Streams</msg>
+  <msg key="view_uos_for">View Units of Study for:</msg>
+  <msg key="view_degree_streams_for">View degree streams for:</msg>
+  <msg key="view_curriculum_for">View curriculum for:</msg>
   <msg key="create_faculties">Create faculties.</msg>
   <msg key="faculties">Faculties</msg>
   <msg key="roles_admin">Roles Admin</msg>
