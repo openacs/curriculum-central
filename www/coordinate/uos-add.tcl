@@ -30,7 +30,7 @@ set workflow_id [curriculum_central::uos::get_instance_workflow_id]
 set user_id [ad_conn user_id]
 
 set page_title "[_ curriculum-central.add_unit_of_study]"
-set context [list $page_title]
+set context [list [list . [_ curriculum-central.coordinate]] $page_title]
 
 # Create the form.
 # TODO: Fix up form.  Can use drop-down boxes for some of the fields.
@@ -38,60 +38,60 @@ ad_form -name uos -cancel_url $return_url -form {
     {uos_id:key(acs_object_id_seq)}
 
     {uos_code:text
-	{label "UoS Code"}
+	{label "#curriculum-central.uos_code#"}
 	{html {size 50}}
     }
     {uos_name:text
-	{label "UoS Name"}
+	{label "#curriculum-central.uos_name#"}
 	{html {size 50}}
     }
     {credit_value:integer
-	{label "Credit Value"}
+	{label "#curriculum-central.credit_value#"}
 	{html {size 50}}	
     }
     {semester:integer
-	{label "Semester Offering"}
+	{label "#curriculum-central.semester_offering#"}
 	{html {size 50}}
     }
     {online_course_content:text,optional
-	{label "Online Course Content"}
+	{label "#curriculum-central.online_course_content#"}
 	{html {size 50}}
     }
     {unit_coordinator_id:integer(select)
-	{label "Unit Coordinator"}
+	{label "#curriculum-central.unit_coordinator#"}
 	{options [curriculum_central::staff_get_options] }
         {help_text "[_ curriculum-central.help_select_unit_coordinator]"}
     }
     {contact_hours:text
-	{label "Contact Hours"}
+	{label "#curriculum-central.contact_hours#"}
 	{html {size 50}}
     }
     {assessments:text
-	{label "Assessments"}
+	{label "#curriculum-central.assessments#"}
 	{html {size 50}}
     }
     {core_uos_for:text,optional
-	{label "Core UoS for"}
+	{label "#curriculum-central.core_uos_for#"}
 	{html {size 50}}
     }
     {recommended_uos_for:text,optional
-	{label "Recommended UoS for"}
+	{label "#curriculum-central.recommended_uos_for#"}
 	{html {size 50}}
     }
     {prerequisites:text,optional
-	{label "Prerequisites"}
+	{label "#curriculum-central.prerequisites#"}
 	{html {size 50}}
     }
     {objectives:text
-	{label "Aims and Objectives"}
+	{label "#curriculum-central.aims_and_objectives#"}
 	{html {size 50}}
     }
     {outcomes:text
-	{label "Learning Outcomes"}
+	{label "#curriculum-central.learning_outcomes#"}
 	{html {size 50}}
     }
     {syllabus:richtext(richtext)
-	{label "Syllabus"}
+	{label "#curriculum-central.syllabus#"}
 	{html {cols 60 rows 13}}
     }
     {return_url:text(hidden)
