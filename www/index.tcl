@@ -9,6 +9,7 @@ ad_page_contract {
 set page_title [ad_conn instance_name]
 set context [list]
 set admin_p [permission::permission_p -object_id [ad_conn package_id] -privilege admin]
+set package_id [ad_conn package_id]
 
 # Check for streams.  If no streams, then display no-streams template.
 if { ![curriculum_central::stream::streams_exist_p] } {
@@ -16,6 +17,7 @@ if { ![curriculum_central::stream::streams_exist_p] } {
     return
 }
 
-# Otherwise display list of streams.
+# Get list of faculties.
+db_multirow faculties faculties {}
 
 ad_return_template
