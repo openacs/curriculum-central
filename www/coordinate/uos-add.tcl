@@ -53,22 +53,10 @@ ad_form -name uos -cancel_url $return_url -form {
 	{label "#curriculum-central.semester_offering#"}
 	{html {size 50}}
     }
-    {online_course_content:text,optional
-	{label "#curriculum-central.online_course_content#"}
-	{html {size 50}}
-    }
     {unit_coordinator_id:integer(select)
 	{label "#curriculum-central.unit_coordinator#"}
 	{options [curriculum_central::staff_get_options] }
         {help_text "[_ curriculum-central.help_select_unit_coordinator]"}
-    }
-    {contact_hours:text
-	{label "#curriculum-central.contact_hours#"}
-	{html {size 50}}
-    }
-    {assessments:text
-	{label "#curriculum-central.assessments#"}
-	{html {size 50}}
     }
     {core_uos_for:text,optional
 	{label "#curriculum-central.core_uos_for#"}
@@ -82,23 +70,16 @@ ad_form -name uos -cancel_url $return_url -form {
 	{label "#curriculum-central.prerequisites#"}
 	{html {size 50}}
     }
-    {objectives:text
-	{label "#curriculum-central.aims_and_objectives#"}
-	{html {size 50}}
-    }
-    {outcomes:text
-	{label "#curriculum-central.learning_outcomes#"}
-	{html {size 50}}
-    }
-    {syllabus:richtext(richtext)
-	{label "#curriculum-central.syllabus#"}
-	{html {cols 60 rows 13}}
+    {activity_log:richtext(richtext)
+	{label "#curriculum-central.activity_log#"}
+	{html {cols 50 rows 13}}
     }
     {return_url:text(hidden)
 	{value $return_url}
     }
 } -new_data {
-    # TODO: Implement this proc.
+
+    # Instantiate a new Unit of Study.
     curriculum_central::uos::new \
 	-uos_id $uos_id \
 	-package_id $package_id \
@@ -107,17 +88,12 @@ ad_form -name uos -cancel_url $return_url -form {
 	-uos_name $uos_name \
 	-credit_value $credit_value \
 	-semester $semester \
-	-online_course_content $online_course_content \
 	-unit_coordinator_id $unit_coordinator_id \
-	-contact_hours $contact_hours \
-	-assessments $assessments \
 	-core_uos_for $core_uos_for \
 	-recommended_uos_for $recommended_uos_for \
 	-prerequisites $prerequisites \
-	-objectives $objectives \
-	-outcomes $outcomes \
-	-syllabus [template::util::richtext::get_property contents $syllabus] \
-	-syllabus_format [template::util::richtext::get_property format $syllabus]
+	-activity_log [template::util::richtext::get_property contents $activity_log] \
+	-activity_log_format [template::util::richtext::get_property format $activity_log]
 
 } -after_submit {
     ad_returnredirect $return_url

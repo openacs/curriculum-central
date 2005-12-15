@@ -5,7 +5,7 @@
 <if @admin_p@>[<a href="admin">admin</a>]</if>
 
 <ul>
-<li><a href="coordinate/uos-add">Add Unit of Study</a></li>
+<li><a href="coordinate/">#curriculum-central.coordinate#</a></li>
 </ul>
 
 #curriculum-central.view_curriculum_for#

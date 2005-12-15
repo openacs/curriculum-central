@@ -67,11 +67,9 @@ create table cc_uos_revisions (
 				references cr_revisions(revision_id)
 				on delete cascade,
 	uos_code 		varchar(256)
-				constraint cc_uos_rev_uos_code_nn not null
-				constraint cc_uos_rev_uos_code_un unique,
+				constraint cc_uos_rev_uos_code_nn not null,
 	uos_name 		varchar(256)
-				constraint cc_uos_rev_uos_name_nn not null
-				constraint cc_uos_rev_uos_name_un unique,
+				constraint cc_uos_rev_uos_name_nn not null,
 	credit_value		integer,
 	semester		varchar(32),
 	online_course_content 	varchar(256),
@@ -87,8 +85,8 @@ create table cc_uos_revisions (
 	prerequisites		varchar(256),
 	objectives		text,
 	outcomes		text,
-	syllabus		text,
-	syllabus_format		varchar(256)
+	activity_log		text,
+	activity_log_format	varchar(256)
 );
 
 -- Create the UoS revision content type.
@@ -103,7 +101,7 @@ select content_type__create_type (
 );
 
 
-select define_function_args('cc_uos__new', 'uos_id,uos_code,uos_name,unit_coordinator_id,credit_value,semester,online_course_content,contact_hours,assessments,core_uos_for,recommended_uos_for,prerequisites,objectives,outcomes,syllabus,syllabus_format,creation_user,creation_ip,context_id,item_subtype;cc_uos,content_type;cc_uos_revision,object_type,package_id');
+select define_function_args('cc_uos__new', 'uos_id,uos_code,uos_name,unit_coordinator_id,credit_value,semester,online_course_content,contact_hours,assessments,core_uos_for,recommended_uos_for,prerequisites,objectives,outcomes,activity_log,activity_log_format,creation_user,creation_ip,context_id,item_subtype;cc_uos,content_type;cc_uos_revision,object_type,package_id');
 
 create function cc_uos__new(
 	integer,	-- uos_id
@@ -120,8 +118,8 @@ create function cc_uos__new(
 	varchar,	-- prerequisites
 	text,		-- objectives
 	text,		-- outcomes
-	text,		-- syllabus
-	varchar,	-- syllabus_format
+	text,		-- activity_log
+	varchar,	-- activity_log_format
 	integer,	-- creation_user
 	varchar,	-- creation_ip
 	integer,	-- context_id
@@ -146,8 +144,8 @@ declare
 	p_prerequisites			alias for $12;
 	p_objectives			alias for $13;
 	p_outcomes			alias for $14;
-	p_syllabus			alias for $15;
-	p_syllabus_format		alias for $16;
+	p_activity_log			alias for $15;
+	p_activity_log_format		alias for $16;
 	p_creation_user			alias for $17;
 	p_creation_ip			alias for $18;
 	p_context_id			alias for $19;
@@ -208,8 +206,8 @@ begin
 		p_prerequisites,		-- prerequisites
 		p_objectives,			-- objectives
 		p_outcomes,			-- outcomes
-		p_syllabus,			-- syllabus
-		p_syllabus_format,		-- syllabus_format
+		p_activity_log,			-- activity_log
+		p_activity_log_format,		-- activity_log_format
 		now(),				-- creation_date
 		p_creation_user,		-- creation_user
 		p_creation_ip			-- creation_ip
@@ -289,8 +287,8 @@ create or replace function cc_uos_revision__new (
 	varchar,			-- prerequisites
 	text,				-- objectives
 	text,				-- outcomes
-	text,				-- syllabus
-	varchar,			-- syllabus_format
+	text,				-- activity_log
+	varchar,			-- activity_log_format
 	timestamptz,			-- creation_date
 	integer,			-- creation_user
 	varchar				-- creation_ip
@@ -312,8 +310,8 @@ declare
 	p_prerequisites			alias for $13;
 	p_objectives			alias for $14;
 	p_outcomes			alias for $15;
-	p_syllabus			alias for $16;
-	p_syllabus_format		alias for $17;
+	p_activity_log			alias for $16;
+	p_activity_log_format		alias for $17;
 	p_creation_date			alias for $18;
 	p_creation_user			alias for $19;
 	p_creation_ip			alias for $20;
@@ -340,29 +338,29 @@ begin
 		(uos_revision_id, uos_code, uos_name, credit_value,
 		semester, online_course_content, unit_coordinator_id,
 		contact_hours, assessments, core_uos_for, recommended_uos_for,
-		prerequisites, objectives, outcomes, syllabus, syllabus_format)
+		prerequisites, objectives, outcomes, activity_log, activity_log_format)
 	values
 		(v_revision_id, p_uos_code, p_uos_name, p_credit_value,
 		p_semester, p_online_course_content, p_unit_coordinator_id,
 		p_contact_hours, p_assessments, p_core_uos_for,
 		p_recommended_uos_for, p_prerequisites, p_objectives,
-		p_outcomes, p_syllabus, p_syllabus_format);
+		p_outcomes, p_activity_log, p_activity_log_format);
 
 	-- make the revision live
-	PERFORM content_item__set_live_revision(v_revision_id);
+	-- PERFORM content_item__set_live_revision(v_revision_id);
 
 	-- update the cache
-	update cc_uos
-	set	live_revision_id = v_revision_id,
-		uos_code = p_uos_code,
-		uos_name = p_uos_name,
-		unit_coordinator_id = p_unit_coordinator_id
-	where	uos_id = p_uos_id;
+	-- update cc_uos
+	-- set	live_revision_id = v_revision_id,
+	-- 	uos_code = p_uos_code,
+	--	uos_name = p_uos_name,
+	--	unit_coordinator_id = p_unit_coordinator_id
+	-- where	uos_id = p_uos_id;
 
 	-- update the title in acs_objects
-	update acs_objects
-	set	title = cc_uos__name(p_uos_id)
-	where object_id = p_uos_id;
+	-- update acs_objects
+	-- set	title = cc_uos__name(p_uos_id)
+	-- where object_id = p_uos_id;
 
 	return v_revision_id;
 end;

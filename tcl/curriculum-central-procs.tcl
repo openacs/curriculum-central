@@ -110,6 +110,43 @@ ad_proc curriculum_central::departments_get_options {
     return $departments_list    
 }
 
+#####
+#
+# Procs for page variables and filters for UoS edit form.
+#
+#####
+
+ad_proc -public curriculum_central::get_page_variables {
+    {extra_spec ""}
+} {
+    Adds the UoS listing filter variables for use in the page contract.
+
+    Usage: ad_page_contract { doc } [curriculum_central::get_page_variables { foo:integer {bar ""} }]
+
+    @param extra_spec Filter vars to be added to the page variables, along
+    with the filter vars obtained from the current workflow instance.
+
+    @return Returns a list of filter variables for a page contract.
+} {
+    foreach action_id [workflow::get_actions -workflow_id [curriculum_central::uos::get_instance_workflow_id]] {
+	lappend filter_vars "f_action_$action_id:optional"
+    }
+
+    return [concat $filter_vars $extra_spec]
+}
+
+
+ad_proc curriculum_central::get_export_variables {
+    {extra_vars ""}
+} {
+    Gets a list of variables to export for the UoS list.
+} {
+    foreach action_id [workflow::get_actions -workflow_id [curriculum_central::uos::get_instance_workflow_id]] {
+        lappend export_vars "f_action_$action_id"
+    }
+
+    return [concat $export_vars $extra_vars]
+}
 
 
 #####

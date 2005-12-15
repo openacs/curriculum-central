@@ -3,6 +3,7 @@
 
   <msg key="uos">UoS</msg>
   <msg key="search">Search</msg>
+  <msg key="activity_log">Activity Log</msg>
   <msg key="coordinate">Coordinate</msg>
   <msg key="res_code_to_log_title">resolution code to log title</msg>
   <msg key="fixed">Fixed</msg>
@@ -55,8 +56,8 @@
   <msg key="edited">Edited</msg>
   <msg key="reassign">Reassign</msg>
   <msg key="reassigned">Reassigned</msg>
-  <msg key="complete">Complete</msg>
-  <msg key="completed">Completed</msg>
+  <msg key="submit">Submit</msg>
+  <msg key="submitted">Submitted</msg>
   <msg key="reopen">Reopen</msg>
   <msg key="reopened">Reopened</msg>
   <msg key="close">Close</msg>
