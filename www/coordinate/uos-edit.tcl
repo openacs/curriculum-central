@@ -18,9 +18,6 @@ auth::require_login
 
 set return_url [export_vars -base [ad_conn url] [curriculum_central::get_export_variables {uos_id} ]]
 
-set page_title "Edit UoS"
-set context [list [list . "Coordinate"] "Edit UoS"]
-
 set case_id [workflow::case::get_id \
 		-object_id $uos_id \
 		 -workflow_short_name \
@@ -55,6 +52,9 @@ curriculum_central::uos::get \
     -uos_id $uos_id \
     -array uos \
     -enabled_action_id $enabled_action_id
+
+set page_title "$uos(uos_code) $uos(uos_name)"
+set context [list [list . [_ curriculum-central.coordinate]] $page_title]
 
 # Create the form
 # Create widgets for displaying UoS information that should already

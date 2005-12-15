@@ -75,6 +75,7 @@ ad_proc -private curriculum_central::install::register_implementations {} {
 	curriculum_central::install::register_stream_coordinator_impl	
         curriculum_central::install::register_format_log_title_impl
         curriculum_central::install::register_uos_notification_info_impl
+	curriculum_central::install::register_uos_go_live_impl
     }
 }
 
@@ -98,6 +99,10 @@ ad_proc -private curriculum_central::install::unregister_implementations {} {
         acs_sc::impl::delete \
 	    -contract_name [workflow::service_contract::notification_info] \
 	    -impl_name "UoSNotificationInfo"
+
+        acs_sc::impl::delete \
+	    -contract_name [workflow::service_contract::action_side_effect] \
+	    -impl_name "UoSGoLive"
     }
 }
 
@@ -172,6 +177,26 @@ ad_proc -private curriculum_central::install::register_stream_coordinator_impl {
     lappend spec contract_name [workflow::service_contract::role_default_assignees]
     lappend spec owner [curriculum_central::package_key]
     
+    acs_sc::impl::new_from_spec -spec $spec
+}
+
+
+ad_proc -private curriculum_central::install::register_uos_go_live_impl {} {
+    Registers a service contract implementation for UoSGoLive.
+} {
+    set spec {
+	name "UoSGoLive"
+	aliases {
+	    GetObjectType curriculum_central::uos::object_type
+	    GetPrettyName curriculum_central::uos::go_live::pretty_name
+	    DoSideEffect  curriculum_central::uos::go_live::do_side_effect
+	}
+    }
+
+    lappend spec contract_name [workflow::service_contract::action_side_effect]
+
+    lappend spec owner [curriculum_central::package_key]
+
     acs_sc::impl::new_from_spec -spec $spec
 }
 

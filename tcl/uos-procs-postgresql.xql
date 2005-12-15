@@ -52,4 +52,11 @@
        );
      </querytext>
    </fullquery>
+
+   <fullquery name="curriculum_central::uos::go_live::do_side_effect.get_latest_revision">
+     <querytext>
+       SELECT latest_revision FROM cr_items WHERE item_id = :object_id
+     </querytext>
+   </fullquery>
+
 </queryset>

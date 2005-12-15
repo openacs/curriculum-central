@@ -346,22 +346,6 @@ begin
 		p_recommended_uos_for, p_prerequisites, p_objectives,
 		p_outcomes, p_activity_log, p_activity_log_format);
 
-	-- make the revision live
-	-- PERFORM content_item__set_live_revision(v_revision_id);
-
-	-- update the cache
-	-- update cc_uos
-	-- set	live_revision_id = v_revision_id,
-	-- 	uos_code = p_uos_code,
-	--	uos_name = p_uos_name,
-	--	unit_coordinator_id = p_unit_coordinator_id
-	-- where	uos_id = p_uos_id;
-
-	-- update the title in acs_objects
-	-- update acs_objects
-	-- set	title = cc_uos__name(p_uos_id)
-	-- where object_id = p_uos_id;
-
 	return v_revision_id;
 end;
 ' language 'plpgsql';

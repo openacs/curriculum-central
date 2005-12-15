@@ -15,6 +15,8 @@ namespace eval curriculum_central::uos::format_log_title {}
 namespace eval curriculum_central::uos::get_unit_coordinator {}
 namespace eval curriculum_central::uos::get_stream_coordinator {}
 namespace eval curriculum_central::uos::notification_info {}
+namespace eval curriculum_central::uos::go_live {}
+
 
 ad_proc -public curriculum_central::uos::workflow_short_name {} {
     Get the short name of the workflow for Units of Study.
@@ -118,7 +120,7 @@ ad_proc -private curriculum_central::uos::workflow_create {} {
                     privileges { write }
                     enabled_states { submitted }
                     assigned_states { open }
-                    edit_fields { unit_coordinator_id }
+                    edit_fields { role_unit_coordinator }
                 }
                 submit {
                     pretty_name "#curriculum-central.submit#"
@@ -136,6 +138,9 @@ ad_proc -private curriculum_central::uos::workflow_create {} {
                     assigned_states { submitted }
                     new_state closed
                     privileges { write }
+		    callbacks {
+			curriculum-central.UoSGoLive
+		    }
                 }
                 reopen {
                     pretty_name "#curriculum-central.reopen#"
@@ -562,4 +567,30 @@ ad_proc -private curriculum_central::uos::notification_info::get_notification_in
     set notification_subject_tag "Notification Subject Tag"
 
     return [list $url $one_line $details_list $notification_subject_tag]
+}
+
+
+#####
+#
+# UoS Go Live
+#
+#####
+
+ad_proc -private curriculum_central::uos::go_live::pretty_name {} {
+    return "[_ curriculum-central.go_live]"
+}
+
+
+ad_proc -private curriculum_central::uos::go_live::do_side_effect {
+    case_id
+    object_id
+    action_id
+    entry_id
+} {
+    # Get the latest revision for the given content item.
+    db_1row get_latest_revision {}
+
+    # Set the latest revision as the live revision for the given
+    # content item (object_id).
+    content::item::set_live_revision -revision_id $latest_revision
 }

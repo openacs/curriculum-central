@@ -2,6 +2,7 @@
 <message_catalog package_key="curriculum-central" package_version="0.1d" locale="en_US" charset="ISO-8859-1">
 
   <msg key="uos">UoS</msg>
+  <msg key="go_live">Go Live</msg>
   <msg key="search">Search</msg>
   <msg key="activity_log">Activity Log</msg>
   <msg key="coordinate">Coordinate</msg>
