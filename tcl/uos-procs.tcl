@@ -627,4 +627,7 @@ ad_proc -private curriculum_central::uos::go_live::do_side_effect {
     # Set the latest revision as the live revision for the given
     # content item (object_id).
     content::item::set_live_revision -revision_id $latest_revision
+
+    # Also set the latest revision to the live revision in cc_uos.
+    db_dml set_live_revision {}
 }

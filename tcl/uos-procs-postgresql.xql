@@ -65,6 +65,13 @@
      </querytext>
    </fullquery>
 
+   <fullquery name="curriculum_central::uos::go_live::do_side_effect.set_live_revision">
+     <querytext>
+       UPDATE cc_uos SET live_revision_id = :latest_revision
+           WHERE uos_id = :object_id
+     </querytext>
+   </fullquery>
+
    <partialquery name="curriculum_central::uos::get_unit_coordinator::get_subquery.unit_coordinator_subquery">
      <querytext>
        (select * from cc_users u, cc_staff s where u.user_id = s.staff_id)
