@@ -6,11 +6,6 @@
   <msg key="search">Search</msg>
   <msg key="activity_log">Activity Log</msg>
   <msg key="coordinate">Coordinate</msg>
-  <msg key="res_code_to_log_title">resolution code to log title</msg>
-  <msg key="fixed">Fixed</msg>
-  <msg key="wont_fix">Won't fix</msg>
-  <msg key="postponed">Postponed</msg>
-  <msg key="need_info">Need info</msg>
   <msg key="uos_info">UoS info</msg>
   <msg key="uos_code">UoS Code</msg>
   <msg key="uos_name">UoS Name</msg>

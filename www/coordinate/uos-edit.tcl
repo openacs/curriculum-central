@@ -113,26 +113,31 @@ ad_form -extend -name uos -form {
     {contact_hours:text
         {label "[_ curriculum-central.contact_hours]"}
         {html {size 50}}
+	{value $uos(contact_hours)}
 	{mode display}
     }
     {assessments:text
         {label "[_ curriculum-central.assessments]"}
         {html {size 50}}
+	{value $uos(assessments)}
 	{mode display}
     }
     {online_course_content:text,optional
         {label "[_ curriculum-central.online_course_content]"}
         {html {size 50}}
+	{value $uos(online_course_content)}
 	{mode display}
     }
     {objectives:text
         {label "[_ curriculum-central.aims_and_objectives]"}
         {html {size 50}}
+	{value $uos(objectives)}
 	{mode display}
     }
     {outcomes:text
         {label "[_ curriculum-central.learning_outcomes]"}
         {html {size 50}}
+	{value $uos(outcomes)}
 	{mode display}
     }
     {activity_log:richtext(richtext)

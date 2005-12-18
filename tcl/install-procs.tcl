@@ -71,8 +71,17 @@ ad_proc -private curriculum_central::install::package_uninstantiate {
 
 ad_proc -private curriculum_central::install::register_implementations {} {
     db_transaction {
-	curriculum_central::install::register_unit_coordinator_impl
-	curriculum_central::install::register_stream_coordinator_impl	
+	# Unit Coordinator SC implementations
+	curriculum_central::install::register_unit_coordinator_default_assignees_impl
+	curriculum_central::install::register_unit_coordinator_assignee_pick_list_impl
+	curriculum_central::install::register_unit_coordinator_assignee_subquery_impl
+
+	# Stream Coordinator SC implementations
+	curriculum_central::install::register_stream_coordinator_default_assignees_impl
+	curriculum_central::install::register_stream_coordinator_assignee_pick_list_impl
+	curriculum_central::install::register_stream_coordinator_assignee_subquery_impl
+
+	# Other SC implementations
         curriculum_central::install::register_format_log_title_impl
         curriculum_central::install::register_uos_notification_info_impl
 	curriculum_central::install::register_uos_go_live_impl
@@ -83,18 +92,44 @@ ad_proc -private curriculum_central::install::register_implementations {} {
 ad_proc -private curriculum_central::install::unregister_implementations {} {
     db_transaction {
 
+	# Delete Unit Coordinator SC implementations
         acs_sc::impl::delete \
-	    -contract_name [workflow::service_contract::activity_log_format_title] \
+	    -contract_name \
+	    [workflow::service_contract::role_assignee_subquery] \
+	    -impl_name "UnitCoordinator_Assignee_SubQuery"
+
+        acs_sc::impl::delete \
+	    -contract_name \
+	    [workflow::service_contract::role_assignee_pick_list] \
+	    -impl_name "UnitCoordinator_Assignee_PickList"
+
+        acs_sc::impl::delete \
+	    -contract_name \
+	    [workflow::service_contract::role_default_assignees]  \
+	    -impl_name "UnitCoordinator_Default_Assignees"
+
+	# Delete Stream Coordinator SC implementations
+        acs_sc::impl::delete \
+	    -contract_name \
+	    [workflow::service_contract::role_assignee_subquery] \
+	    -impl_name "StreamCoordinator_Assignee_SubQuery"
+
+        acs_sc::impl::delete \
+	    -contract_name \
+	    [workflow::service_contract::role_assignee_pick_list] \
+	    -impl_name "StreamCoordinator_Assignee_PickList"
+
+        acs_sc::impl::delete \
+	    -contract_name \
+	    [workflow::service_contract::role_default_assignees] \
+	    -impl_name "StreamCoordinator_Default_Assignees"
+
+
+	# Delete other SC implementations
+        acs_sc::impl::delete \
+	    -contract_name \
+	    [workflow::service_contract::activity_log_format_title] \
 	    -impl_name "FormatLogTitle"
-
-        acs_sc::impl::delete \
-                -contract_name [workflow::service_contract::role_default_assignees]  \
-                -impl_name "UnitCoordinator"
-
-        acs_sc::impl::delete \
-                -contract_name [workflow::service_contract::role_default_assignees] \
-                -impl_name "StreamCoordinator"
-
 
         acs_sc::impl::delete \
 	    -contract_name [workflow::service_contract::notification_info] \
@@ -145,10 +180,10 @@ ad_proc -private curriculum_central::install::register_uos_notification_info_imp
 }
 
 
-ad_proc -private curriculum_central::install::register_unit_coordinator_impl {} {
+ad_proc -private curriculum_central::install::register_unit_coordinator_default_assignees_impl {} {
 
     set spec {
-        name "UnitCoordinator"
+        name "UnitCoordinator_Default_Assignees"
         aliases {
             GetObjectType curriculum_central::uos::object_type
             GetPrettyName curriculum_central::uos::get_unit_coordinator::pretty_name
@@ -163,10 +198,46 @@ ad_proc -private curriculum_central::install::register_unit_coordinator_impl {} 
 }
 
 
-ad_proc -private curriculum_central::install::register_stream_coordinator_impl {} {
+ad_proc -private curriculum_central::install::register_unit_coordinator_assignee_pick_list_impl {} {
 
     set spec {
-        name "StreamCoordinator"
+        name "UnitCoordinator_Assignee_PickList"
+        aliases {
+            GetObjectType curriculum_central::uos::object_type
+            GetPrettyName curriculum_central::uos::get_unit_coordinator::pretty_name
+            GetPickList  curriculum_central::uos::get_unit_coordinator::get_assignees
+        }
+    }
+    
+    lappend spec contract_name [workflow::service_contract::role_assignee_pick_list]
+    lappend spec owner [curriculum_central::package_key]
+    
+    acs_sc::impl::new_from_spec -spec $spec
+}
+
+
+ad_proc -private curriculum_central::install::register_unit_coordinator_assignee_subquery_impl {} {
+
+    set spec {
+        name "UnitCoordinator_Assignee_SubQuery"
+        aliases {
+            GetObjectType curriculum_central::uos::object_type
+            GetPrettyName curriculum_central::uos::get_unit_coordinator::pretty_name
+            GetSubquery  curriculum_central::uos::get_unit_coordinator::get_subquery
+        }
+    }
+    
+    lappend spec contract_name [workflow::service_contract::role_assignee_subquery]
+    lappend spec owner [curriculum_central::package_key]
+    
+    acs_sc::impl::new_from_spec -spec $spec
+}
+
+
+ad_proc -private curriculum_central::install::register_stream_coordinator_default_assignees_impl {} {
+
+    set spec {
+        name "StreamCoordinator_Default_Assignees"
         aliases {
             GetObjectType curriculum_central::uos::object_type
             GetPrettyName curriculum_central::uos::get_stream_coordinator::pretty_name
@@ -175,6 +246,42 @@ ad_proc -private curriculum_central::install::register_stream_coordinator_impl {
     }
     
     lappend spec contract_name [workflow::service_contract::role_default_assignees]
+    lappend spec owner [curriculum_central::package_key]
+    
+    acs_sc::impl::new_from_spec -spec $spec
+}
+
+
+ad_proc -private curriculum_central::install::register_stream_coordinator_assignee_pick_list_impl {} {
+
+    set spec {
+        name "StreamCoordinator_Assignee_PickList"
+        aliases {
+            GetObjectType curriculum_central::uos::object_type
+            GetPrettyName curriculum_central::uos::get_stream_coordinator::pretty_name
+            GetPickList  curriculum_central::uos::get_stream_coordinator::get_pick_list
+        }
+    }
+    
+    lappend spec contract_name [workflow::service_contract::role_assignee_pick_list]
+    lappend spec owner [curriculum_central::package_key]
+    
+    acs_sc::impl::new_from_spec -spec $spec
+}
+
+
+ad_proc -private curriculum_central::install::register_stream_coordinator_assignee_subquery_impl {} {
+
+    set spec {
+        name "StreamCoordinator_Assignee_SubQuery"
+        aliases {
+            GetObjectType curriculum_central::uos::object_type
+            GetPrettyName curriculum_central::uos::get_stream_coordinator::pretty_name
+            GetSubquery  curriculum_central::uos::get_stream_coordinator::get_subquery
+        }
+    }
+    
+    lappend spec contract_name [workflow::service_contract::role_assignee_subquery]
     lappend spec owner [curriculum_central::package_key]
     
     acs_sc::impl::new_from_spec -spec $spec

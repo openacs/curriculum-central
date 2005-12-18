@@ -147,37 +147,3 @@ ad_proc curriculum_central::get_export_variables {
 
     return [concat $export_vars $extra_vars]
 }
-
-
-#####
-#
-# Resolution
-#
-#####
-
-ad_proc curriculum_central::resolution_get_options {} {
-    return \
-        [list \
-             [list [_ curriculum-central.fixed] fixed ] \
-             [list [_ curriculum-central.wont_fix] wontfix ] \
-             [list [_ curriculum-central.postponed] postponed ] \
-             [list [_ curriculum-central.need_info] needinfo ] \
-            ]
-
-}
-
-ad_proc curriculum_central::resolution_pretty {
-    resolution
-} {
-    array set resolution_codes {
-        fixed curriculum-central.fixed
-        wontfix curriculum-central.wont_fix
-        postponed curriculum-central.postponed
-        needinfo curriculum-central.need_info
-    }
-    if { [info exists resolution_codes($resolution)] } {
-        return [_ $resolution_codes($resolution)]
-    } else {
-        return ""
-    }
-}

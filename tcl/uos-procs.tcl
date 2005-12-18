@@ -50,13 +50,17 @@ ad_proc -private curriculum_central::uos::workflow_create {} {
                     pretty_name "#curriculum-central.stream_coordinator#"
 		    callbacks { 
                         workflow.Role_DefaultAssignees_CreationUser
+			curriculum-central.StreamCoordinator_Default_Assignees
+			curriculum-central.StreamCoordinator_Assignee_PickList
+			curriculum-central.StreamCoordinator_Assignee_SubQuery
                     }
                 }
                 unit_coordinator {
                     pretty_name "#curriculum-central.unit_coordinator#"
                     callbacks {
-                        workflow.Role_PickList_CurrentAssignees
-                        workflow.Role_AssigneeSubquery_RegisteredUsers
+			curriculum-central.UnitCoordinator_Default_Assignees
+			curriculum-central.UnitCoordinator_Assignee_PickList
+			curriculum-central.UnitCoordinator_Assignee_SubQuery
                     }
                 }
 		lecturer {
@@ -102,7 +106,8 @@ ad_proc -private curriculum_central::uos::workflow_create {} {
 			lecturer
 		    }
                     privileges { write }
-                    always_enabled_p t
+                    enabled_states { submitted }
+		    assigned_states { open }
                     edit_fields { 
 			contact_hours
 			assessments
@@ -125,7 +130,7 @@ ad_proc -private curriculum_central::uos::workflow_create {} {
                 submit {
                     pretty_name "#curriculum-central.submit#"
                     pretty_past_tense "#curriculum-central.submitted#"
-                    assigned_role unit_coordinator
+                    assigned_role { unit_coordinator }
                     enabled_states { submitted }
                     assigned_states { open }
                     new_state submitted
@@ -134,7 +139,7 @@ ad_proc -private curriculum_central::uos::workflow_create {} {
                 close {
                     pretty_name "#curriculum-central.close#"
                     pretty_past_tense "#curriculum-central.closed#"
-                    assigned_role stream_coordinator
+                    assigned_role { stream_coordinator }
                     assigned_states { submitted }
                     new_state closed
                     privileges { write }
@@ -147,7 +152,7 @@ ad_proc -private curriculum_central::uos::workflow_create {} {
                     pretty_past_tense "#curriculum-central.reopened#"
                     allowed_roles { stream_coordinator unit_coordinator }
                     enabled_states { submitted closed }
-                    new_state open
+                    new_state { open }
                     privileges { write }
                 }
             }
@@ -482,7 +487,7 @@ ad_proc -public curriculum_central::uos::update {
 #####
 
 ad_proc -private curriculum_central::uos::format_log_title::pretty_name {} {
-    return "[_ curriculum-central.res_code_to_log_title]"
+    return "[_ curriculum-central.activity_log]"
 }
 
 ad_proc -private curriculum_central::uos::format_log_title::format_log_title {
@@ -494,11 +499,7 @@ ad_proc -private curriculum_central::uos::format_log_title::format_log_title {
 } {
     array set data $data_arraylist
 
-    if { [info exists data(resolution)] } {
-        return [curriculum_central::resolution_pretty $data(resolution)]
-    } else {
-        return {}
-    }
+    return {}
 }
 
 
@@ -517,8 +518,25 @@ ad_proc -private curriculum_central::uos::get_unit_coordinator::get_assignees {
     object_id
     role_id
 } {
-    return [db_list select_unit_coordinators {} -default {}]
+    return [db_list select_unit_coordinators {}]
 }
+
+ad_proc -private curriculum_central::uos::get_unit_coordinator::get_pick_list {
+    case_id
+    object_id
+    role_id
+} {
+    return [db_list select_unit_coordinators {}]
+}
+
+ad_proc -private curriculum_central::uos::get_unit_coordinator::get_subquery {
+    case_id
+    object_id
+    role_id
+} {
+    return [db_map unit_coordinator_subquery]
+}
+
 
 #####
 #
@@ -535,7 +553,23 @@ ad_proc -private curriculum_central::uos::get_stream_coordinator::get_assignees 
     object_id
     role_id
 } {
-    return [db_list select_stream_coordinators {} -default {}]
+    return [db_list select_stream_coordinators {}]
+}
+
+ad_proc -private curriculum_central::uos::get_stream_coordinator::get_pick_list {
+    case_id
+    object_id
+    role_id
+} {
+    return [db_list select_stream_coordinators {}]
+}
+
+ad_proc -private curriculum_central::uos::get_stream_coordinator::get_subquery {
+    case_id
+    object_id
+    role_id
+} {
+    return [db_map stream_coordinator_subquery]
 }
 
 

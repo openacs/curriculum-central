@@ -19,6 +19,12 @@
      </querytext>
    </fullquery>
 
+   <fullquery name="curriculum_central::uos::get_unit_coordinator::get_assignees.select_unit_coordinators">
+     <querytext>
+       SELECT staff_id FROM cc_staff
+     </querytext>
+   </fullquery>
+
    <fullquery name="curriculum_central::uos::new.get_stream_coordinator_ids">
      <querytext>
        SELECT DISTINCT coordinator_id FROM cc_stream
@@ -58,5 +64,17 @@
        SELECT latest_revision FROM cr_items WHERE item_id = :object_id
      </querytext>
    </fullquery>
+
+   <partialquery name="curriculum_central::uos::get_unit_coordinator::get_subquery.unit_coordinator_subquery">
+     <querytext>
+       (select * from cc_users u, cc_staff s where u.user_id = s.staff_id)
+     </querytext>
+   </partialquery>
+
+   <partialquery name="curriculum_central::uos::get_stream_coordinator::get_subquery.stream_coordinator_subquery">
+     <querytext>
+       (select * from cc_users u, cc_staff s where u.user_id = s.staff_id)
+     </querytext>
+   </partialquery>
 
 </queryset>
