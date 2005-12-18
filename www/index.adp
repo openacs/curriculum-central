@@ -14,3 +14,11 @@
 <li><a href="@faculties.faculty_dept_url@">@faculties.faculty_name@</a></li>
 </multiple>
 </ul>
+
+<h3>Things To Do</h3>
+<ul>
+<li>View Unit Coordinators</li>
+<li>View Catalog of Units of Study</li>
+<li>View all Units of Study by Streams</li>
+<li>View Course Maps</li>
+</ul>

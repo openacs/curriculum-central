@@ -1,8 +1,15 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 <message_catalog package_key="curriculum-central" package_version="0.1d" locale="en_US" charset="ISO-8859-1">
 
+  <msg key="all_pending_units_of_study">All Pending Units of Study</msg>
+  <msg key="your_pending_units_of_study">Your Pending Units of Study</msg>
+  <msg key="list_of_all_pending_units_of_study">List of all pending Units of Study:</msg>
+  <msg key="pending_units_of_study">Pending Units of Study</msg>
+  <msg key="you_are_the_unit_coordinator_of_pending_uos">You are the Unit Coordinator of the following pending Units of Study:</msg>
+  <msg key="none_pending">None Pending</msg>
   <msg key="uos">UoS</msg>
   <msg key="go_live">Go Live</msg>
+  <msg key="current_state">Current State</msg>
   <msg key="search">Search</msg>
   <msg key="activity_log">Activity Log</msg>
   <msg key="coordinate">Coordinate</msg>
