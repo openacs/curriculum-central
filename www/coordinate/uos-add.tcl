@@ -18,16 +18,19 @@ if { [empty_string_p $return_url] } {
     set return_url "."
 }
 
-ad_require_permission [ad_conn package_id] create
-
 # User needs to be logged in here
 auth::require_login
+set user_id [ad_conn user_id]
+
+# Check that the user has the required permissions for adding a Unit of
+# Study.
+permission::require_permission -object_id [ad_conn package_id] \
+    -privilege create
 
 # Set some common variables
 set package_id [ad_conn package_id]
 set package_key [ad_conn package_key]
 set workflow_id [curriculum_central::uos::get_instance_workflow_id]
-set user_id [ad_conn user_id]
 
 set page_title "[_ curriculum-central.add_unit_of_study]"
 set context [list [list . [_ curriculum-central.coordinate]] $page_title]
