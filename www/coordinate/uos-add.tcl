@@ -22,10 +22,10 @@ if { [empty_string_p $return_url] } {
 auth::require_login
 set user_id [ad_conn user_id]
 
-# Check that the user has the required permissions for adding a Unit of
-# Study.
-permission::require_permission -object_id [ad_conn package_id] \
-    -privilege create
+# Only stream coordinators can create a unit of study.
+if { ![curriculum_central::staff::stream_coordinator_p $user_id] } {
+    ad_returnredirect -message [_ curriculum-central.only_stream_coordinators_may_create_uos] index
+}
 
 # Set some common variables
 set package_id [ad_conn package_id]

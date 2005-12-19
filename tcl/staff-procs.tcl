@@ -24,3 +24,19 @@ ad_proc -public curriculum_central::staff::pretty_name {
 } {
     return [db_string get_pretty_name {}]
 }
+
+
+ad_proc -public curriculum_central::staff::stream_coordinator_p {
+    user_id
+} {
+    Checks if the given user is a stream coordinator or not.
+
+    @param user_id ID of a user.
+    @return Returns 1 if the user is a stream coordinator, otherwise
+    0 is returned.
+} {
+
+    # If the user is a stream coordinator for at least one
+    # stream, then the user is a stream coordinator.
+    return [db_0or1row is_stream_coordinator {}]
+}

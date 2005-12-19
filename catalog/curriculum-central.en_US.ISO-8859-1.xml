@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 <message_catalog package_key="curriculum-central" package_version="0.1d" locale="en_US" charset="ISO-8859-1">
 
+  <msg key="only_stream_coordinators_may_create_uos">Only stream coordinators may create Units of Study.</msg>
   <msg key="all_pending_units_of_study">All Pending Units of Study</msg>
   <msg key="your_pending_units_of_study">Your Pending Units of Study</msg>
   <msg key="list_of_all_pending_units_of_study">List of all pending Units of Study:</msg>

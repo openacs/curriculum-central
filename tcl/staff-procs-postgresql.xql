@@ -12,4 +12,10 @@
 	AND s.staff_id = :staff_id
       </querytext>
     </fullquery>
+
+    <fullquery name="curriculum_central::staff::stream_coordinator_p.is_stream_coordinator">
+      <querytext>
+	SELECT * FROM cc_stream WHERE coordinator_id = :user_id LIMIT 1
+      </querytext>
+    </fullquery>
 </queryset>
