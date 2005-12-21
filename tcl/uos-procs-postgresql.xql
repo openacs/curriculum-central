@@ -13,6 +13,37 @@
      </querytext>
    </fullquery>
 
+   <fullquery name="curriculum_central::uos::num_pending.get_users_pending_uos">
+     <querytext>
+       SELECT count(*)
+       FROM cc_uos u,
+	    workflow_cases c,
+	    workflow_case_fsm f,
+	    workflow_fsm_states s
+	    WHERE c.case_id = f.case_id
+	AND s.state_id = f.current_state
+	AND c.workflow_id = :workflow_id
+	AND u.uos_id = c.object_id
+	AND s.short_name != 'closed'
+	AND u.unit_coordinator_id = :user_id
+     </querytext>
+   </fullquery>
+
+   <fullquery name="curriculum_central::uos::num_pending.get_all_pending_uos">
+     <querytext>
+       SELECT count(*)
+       FROM cc_uos u,
+	    workflow_cases c,
+	    workflow_case_fsm f,
+	    workflow_fsm_states s
+	    WHERE c.case_id = f.case_id
+	AND s.state_id = f.current_state
+	AND c.workflow_id = :workflow_id
+	AND u.uos_id = c.object_id
+	AND s.short_name != 'closed'
+     </querytext>
+   </fullquery>
+
    <fullquery name="curriculum_central::uos::get_stream_coordinator::get_assignees.select_stream_coordinators">
      <querytext>
        SELECT staff_id FROM cc_staff

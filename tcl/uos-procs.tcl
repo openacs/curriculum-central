@@ -482,6 +482,42 @@ ad_proc -public curriculum_central::uos::update {
 
 #####
 #
+# UoS Pending
+#
+#####
+
+ad_proc -public curriculum_central::uos::num_pending {
+    {-workflow_id ""}
+    {-user_id ""}
+} {
+    Get the number of all pending Units of Study, or those that belong
+    to a single Unit Coordinator.  Note: Pending is a workflow state that
+    isn't "closed".
+
+    @param workflow_id The workflow ID for the current package instance
+    of curriculum central.
+    @param user_id The user_id of a Unit Coordinator.
+
+    @return Returns the number of pending Units of Study for the specified
+    Unit Coordinator.  If a user_id isn't provided, then this proc
+    returns the number of all pending Units of Study.
+
+    @see curriculum_central::uos::get_instance_workflow_id
+} {
+    if { $workflow_id eq ""} {
+	set workflow_id [curriculum_central::uos::get_instance_workflow_id]
+    }
+
+    if { $user_id eq ""} {
+	return [db_string get_all_pending_uos {} -default {}]
+    }
+
+    return [db_string get_users_pending_uos {} -default {}]    
+}
+
+
+#####
+#
 # Format log title
 #
 #####
