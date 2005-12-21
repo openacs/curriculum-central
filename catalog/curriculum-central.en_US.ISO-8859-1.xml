@@ -19,6 +19,7 @@
   <msg key="uos_code">UoS Code</msg>
   <msg key="uos_name">UoS Name</msg>
   <msg key="credit_value">Credit Value</msg>
+  <msg key="edit_uos">Edit Unit of Study</msg>
   <msg key="semester_offering">Semester Offering</msg>
   <msg key="online_course_content">Online Course Content</msg>
   <msg key="contact_hours">Contact Hours</msg>

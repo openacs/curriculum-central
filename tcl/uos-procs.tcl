@@ -131,7 +131,6 @@ ad_proc -private curriculum_central::uos::workflow_create {} {
                     pretty_name "#curriculum-central.submit#"
                     pretty_past_tense "#curriculum-central.submitted#"
                     assigned_role { unit_coordinator }
-                    enabled_states { submitted }
                     assigned_states { open }
                     new_state submitted
                     privileges { write }
@@ -405,9 +404,15 @@ ad_proc -public curriculum_central::uos::edit {
     foreach name [array names row "${role_prefix}*"] {
         set assignments([string range $name \
 			     [string length $role_prefix] end]) $row($name)
+	
+	# Get the reassigned unit_coordinator_id
+	if { $name eq "role_unit_coordinator" } {
+	    set row(unit_coordinator_id) $row($name)
+	}
+
         unset row($name)
     }
-    
+
     db_transaction {
 	# Update the UoS info.
 	curriculum_central::uos::update -uos_id $uos_id \
@@ -474,7 +479,16 @@ ad_proc -public curriculum_central::uos::update {
         set $name $new_row($name)
     }
 
-    set revision_id [db_exec_plsql update_uos {}]
+    db_transaction {
+	set revision_id [db_exec_plsql update_uos {}]
+
+	# If unit_coordinator_id exists, then update the cc_uos table
+	# that caches the coordinator for a UoS.  This is required
+	# when the Unit Coordinator has been reassigned.
+	if { [info exists unit_coordinator_id] } {
+	    db_dml update_unit_coordinator {}
+	}
+    }
 
     return $uos_id
 }

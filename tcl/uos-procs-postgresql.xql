@@ -90,6 +90,13 @@
      </querytext>
    </fullquery>
 
+   <fullquery name="curriculum_central::uos::update.update_unit_coordinator">
+     <querytext>
+       UPDATE cc_uos SET unit_coordinator_id = :unit_coordinator_id
+       WHERE uos_id = :uos_id
+     </querytext>
+   </fullquery>
+
    <fullquery name="curriculum_central::uos::go_live::do_side_effect.get_latest_revision">
      <querytext>
        SELECT latest_revision FROM cr_items WHERE item_id = :object_id
