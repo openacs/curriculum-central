@@ -106,7 +106,6 @@ ad_proc -private curriculum_central::uos::workflow_create {} {
 			lecturer
 		    }
                     privileges { write }
-                    enabled_states { submitted }
 		    assigned_states { open }
                     edit_fields { 
 			contact_hours
