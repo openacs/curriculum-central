@@ -219,6 +219,10 @@ if { ![form is_valid uos] } {
 
     # Set values for description field
     element set_properties uos activity_log \
-	-before_html [workflow::case::get_activity_html -case_id $case_id \
-			  -action_id $action_id]
+	-before_html [workflow::case::get_activity_html \
+			  -case_id $case_id \
+			  -action_id $action_id \
+			  -max_n_actions [parameter::get \
+			       -parameter LastNumActivityLogEntries \
+			       -default 3]]
 }

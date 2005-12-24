@@ -11,7 +11,7 @@
         <owner url="mailto:ncarroll@ee.usyd.edu.au">Nick Carroll</owner>
         <summary>An application for managing the subjects comprising a course of study in a School or University.</summary>
         <vendor url="http://www.weg.ee.usyd.edu.au">WEG</vendor>
-        <description format="text/html">Curriculum Central is an application for managing subjects comprising a course of study in a School or University.  The application will allow academic staff to coordinate course syllabus and rubrics, which can then be conveyed to students using course maps.</description>
+        <description format="text/html">Curriculum Central is an application for managing subjects comprising a course of study in a School or University.  The application will allow academic staff to collaborate on course syllabus and rubrics, which can then be conveyed to students using course maps.</description>
         <maturity>0</maturity>
 
         <provides url="curriculum-central" version="0.1d"/>
@@ -22,13 +22,13 @@
         <requires url="workflow" version="2.0.0b3"/>
 
         <callbacks>
-            <callback type="after-install"  proc="curriculum_central::install::package_install"/>
             <callback type="before-uninstall"  proc="curriculum_central::install::package_uninstall"/>
-            <callback type="after-instantiate"  proc="curriculum_central::install::package_instantiate"/>
+            <callback type="after-install"  proc="curriculum_central::install::package_install"/>
             <callback type="before-uninstantiate"  proc="curriculum_central::install::package_uninstantiate"/>
+            <callback type="after-instantiate"  proc="curriculum_central::install::package_instantiate"/>
         </callbacks>
         <parameters>
-        <!-- No version parameters -->
+            <parameter datatype="number"  min_n_values="1"  max_n_values="1"  name="LastNumActivityLogEntries"  default="3" description="Number of recent activity log entries to display for a Unit of Study."/>
         </parameters>
 
     </version>

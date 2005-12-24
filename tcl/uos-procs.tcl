@@ -394,7 +394,7 @@ ad_proc -public curriculum_central::uos::edit {
 
     @return uos_id The same uos_id passed in, for convenience.
 } {
-    # TODO: Implement this proc.
+
     upvar $array row
 
     array set assignments [list]
