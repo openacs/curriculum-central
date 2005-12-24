@@ -11,7 +11,7 @@
         <owner url="mailto:ncarroll@ee.usyd.edu.au">Nick Carroll</owner>
         <summary>An application for managing the subjects comprising a course of study in a School or University.</summary>
         <vendor url="http://www.weg.ee.usyd.edu.au">WEG</vendor>
-        <description format="text/html">Curriculum Central is an application for managing subjects comprising a course of study in a School or University.  The application will allow academic staff to collaborate on course syllabus and rubrics, which can then be conveyed to students using course maps.</description>
+        <description format="text/html">Curriculum Central is an application for managing subjects comprising a course of study in a School or University.  The application will allow academic staff to coordinate course syllabus and rubrics, which can then be conveyed to students using course maps.</description>
         <maturity>0</maturity>
 
         <provides url="curriculum-central" version="0.1d"/>
