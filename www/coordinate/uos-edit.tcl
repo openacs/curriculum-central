@@ -116,36 +116,42 @@ ad_form -extend -name uos -form {
 	{options [curriculum_central::staff_get_options] }
 	{value $uos_details(lecturer_id)}
 	{mode display}
+        {help_text "[_ curriculum-central.help_lecturer_id]"}
     }
-    {objectives:text,optional
+    {objectives:text(textarea),optional
         {label "[_ curriculum-central.aims_and_objectives]"}
-        {html {size 50}}
+	{html {cols 50 rows 4}}
 	{value $uos_details(objectives)}
 	{mode display}
+        {help_text "[_ curriculum-central.help_objectives]"}
     }
-    {learning_outcomes:text,optional
+    {learning_outcomes:text(textarea),optional
         {label "[_ curriculum-central.learning_outcomes]"}
-        {html {size 50}}
+	{html {cols 50 rows 4}}
 	{value $uos_details(learning_outcomes)}
 	{mode display}
+        {help_text "[_ curriculum-central.help_learning_outcomes]"}
     }
-    {syllabus:text,optional
+    {syllabus:text(textarea),optional
         {label "[_ curriculum-central.syllabus]"}
-        {html {size 50}}
+	{html {cols 50 rows 4}}
 	{value $uos_details(syllabus)}
 	{mode display}
+        {help_text "[_ curriculum-central.help_syllabus]"}
     }
-    {relevance:text,optional
+    {relevance:text(textarea),optional
         {label "[_ curriculum-central.relevance]"}
-        {html {size 50}}
+	{html {cols 50 rows 4}}
 	{value $uos_details(relevance)}
 	{mode display}
+        {help_text "[_ curriculum-central.help_relevance]"}
     }
     {online_course_content:text,optional
         {label "[_ curriculum-central.online_course_content]"}
         {html {size 50}}
 	{value $uos_details(online_course_content)}
 	{mode display}
+        {help_text "[_ curriculum-central.help_online_course_content]"}
     }
 }
 
@@ -168,9 +174,58 @@ ad_form -extend -name uos -form {
 	{html {size 5}}
 	{values $uos_tl(tl_approach_ids)}
 	{mode display}
-	{after_html "<a href=\"tl-methods\">[_ curriculum-central.view_details]</a>"}
+	{after_html "<a href=\"tl-methods\">[_ curriculum-central.view_all]</a>"}
+        {help_text "[_ curriculum-central.help_tl_approach_ids]"}
     }
 }
+
+# Retrieve workflow info for Unit of Study.
+curriculum_central::uos::get_workload \
+    -uos_id $uos_id \
+    -array uos_workload
+
+# Add widgets for workload.
+ad_form -extend -name uos -form {
+    {workload_id:integer(hidden),optional
+	{value $uos_workload(workload_id)}
+    }
+    {formal_contact_hrs:text(textarea),optional
+        {label "[_ curriculum-central.formal_contact_hrs]"}
+	{html {cols 50 rows 4}}
+	{value $uos_workload(formal_contact_hrs)}
+	{mode display}
+        {help_text "[_ curriculum-central.help_formal_contact_hrs]"}
+    }
+    {informal_study_hrs:text(textarea),optional
+        {label "[_ curriculum-central.informal_study_hrs]"}
+	{html {cols 50 rows 4}}
+	{value $uos_workload(informal_study_hrs)}
+	{mode display}
+        {help_text "[_ curriculum-central.help_informal_study_hrs]"}
+    }
+    {student_commitment:text(textarea),optional
+        {label "[_ curriculum-central.student_commitment]"}
+	{html {cols 50 rows 4}}
+	{value $uos_workload(student_commitment)}
+	{mode display}
+        {help_text "[_ curriculum-central.help_student_commitment]"}
+    }
+    {expected_feedback:text(textarea),optional
+        {label "[_ curriculum-central.expected_feedback]"}
+	{html {cols 50 rows 4}}
+	{value $uos_workload(expected_feedback)}
+	{mode display}
+        {help_text "[_ curriculum-central.help_expected_feedback]"}
+    }
+    {student_feedback:text(textarea),optional
+        {label "[_ curriculum-central.student_feedback]"}
+	{html {cols 50 rows 4}}
+	{value $uos_workload(student_feedback)}
+	{mode display}
+        {help_text "[_ curriculum-central.help_student_feedback]"}
+    }
+}
+
 
 # Add history section
 template::form::section uos [_ curriculum-central.history]
@@ -180,6 +235,7 @@ ad_form -extend -name uos -form {
     {activity_log:richtext(richtext)
 	{label "#curriculum-central.activity_log#"}
 	{html {cols 50 rows 13}}
+        {help_text "[_ curriculum-central.help_activity_log]"}
     }
     {return_url:text(hidden)
         {value $return_url}
@@ -242,11 +298,18 @@ ad_form -extend -name uos -on_submit {
 	    -online_course_content $online_course_content
 
     } elseif { $action_info(short_name) eq "edit_tl"} {
-	ns_log Warning "NC: Update TL..."
 
 	curriculum_central::uos::update_tl \
 	    -tl_id $tl_id \
 	    -tl_approach_ids $tl_approach_ids
+
+	curriculum_central::uos::update_workload \
+	    -workload_id $workload_id \
+	    -formal_contact_hrs $formal_contact_hrs \
+	    -informal_study_hrs $informal_study_hrs \
+	    -student_commitment $student_commitment \
+	    -expected_feedback $expected_feedback \
+	    -student_feedback $student_feedback
     }
 
     # Do a general edit update.

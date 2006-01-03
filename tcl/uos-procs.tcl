@@ -137,6 +137,11 @@ ad_proc -private curriculum_central::uos::workflow_create {} {
                     privileges { write }
 		    edit_fields {
 			tl_approach_ids
+			formal_contact_hrs
+			informal_study_hrs
+			student_commitment
+			expected_feedback
+			student_feedback
 		    }
 		    assigned_states { open }
                 }
@@ -393,6 +398,13 @@ ad_proc -public curriculum_central::uos::insert {
 		        [list object_type "cc_uos_tl"]] \
 		       "cc_uos_tl"]
 
+    # Initiate cc_uos_workload
+    set tl_id [package_instantiate_object \
+        -var_list [list [list parent_uos_id $uos_id] \
+	  	        [list package_id $package_id] \
+		        [list object_type "cc_uos_workload"]] \
+		       "cc_uos_workload"]
+
     return $uos_id
 }
 
@@ -534,7 +546,7 @@ ad_proc -public curriculum_central::uos::update_details {
     Updates the details for a Unit of Study.  This update proc creates
     a new details revision of the given Unit of Study.
 
-    @param uos_id The ID of the Unit of Study to update.
+    @param detail_id The ID of the Unit of Study to update.
     @param lecturer_id The ID of the selected lecturer.
     @param objectives Unit of Study objectives.
     @param learning_outcomes Unit of Study learning outcomes.
@@ -605,6 +617,49 @@ ad_proc -public curriculum_central::uos::update_tl {
 }
 
 
+ad_proc -public curriculum_central::uos::update_workload {
+    -workload_id:required
+    {-formal_contact_hrs ""}
+    {-informal_study_hrs ""}
+    {-student_commitment ""}
+    {-expected_feedback ""}
+    {-student_feedback ""}
+    {-user_id ""}
+    {-creation_ip ""}
+} {
+    Updates the workload for a Unit of Study.  This update proc creates
+    a new workload revision for the given Unit of Study.
+
+    @param workload_id The ID of the Unit of Study to update.
+    @param formal_contact_hrs Formal contact hours.
+    @param informal_study_hrs Informal study hours required to master concepts.
+    @param student_commitment Students are expected to commit to this UoS by...
+    @param expected_feedback Students can expect feedback for this UoS in the
+    nature of...
+    @param student_feedback Students can provide feedback for this UoS by...
+    @param user_id The ID of the user that updated the Unit of Study.
+    @param creation_ip The IP of the user that made the update.
+
+    @return revision_id Returns the ID of the newly created revision for
+    convenience, otherwise the empty string if unsuccessful.
+} {
+    if { $user_id eq "" } {
+        set user_id [ad_conn user_id]
+    }
+    if { $creation_ip eq "" } {
+	set creation_ip [ad_conn peeraddr]
+    }
+
+    # Set the default value for revision_id.
+    set revision_id ""
+    db_transaction {
+	set revision_id [db_exec_plsql update_workload {}]
+    }
+
+    return $revision_id
+}
+
+
 ad_proc -public curriculum_central::uos::get_details {
     {-uos_id:required}
     {-array:required}
@@ -662,6 +717,35 @@ ad_proc -public curriculum_central::uos::get_tl {
 	set row(tl_approach_ids) [db_list latest_tl_method_ids {}]
     } else {
 	set row(tl_approach_ids) ""
+    }
+}
+
+
+ad_proc -public curriculum_central::uos::get_workload {
+    {-uos_id:required}
+    {-array:required}
+} {
+    Get the workload fields for a Unit of Study.
+
+    @param uos_id The ID of the Unit of Study for which we return
+    workload fields for.
+    @param array A predefined array for returning fields in.  Values include
+    workload_id, formal_contact_hrs, informal_study_hrs, student_commitment,
+    expected_feedback, student_feedback.
+
+    @return Array containing all valid fields for the cc_uos_workload table.
+} {
+    # Select the info into the upvar'ed Tcl array
+    upvar $array row
+
+    if { ![db_0or1row latest_workload {} -column_array row] } {
+	# Set default values
+	set row(workload_id) ""
+	set row(formal_contact_hrs) ""
+	set row(informal_study_hrs) ""
+	set row(student_commitment) ""
+	set row(expected_feedback) ""
+	set row(student_feedback) ""
     }
 }
 
@@ -880,4 +964,9 @@ ad_proc -private curriculum_central::uos::go_live::do_side_effect {
     db_1row get_latest_tl_revision {}
     content::item::set_live_revision -revision_id $latest_tl_revision
     db_dml set_live_tl_revision {}
+
+    # Do the same for cc_uos_workload
+    db_1row get_latest_workload_revision {}
+    content::item::set_live_revision -revision_id $latest_workload_revision
+    db_dml set_live_workload_revision {}
 }

@@ -311,3 +311,6 @@ end;
 
 -- UoS Teaching and Learning
 \i uos-tl-create.sql
+
+-- UoS Workload
+\i uos-workload-create.sql

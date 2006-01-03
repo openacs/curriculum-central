@@ -2,7 +2,27 @@
 <message_catalog package_key="curriculum-central" package_version="0.1d" locale="en_US" charset="ISO-8859-1">
 
   <msg key="uos">UoS</msg>
+  <msg key="formal_contact_hrs">Formal Contact Hours</msg>
+  <msg key="help_formal_contact_hrs">Total number of hours of attendance for lecture, tutorial, lab, etc.</msg>
+  <msg key="informal_study_hrs">Informal Study Hours</msg>
+  <msg key="help_informal_study_hrs">Informal study hours required to master concepts.</msg>
+  <msg key="student_commitment">Student Commitment to UoS</msg>
+  <msg key="help_student_commitment">Students are expected to commit to this UoS by...</msg>
+  <msg key="expected_feedback">Feedback Expected by Students</msg>
+  <msg key="help_expected_feedback">Students can expect feedback for this UoS in the nature of...</msg>
+  <msg key="student_feedback">Feedback Provided by Students</msg>
+  <msg key="help_student_feedback">Students can provide feedback for this UoS by...</msg>
+  <msg key="help_lecturer_id">Select the lecturer for this Unit of Study.</msg>
+  <msg key="help_objectives">What are the aims and objectives for this Unit of Study?</msg>
+  <msg key="help_learning_outcomes">What are the learning outcomes for this Unit of Study?</msg>
+  <msg key="help_syllabus">What are the subjects or topics that will be taught in this course?</msg>
+  <msg key="help_relevance">Relevance of the concepts taught in this Unit of Study with respect to the degree stream and/or discipline/industry.</msg>
+  <msg key="help_online_course_content">The URL of the Unit of Study website where students can read the course content online, or interact with web-based learning activities.</msg>
+  <msg key="uos_workload">UoS Workload</msg>
+  <msg key="help_activity_log">For future reference, enter a short review of changes that were made.</msg>
+  <msg key="help_tl_approach_ids">Select one or more teaching and learning approaches that are used in this Unit of Study.  To select more than one item from the list, hold down the Shirt key whilst selecting an item.  If an item doesn't appear in the list, then click &lt;a href=&quot;tl-method-ae&quot;&gt;here&lt;/a&gt; to add it (Note: clicking on the link will redirect you to another page).</msg>
   <msg key="view_details">View Details</msg>
+  <msg key="view_all">View All</msg>
   <msg key="add_tl_approach">Add T&amp;L Approach</msg>
   <msg key="edit_tl_approach">Edit T&amp;L Approach</msg>
   <msg key="add_tl_approach_to_list">Add T&amp;L approach to list</msg>
@@ -19,7 +39,7 @@
   <msg key="edit_tl_method">Edit T&amp;L Method</msg>
   <msg key="edit_tl">Edit T&amp;L</msg>
   <msg key="edited_tl">Edited T&amp;L</msg>
-  <msg key="tl_arrangements_and_requirements">T&amp;L Arrangements and Requirements</msg>
+  <msg key="tl_arrangements_and_requirements">Teaching &amp; Learning Arrangements and Requirements</msg>
   <msg key="teaching_and_learning_approach">Teaching and Learning Approach</msg>
   <msg key="uos_teaching_and_learning">UoS Teaching and Learning</msg>
   <msg key="uos_teaching_and_learning_revision">UoS Teaching and Learning Revision</msg>

@@ -39,6 +39,20 @@
      </querytext>
    </fullquery>
 
+   <fullquery name="curriculum_central::uos::get_workload.latest_workload">
+     <querytext>
+       SELECT w.workload_id, wr.formal_contact_hrs, wr.informal_study_hrs,
+           wr.student_commitment, wr.expected_feedback, wr.student_feedback
+       FROM cc_uos u, cc_uos_revisions r, cr_items i,
+           cc_uos_workload_revisions wr, cc_uos_workload w
+       WHERE u.uos_id = :uos_id
+       AND i.item_id = u.uos_id
+       AND r.uos_revision_id = i.latest_revision
+       AND w.parent_uos_id = :uos_id
+       AND wr.workload_revision_id = w.latest_revision_id
+     </querytext>
+   </fullquery>
+
    <fullquery name="curriculum_central::uos::get_tl.latest_tl_method_ids">
      <querytext>
        SELECT method_id FROM cc_uos_tl_method_map
@@ -152,6 +166,23 @@
      </querytext>
    </fullquery>
 
+   <fullquery name="curriculum_central::uos::update_workload.update_workload">
+     <querytext>
+       SELECT cc_uos_workload_revision__new (
+           null,
+	   :workload_id,
+	   :formal_contact_hrs,
+	   :informal_study_hrs,
+	   :student_commitment,
+	   :expected_feedback,
+	   :student_feedback,
+	   now(),
+	   :user_id,
+	   :creation_ip
+       );
+     </querytext>
+   </fullquery>
+
    <fullquery name="curriculum_central::uos::update_tl.map_tl_to_revision">
      <querytext>
        SELECT cc_uos_tl_method__map (
@@ -197,6 +228,16 @@
      </querytext>
    </fullquery>
 
+   <fullquery name="curriculum_central::uos::go_live::do_side_effect.get_latest_workload_revision">
+     <querytext>
+       SELECT i.latest_revision AS latest_workload_revision
+           FROM cr_items i, cr_child_rels c
+           WHERE c.relation_tag = 'cc_uos_workload'
+	   AND c.parent_id = :object_id
+	   AND i.item_id = c.child_id
+     </querytext>
+   </fullquery>
+
    <fullquery name="curriculum_central::uos::go_live::do_side_effect.set_live_revision">
      <querytext>
        UPDATE cc_uos SET live_revision_id = :latest_revision
@@ -214,6 +255,13 @@
    <fullquery name="curriculum_central::uos::go_live::do_side_effect.set_live_tl_revision">
      <querytext>
        UPDATE cc_uos_tl SET live_revision_id = :latest_tl_revision
+           WHERE parent_uos_id = :object_id
+     </querytext>
+   </fullquery>
+
+   <fullquery name="curriculum_central::uos::go_live::do_side_effect.set_live_workload_revision">
+     <querytext>
+       UPDATE cc_uos_workload SET live_revision_id = :latest_workload_revision
            WHERE parent_uos_id = :object_id
      </querytext>
    </fullquery>
