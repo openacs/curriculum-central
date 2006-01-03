@@ -42,7 +42,8 @@
    <fullquery name="curriculum_central::uos::get_workload.latest_workload">
      <querytext>
        SELECT w.workload_id, wr.formal_contact_hrs, wr.informal_study_hrs,
-           wr.student_commitment, wr.expected_feedback, wr.student_feedback
+           wr.student_commitment, wr.expected_feedback, wr.student_feedback,
+	   wr.assumed_concepts
        FROM cc_uos u, cc_uos_revisions r, cr_items i,
            cc_uos_workload_revisions wr, cc_uos_workload w
        WHERE u.uos_id = :uos_id
@@ -176,6 +177,7 @@
 	   :student_commitment,
 	   :expected_feedback,
 	   :student_feedback,
+	   :assumed_concepts,
 	   now(),
 	   :user_id,
 	   :creation_ip

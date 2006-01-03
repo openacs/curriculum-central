@@ -142,6 +142,7 @@ ad_proc -private curriculum_central::uos::workflow_create {} {
 			student_commitment
 			expected_feedback
 			student_feedback
+			assumed_concepts
 		    }
 		    assigned_states { open }
                 }
@@ -624,6 +625,7 @@ ad_proc -public curriculum_central::uos::update_workload {
     {-student_commitment ""}
     {-expected_feedback ""}
     {-student_feedback ""}
+    {-assumed_concepts ""}
     {-user_id ""}
     {-creation_ip ""}
 } {
@@ -637,6 +639,7 @@ ad_proc -public curriculum_central::uos::update_workload {
     @param expected_feedback Students can expect feedback for this UoS in the
     nature of...
     @param student_feedback Students can provide feedback for this UoS by...
+    @param assumed_concepts Concepts that we assume that the student has a grasp of.
     @param user_id The ID of the user that updated the Unit of Study.
     @param creation_ip The IP of the user that made the update.
 
@@ -731,7 +734,7 @@ ad_proc -public curriculum_central::uos::get_workload {
     workload fields for.
     @param array A predefined array for returning fields in.  Values include
     workload_id, formal_contact_hrs, informal_study_hrs, student_commitment,
-    expected_feedback, student_feedback.
+    expected_feedback, student_feedback, assumed_concepts.
 
     @return Array containing all valid fields for the cc_uos_workload table.
 } {
@@ -746,6 +749,7 @@ ad_proc -public curriculum_central::uos::get_workload {
 	set row(student_commitment) ""
 	set row(expected_feedback) ""
 	set row(student_feedback) ""
+	set row(assumed_concepts) ""
     }
 }
 

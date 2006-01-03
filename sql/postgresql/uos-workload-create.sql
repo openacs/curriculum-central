@@ -34,7 +34,7 @@ drop function inline_0 ();
 -- Register UoS workload as a child type of Uos.
 select content_type__register_child_type (
     'cc_uos',                -- parent_type 
-    'cc_uos_workload',         -- child_type
+    'cc_uos_workload',       -- child_type
     'generic',               -- relation_tag
     0,                       -- min_n
     null                     -- max_n
@@ -67,7 +67,8 @@ create table cc_uos_workload_revisions (
 	informal_study_hrs   	varchar(128),
 	student_commitment	text,
 	expected_feedback	text,
-	student_feedback	text
+	student_feedback	text,
+	assumed_concepts	text
 );
 
 -- Create the UoS revision content type.
@@ -90,7 +91,7 @@ select content_type__register_child_type (
     null                     	-- max_n
 );
 
-select define_function_args('cc_uos_workload__new', 'workload_id,parent_uos_id,formal_contact_hrs,informal_study_hrs,student_commitment,expected_feedback,student_feedback,creation_user,creation_ip,context_id,item_subtype;cc_uos_workload,content_type;cc_uos_workload_revision,object_type,package_id');
+select define_function_args('cc_uos_workload__new', 'workload_id,parent_uos_id,formal_contact_hrs,informal_study_hrs,student_commitment,expected_feedback,student_feedback,assumed_concepts,creation_user,creation_ip,context_id,item_subtype;cc_uos_workload,content_type;cc_uos_workload_revision,object_type,package_id');
 
 create function cc_uos_workload__new(
 	integer,	-- workload_id
@@ -100,6 +101,7 @@ create function cc_uos_workload__new(
 	text,		-- student_commitment
 	text,		-- expected_feedback
 	text,		-- student_feedback
+	text,		-- assumed_concepts
 	integer,	-- creation_user
 	varchar,	-- creation_ip
 	integer,	-- context_id
@@ -117,13 +119,14 @@ declare
 	p_student_commitment		alias for $5;
 	p_expected_feedback		alias for $6;
 	p_student_feedback		alias for $7;
-	p_creation_user			alias for $8;
-	p_creation_ip			alias for $9;
-	p_context_id			alias for $10;
-	p_item_subtype			alias for $11;
-	p_content_type			alias for $12;
-	p_object_type			alias for $13;
-	p_package_id			alias for $14;
+	p_assumed_concepts		alias for $8;
+	p_creation_user			alias for $9;
+	p_creation_ip			alias for $10;
+	p_context_id			alias for $11;
+	p_item_subtype			alias for $12;
+	p_content_type			alias for $13;
+	p_object_type			alias for $14;
+	p_package_id			alias for $15;
 
 	v_workload_id			cc_uos_workload.workload_id%TYPE;
 	v_folder_id			integer;
@@ -170,6 +173,7 @@ begin
 		p_student_commitment,		-- student_commitment
 		p_expected_feedback,		-- expected_feedback
 		p_student_feedback,		-- student_feedback
+		p_assumed_concepts,		-- assumed_concepts
 		now(),				-- creation_date
 		p_creation_user,		-- creation_user
 		p_creation_ip			-- creation_ip
@@ -227,6 +231,7 @@ create or replace function cc_uos_workload_revision__new (
 	text,				-- student_commitment
 	text,				-- expected_feedback
 	text,				-- student_feedback
+	text,				-- assumed_concepts
 	timestamptz,			-- creation_date
 	integer,			-- creation_user
 	varchar				-- creation_ip
@@ -240,9 +245,10 @@ declare
 	p_student_commitment			alias for $5;
 	p_expected_feedback			alias for $6;
 	p_student_feedback			alias for $7;
-	p_creation_date				alias for $8;
-	p_creation_user				alias for $9;
-	p_creation_ip				alias for $10;
+	p_assumed_concepts			alias for $8;
+	p_creation_date				alias for $9;
+	p_creation_user				alias for $10;
+	p_creation_ip				alias for $11;
 
 	v_revision_id			integer;
 	v_title				varchar;
@@ -266,10 +272,12 @@ begin
 	-- Insert into the uos-specific revision table
 	INSERT into cc_uos_workload_revisions
 		(workload_revision_id, formal_contact_hrs, informal_study_hrs,
-		student_commitment, expected_feedback, student_feedback)
+		student_commitment, expected_feedback, student_feedback,
+		assumed_concepts)
 	VALUES
 		(v_revision_id, p_formal_contact_hrs, p_informal_study_hrs,
-		p_student_commitment, p_expected_feedback, p_student_feedback);
+		p_student_commitment, p_expected_feedback, p_student_feedback,
+		p_assumed_concepts);
 
 	-- Update the latest revision id in cc_uos_workload
 	UPDATE cc_uos_workload SET latest_revision_id = v_revision_id

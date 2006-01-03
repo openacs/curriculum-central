@@ -2,6 +2,7 @@
 <message_catalog package_key="curriculum-central" package_version="0.1d" locale="en_US" charset="ISO-8859-1">
 
   <msg key="uos">UoS</msg>
+  <msg key="assumed_concepts">Assumed Concepts</msg>
   <msg key="formal_contact_hrs">Formal Contact Hours</msg>
   <msg key="help_formal_contact_hrs">Total number of hours of attendance for lecture, tutorial, lab, etc.</msg>
   <msg key="informal_study_hrs">Informal Study Hours</msg>

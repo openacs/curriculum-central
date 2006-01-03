@@ -224,6 +224,13 @@ ad_form -extend -name uos -form {
 	{mode display}
         {help_text "[_ curriculum-central.help_student_feedback]"}
     }
+    {assumed_concepts:text(textarea),optional
+        {label "[_ curriculum-central.assumed_concepts]"}
+	{html {cols 50 rows 4}}
+	{value $uos_workload(assumed_concepts)}
+	{mode display}
+        {help_text "[_ curriculum-central.help_assumed_concepts]"}
+    }
 }
 
 
@@ -309,7 +316,8 @@ ad_form -extend -name uos -on_submit {
 	    -informal_study_hrs $informal_study_hrs \
 	    -student_commitment $student_commitment \
 	    -expected_feedback $expected_feedback \
-	    -student_feedback $student_feedback
+	    -student_feedback $student_feedback \
+	    -assumed_concepts $assumed_concepts
     }
 
     # Do a general edit update.
