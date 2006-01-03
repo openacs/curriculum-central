@@ -2,7 +2,36 @@
 <message_catalog package_key="curriculum-central" package_version="0.1d" locale="en_US" charset="ISO-8859-1">
 
   <msg key="uos">UoS</msg>
+  <msg key="view_details">View Details</msg>
+  <msg key="add_tl_approach">Add T&amp;L Approach</msg>
+  <msg key="edit_tl_approach">Edit T&amp;L Approach</msg>
+  <msg key="add_tl_approach_to_list">Add T&amp;L approach to list</msg>
+  <msg key="tl_approaches">Add T&amp;L Approaches</msg>
+  <msg key="no_tl_approaches_created">No T&amp;L approaches have been created.</msg>
+  <msg key="view_list_of_tl_approaches">View list of T&amp;L approaches</msg>
+  <msg key="help_enter_type_of_tl_method">Enter the type of Teaching &amp; Learning approach.  Eg. Lecture, Seminar, Tutorial, Online Discussions, etc.</msg>
+  <msg key="identifier">Identifier</msg>
+  <msg key="help_enter_identifier">Enter an identifier (such as the UoS code, eg. ELEC1000 or something more generic such as GENERAL) to distinguish this Teaching &amp; Learning approach from others.  This must be entered to allow for multiple types of lectures or online activities that have the same name but have different descriptions.</msg>
+  <msg key="history">History</msg>
+  <msg key="description">Description</msg>
+  <msg key="help_enter_description">Enter a description of the T&amp;L approach, and describe the objectives of the approach.</msg>
+  <msg key="add_tl_method">Add T&amp;L Method</msg>
+  <msg key="edit_tl_method">Edit T&amp;L Method</msg>
+  <msg key="edit_tl">Edit T&amp;L</msg>
+  <msg key="edited_tl">Edited T&amp;L</msg>
+  <msg key="tl_arrangements_and_requirements">T&amp;L Arrangements and Requirements</msg>
+  <msg key="teaching_and_learning_approach">Teaching and Learning Approach</msg>
+  <msg key="uos_teaching_and_learning">UoS Teaching and Learning</msg>
+  <msg key="uos_teaching_and_learning_revision">UoS Teaching and Learning Revision</msg>
+  <msg key="uos_teaching_and_learning_revisions">UoS Teaching and Learning Revisions</msg>
+  <msg key="uos_detail">UoS Detail</msg>
+  <msg key="uos_details">UoS Details</msg>
+  <msg key="uos_detail_revision">UoS Detail Revision</msg>
+  <msg key="uos_detail_revisions">UoS Detail Revisions</msg>
+  <msg key="edit_details">Edit Details</msg>
+  <msg key="edited_details">Edited Details</msg>
   <msg key="pending">pending</msg>
+  <msg key="relevance">Relevance</msg>
   <msg key="only_stream_coordinators_may_create_uos">Only stream coordinators may create Units of Study.</msg>
   <msg key="all_pending_units_of_study">All Pending Units of Study</msg>
   <msg key="your_pending_units_of_study">Your Pending Units of Study</msg>

@@ -13,6 +13,39 @@
      </querytext>
    </fullquery>
 
+   <fullquery name="curriculum_central::uos::get_details.latest_details">
+     <querytext>
+       SELECT d.detail_id, dr.lecturer_id, dr.objectives,
+           dr.learning_outcomes, dr.syllabus, dr.relevance,
+           dr.online_course_content
+       FROM cc_uos u, cc_uos_revisions r, cr_items i,
+           cc_uos_detail_revisions dr, cc_uos_detail d
+       WHERE u.uos_id = :uos_id
+       AND i.item_id = u.uos_id
+       AND r.uos_revision_id = i.latest_revision
+       AND d.parent_uos_id = :uos_id
+       AND dr.detail_revision_id = d.latest_revision_id
+     </querytext>
+   </fullquery>
+
+   <fullquery name="curriculum_central::uos::get_tl.latest_tl">
+     <querytext>
+       SELECT t.tl_id, t.latest_revision_id
+           FROM cc_uos u, cc_uos_revisions r, cr_items i, cc_uos_tl t
+	   WHERE u.uos_id = :uos_id
+	   AND i.item_id = u.uos_id
+	   AND r.uos_revision_id = i.latest_revision
+	   AND t.parent_uos_id = :uos_id
+     </querytext>
+   </fullquery>
+
+   <fullquery name="curriculum_central::uos::get_tl.latest_tl_method_ids">
+     <querytext>
+       SELECT method_id FROM cc_uos_tl_method_map
+           WHERE tl_revision_id = :latest_revision_id
+     </querytext>
+   </fullquery>
+
    <fullquery name="curriculum_central::uos::num_pending.get_users_pending_uos">
      <querytext>
        SELECT count(*)
@@ -72,15 +105,7 @@
 	   :uos_name,
 	   :credit_value,
 	   :semester,
-	   :online_course_content,
 	   :unit_coordinator_id,
-	   :contact_hours,
-	   :assessments,
-	   :core_uos_for,
-	   :recommended_uos_for,
-	   :prerequisites,
-	   :objectives,
-	   :outcomes,
 	   :activity_log,
 	   :activity_log_format,
 	   now(),
@@ -97,9 +122,78 @@
      </querytext>
    </fullquery>
 
+   <fullquery name="curriculum_central::uos::update_details.update_details">
+     <querytext>
+       SELECT cc_uos_detail_revision__new (
+           null,
+	   :detail_id,
+	   :lecturer_id,
+	   :objectives,
+	   :learning_outcomes,
+	   :syllabus,
+	   :relevance,
+	   :online_course_content,
+	   now(),
+	   :user_id,
+	   :creation_ip
+       );
+     </querytext>
+   </fullquery>
+
+   <fullquery name="curriculum_central::uos::update_tl.update_tl">
+     <querytext>
+       SELECT cc_uos_tl_revision__new (
+           null,
+	   :tl_id,
+	   now(),
+	   :user_id,
+	   :creation_ip
+       );
+     </querytext>
+   </fullquery>
+
+   <fullquery name="curriculum_central::uos::update_tl.map_tl_to_revision">
+     <querytext>
+       SELECT cc_uos_tl_method__map (
+           :revision_id,
+	   :tl_approach_id
+       );
+     </querytext>
+   </fullquery>
+
+   <fullquery name="curriculum_central::uos::tl_method_get_options.tl_methods">
+     <querytext>
+       SELECT m.name || ' (' || m.identifier || ')' AS method_name,
+           m.method_id
+       FROM cc_uos_tl_method m, acs_objects o
+       WHERE o.object_id = m.method_id
+       AND o.package_id = :package_id
+     </querytext>
+   </fullquery>
+
    <fullquery name="curriculum_central::uos::go_live::do_side_effect.get_latest_revision">
      <querytext>
        SELECT latest_revision FROM cr_items WHERE item_id = :object_id
+     </querytext>
+   </fullquery>
+
+   <fullquery name="curriculum_central::uos::go_live::do_side_effect.get_latest_detail_revision">
+     <querytext>
+       SELECT i.latest_revision AS latest_detail_revision
+           FROM cr_items i, cr_child_rels c
+           WHERE c.relation_tag = 'cc_uos_detail'
+	   AND c.parent_id = :object_id
+	   AND i.item_id = c.child_id
+     </querytext>
+   </fullquery>
+
+   <fullquery name="curriculum_central::uos::go_live::do_side_effect.get_latest_tl_revision">
+     <querytext>
+       SELECT i.latest_revision AS latest_tl_revision
+           FROM cr_items i, cr_child_rels c
+           WHERE c.relation_tag = 'cc_uos_tl'
+	   AND c.parent_id = :object_id
+	   AND i.item_id = c.child_id
      </querytext>
    </fullquery>
 
@@ -107,6 +201,20 @@
      <querytext>
        UPDATE cc_uos SET live_revision_id = :latest_revision
            WHERE uos_id = :object_id
+     </querytext>
+   </fullquery>
+
+   <fullquery name="curriculum_central::uos::go_live::do_side_effect.set_live_detail_revision">
+     <querytext>
+       UPDATE cc_uos_detail SET live_revision_id = :latest_detail_revision
+           WHERE parent_uos_id = :object_id
+     </querytext>
+   </fullquery>
+
+   <fullquery name="curriculum_central::uos::go_live::do_side_effect.set_live_tl_revision">
+     <querytext>
+       UPDATE cc_uos_tl SET live_revision_id = :latest_tl_revision
+           WHERE parent_uos_id = :object_id
      </querytext>
    </fullquery>
 

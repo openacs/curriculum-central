@@ -97,9 +97,19 @@ ad_proc -private curriculum_central::uos::workflow_create {} {
                     privileges { read write }
                     always_enabled_p t
                 }
-                edit {
-                    pretty_name "#curriculum-central.edit#"
-                    pretty_past_tense "#curriculum-central.edited#"
+                reassign {
+                    pretty_name "#curriculum-central.reassign#"
+                    pretty_past_tense "#curriculum-central.reassigned#"
+                    allowed_roles {
+			stream_coordinator
+		    }
+                    privileges { write }
+                    assigned_states { open }
+                    edit_fields { role_unit_coordinator }
+                }
+                edit_details {
+                    pretty_name "#curriculum-central.edit_details#"
+                    pretty_past_tense "#curriculum-central.edited_details#"
                     allowed_roles {
 			stream_coordinator
 			unit_coordinator
@@ -108,30 +118,34 @@ ad_proc -private curriculum_central::uos::workflow_create {} {
                     privileges { write }
 		    assigned_states { open }
                     edit_fields { 
-			contact_hours
-			assessments
-			online_course_content
+			lecturer_id
 			objectives
-			outcomes
+			learning_outcomes
+			syllabus
+			relevance
+			online_course_content
                     }
                 }
-                reassign {
-                    pretty_name "#curriculum-central.reassign#"
-                    pretty_past_tense "#curriculum-central.reassigned#"
+                edit_tl {
+                    pretty_name "#curriculum-central.edit_tl#"
+                    pretty_past_tense "#curriculum-central.edited_tl#"
                     allowed_roles {
 			stream_coordinator
+			unit_coordinator
+			lecturer
 		    }
                     privileges { write }
-                    enabled_states { submitted }
-                    assigned_states { open }
-                    edit_fields { role_unit_coordinator }
+		    edit_fields {
+			tl_approach_ids
+		    }
+		    assigned_states { open }
                 }
                 submit {
                     pretty_name "#curriculum-central.submit#"
                     pretty_past_tense "#curriculum-central.submitted#"
                     assigned_role { unit_coordinator }
                     assigned_states { open }
-                    new_state submitted
+                    new_state { submitted }
                     privileges { write }
                 }
                 close {
@@ -265,9 +279,6 @@ ad_proc -public curriculum_central::uos::new {
     -credit_value:required
     -semester:required
     -unit_coordinator_id:required
-    -core_uos_for
-    -recommended_uos_for
-    -prerequisites:required
     -activity_log:required
     -activity_log_format:required
     {-user_id ""}
@@ -298,9 +309,6 @@ ad_proc -public curriculum_central::uos::new {
 			-credit_value $credit_value \
 			-semester $semester \
 			-unit_coordinator_id $unit_coordinator_id \
-			-core_uos_for $core_uos_for \
-			-recommended_uos_for $recommended_uos_for \
-			-prerequisites $prerequisites \
 			-activity_log $activity_log \
 			-activity_log_format $activity_log_format ]
 
@@ -346,9 +354,6 @@ ad_proc -public curriculum_central::uos::insert {
     -credit_value:required
     -semester:required
     -unit_coordinator_id:required
-    -core_uos_for
-    -recommended_uos_for
-    -prerequisites:required
     -activity_log:required
     -activity_log_format:required
     {-user_id ""}
@@ -368,14 +373,27 @@ ad_proc -public curriculum_central::uos::insert {
 		       [list credit_value $credit_value] \
 		       [list semester $semester] \
 		       [list unit_coordinator_id $unit_coordinator_id] \
-		       [list core_uos_for $core_uos_for] \
-		       [list recommended_uos_for $recommended_uos_for] \
-		       [list prerequisites $prerequisites] \
 		       [list activity_log $activity_log] \
 		       [list activity_log_format $activity_log_format] \
 		       [list object_type "cc_uos"]] \
 		    -package_name "cc_uos" \
 		    "cc_uos"]
+
+    # Initiate cc_uos_detail
+    set detail_id [package_instantiate_object \
+        -var_list [list [list parent_uos_id $uos_id] \
+	  	        [list package_id $package_id] \
+		        [list object_type "cc_uos_detail"]] \
+		       "cc_uos_detail"]
+
+    # Initiate cc_uos_tl
+    set tl_id [package_instantiate_object \
+        -var_list [list [list parent_uos_id $uos_id] \
+	  	        [list package_id $package_id] \
+		        [list object_type "cc_uos_tl"]] \
+		       "cc_uos_tl"]
+
+    return $uos_id
 }
 
 
@@ -393,11 +411,19 @@ ad_proc -public curriculum_central::uos::edit {
     side-effects.
 
     @return uos_id The same uos_id passed in, for convenience.
+    @see curriculum_central::uos::update
 } {
 
     upvar $array row
 
     array set assignments [list]
+
+    if { $user_id eq "" } {
+	set user_id [ad_conn user_id]
+    }
+    if { $creation_ip eq "" } {
+	set creation_ip [ad_conn peeraddr]
+    }
 
     set role_prefix "role_"
     foreach name [array names row "${role_prefix}*"] {
@@ -413,6 +439,7 @@ ad_proc -public curriculum_central::uos::edit {
     }
 
     db_transaction {
+
 	# Update the UoS info.
 	curriculum_central::uos::update -uos_id $uos_id \
 	    -user_id $user_id \
@@ -490,6 +517,170 @@ ad_proc -public curriculum_central::uos::update {
     }
 
     return $uos_id
+}
+
+
+ad_proc -public curriculum_central::uos::update_details {
+    -detail_id:required
+    {-lecturer_id ""}
+    {-objectives ""}
+    {-learning_outcomes ""}
+    {-syllabus ""}
+    {-relevance ""}
+    {-online_course_content ""}
+    {-user_id ""}
+    {-creation_ip ""}
+} {
+    Updates the details for a Unit of Study.  This update proc creates
+    a new details revision of the given Unit of Study.
+
+    @param uos_id The ID of the Unit of Study to update.
+    @param lecturer_id The ID of the selected lecturer.
+    @param objectives Unit of Study objectives.
+    @param learning_outcomes Unit of Study learning outcomes.
+    @param syllabus Unit of Study syllabus.
+    @param relevance Unit of Study relevance.
+    @param online_course_content URL of the online course content for the
+    associated Unit of Study.
+    @param user_id The ID of the user that updated the Unit of Study.
+    @param creation_ip The IP of the user that made the update.
+
+    @return revision_id Returns the ID of the newly created revision for
+    convenience, otherwise the empty string if unsuccessful.
+} {
+    if { $user_id eq "" } {
+        set user_id [ad_conn user_id]
+    }
+    if { $creation_ip eq "" } {
+	set creation_ip [ad_conn peeraddr]
+    }
+
+    # Set the default value for revision_id.
+    set revision_id ""
+    db_transaction {
+	set revision_id [db_exec_plsql update_details {}]
+    }
+
+    return $revision_id
+}
+
+
+ad_proc -public curriculum_central::uos::update_tl {
+    -tl_id:required
+    -tl_approach_ids
+    {-user_id ""}
+    {-creation_ip ""}
+} {
+    Updates the teaching and learning component for a Unit of Study.
+    This update proc creates a new teaching and learning revision..
+
+    @param tl_id The ID of the teaching and learning object to update.
+    @param user_id The ID of the user that updated the Unit of Study.
+    @param creation_ip The IP of the user that made the update.
+
+    @return revision_id Returns the ID of the newly created revision for
+    convenience, otherwise the empty string if unsuccessful.
+} {
+    if { $user_id eq "" } {
+        set user_id [ad_conn user_id]
+    }
+    if { $creation_ip eq "" } {
+	set creation_ip [ad_conn peeraddr]
+    }
+
+    # Set the default value for revision_id.
+    set revision_id ""
+    db_transaction {
+	set revision_id [db_exec_plsql update_tl {}]
+
+	# Foreach tl_approach_id map to the newly created revision_id
+	# retrieved above.
+	foreach tl_approach_id $tl_approach_ids {
+	    ns_log Warning "Map revision_id <$revision_id> to tl_approach_id <$tl_approach_id>"
+	    db_exec_plsql map_tl_to_revision {}
+	}
+    }
+
+    return $revision_id
+}
+
+
+ad_proc -public curriculum_central::uos::get_details {
+    {-uos_id:required}
+    {-array:required}
+} {
+    Get the details fields for a Unit of Study.
+
+    @param uos_id The ID of the Unit of Study for which we return
+    detail fields for.
+    @param array A predefined array for returning fields in.  Values include
+    detail_id, lecturer_id, objectives, learning_outcomes, syllabus,
+    relevance, online_course_content.
+
+    @return Array containing all valid fields for the cc_uos_detail table.
+} {
+    # Select the info into the upvar'ed Tcl array
+    upvar $array row
+
+    if { ![db_0or1row latest_details {} -column_array row] } {
+	# Set default values
+	set row(detail_id) ""
+	set row(lecturer_id) ""
+	set row(objectives) ""
+	set row(learning_outcomes) ""
+	set row(syllabus) ""
+	set row(relevance) ""
+	set row(online_course_content) ""
+    }
+}
+
+
+ad_proc -public curriculum_central::uos::get_tl {
+    {-uos_id:required}
+    {-array:required}
+} {
+    Get the teaching and learning fields for a Unit of Study.
+
+    @param uos_id The ID of the Unit of Study for which we return
+    teaching and learning info for.
+    @param array A predefined array for returning fields in.  Values include
+    tl_id, tl_approach_ids, latest_revision_id.
+
+    @return Array containing all valid fields for the cc_uos_tl table.
+} {
+    # Select the info into the upvar'ed Tcl array
+    upvar $array row
+
+    if { ![db_0or1row latest_tl {} -column_array row] } {
+	# Set default values
+	set row(tl_id) ""
+	set row(latest_revision_id) ""
+    }
+    
+    if { $row(latest_revision_id) ne "" } {
+	set latest_revision_id $row(latest_revision_id)
+	set row(tl_approach_ids) [db_list latest_tl_method_ids {}]
+    } else {
+	set row(tl_approach_ids) ""
+    }
+}
+
+
+ad_proc curriculum_central::uos::tl_method_get_options {
+    {-package_id ""}
+} {
+    Returns a two-column list of registered teaching and learning methods.
+
+    @return Returns a two-column list of registered teaching and
+    learning methods.
+} {
+    if { $package_id eq ""} {
+	set package_id [ad_conn package_id]
+    }
+
+    set method_list [db_list_of_lists tl_methods {}]
+
+    return $method_list
 }
 
 
@@ -679,4 +870,14 @@ ad_proc -private curriculum_central::uos::go_live::do_side_effect {
 
     # Also set the latest revision to the live revision in cc_uos.
     db_dml set_live_revision {}
+
+    # Do the same for cc_uos_detail
+    db_1row get_latest_detail_revision {}
+    content::item::set_live_revision -revision_id $latest_detail_revision
+    db_dml set_live_detail_revision {}
+
+    # Do the same for cc_uos_tl
+    db_1row get_latest_tl_revision {}
+    content::item::set_live_revision -revision_id $latest_tl_revision
+    db_dml set_live_tl_revision {}
 }

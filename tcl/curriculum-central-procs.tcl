@@ -35,6 +35,16 @@ ad_proc curriculum_central::curriculum_new { curriculum_id } {
 		-content_type "cc_uos_revision" \
 		-include_subtypes "t"
 
+	    content::folder::register_content_type \
+		-folder_id $folder_id \
+		-content_type "cc_uos_tl_revision" \
+		-include_subtypes "t"
+
+	    content::folder::register_content_type \
+		-folder_id $folder_id \
+		-content_type "cc_uos_detail_revision" \
+		-include_subtypes "t"
+
 	    set keyword_id [content::keyword::new -heading "$instance_name"]
 
 	    # Inserts into cc_curriculum

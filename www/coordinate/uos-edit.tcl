@@ -31,8 +31,7 @@ set enabled_action_id [form get_action uos]
 # Registration required for all actions
 set action_id ""
 
-if { ![empty_string_p $enabled_action_id] } {
-    auth::require_login
+if { $enabled_action_id ne "" } {
     workflow::case::enabled_action_get -enabled_action_id $enabled_action_id -array enabled_action
     set action_id $enabled_action(action_id)
 }
@@ -47,7 +46,8 @@ if { $enabled_action_id eq "" } {
     }
 }
 
-# Retrieve infor for Unit of Study.
+
+# Retrieve info for Unit of Study.
 curriculum_central::uos::get \
     -uos_id $uos_id \
     -array uos \
@@ -60,7 +60,13 @@ set context [list [list . [_ curriculum-central.coordinate]] $page_title]
 # Create widgets for displaying UoS information that should already
 # have been entered by the Stream Coordinator when the UoS was
 # initially created.
-ad_form -name uos -cancel_url $return_url -mode display -has_edit 1 -actions $actions -form {
+ad_form -name uos -cancel_url $return_url \
+    -mode display -has_edit 1 -actions $actions 
+
+# Add UoS Section
+template::form::section uos [_ curriculum-central.uos]
+
+ad_form -extend -name uos -form {
     {uos_code:text(inform)
 	{label "[_ curriculum-central.uos_code]"}
 	{value $uos(uos_code)}
@@ -91,55 +97,86 @@ ad_form -extend -name uos -form {
 	{value $uos(semester)}
 	{mode display}
     }
-    {core_uos_for:text(inform)
-	{label "[_ curriculum-central.core_uos_for]"}
-	{value $uos(core_uos_for)}
-	{mode display}
-    }
-    {recommended_uos_for:text(inform)
-	{label "[_ curriculum-central.recommended_uos_for]"}
-	{value $uos(recommended_uos_for)}
-	{mode display}
-    }
-    {prerequisites:text(inform)
-	{label "[_ curriculum-central.prerequisites]"}
-	{value $uos(prerequisites)}
-	{mode display}
-    }
 }
 
-# Add widgets for fields that the Unit Coordinator must enter data into.
+# Add UoS Details Section
+template::form::section uos [_ curriculum-central.uos_details]
+
+# Retrieve Details info for Unit of Study.
+curriculum_central::uos::get_details \
+    -uos_id $uos_id \
+    -array uos_details
+
 ad_form -extend -name uos -form {
-    {contact_hours:text
-        {label "[_ curriculum-central.contact_hours]"}
-        {html {size 50}}
-	{value $uos(contact_hours)}
+    {detail_id:integer(hidden),optional
+	{value $uos_details(detail_id)}
+    }
+    {lecturer_id:integer(select),optional
+        {label "[_ curriculum-central.lecturer]"}
+	{options [curriculum_central::staff_get_options] }
+	{value $uos_details(lecturer_id)}
 	{mode display}
     }
-    {assessments:text
-        {label "[_ curriculum-central.assessments]"}
+    {objectives:text,optional
+        {label "[_ curriculum-central.aims_and_objectives]"}
         {html {size 50}}
-	{value $uos(assessments)}
+	{value $uos_details(objectives)}
+	{mode display}
+    }
+    {learning_outcomes:text,optional
+        {label "[_ curriculum-central.learning_outcomes]"}
+        {html {size 50}}
+	{value $uos_details(learning_outcomes)}
+	{mode display}
+    }
+    {syllabus:text,optional
+        {label "[_ curriculum-central.syllabus]"}
+        {html {size 50}}
+	{value $uos_details(syllabus)}
+	{mode display}
+    }
+    {relevance:text,optional
+        {label "[_ curriculum-central.relevance]"}
+        {html {size 50}}
+	{value $uos_details(relevance)}
 	{mode display}
     }
     {online_course_content:text,optional
         {label "[_ curriculum-central.online_course_content]"}
         {html {size 50}}
-	{value $uos(online_course_content)}
+	{value $uos_details(online_course_content)}
 	{mode display}
     }
-    {objectives:text
-        {label "[_ curriculum-central.aims_and_objectives]"}
-        {html {size 50}}
-	{value $uos(objectives)}
-	{mode display}
+}
+
+# Add teaching and learning section.
+template::form::section uos [_ curriculum-central.tl_arrangements_and_requirements]
+
+# Retrieve teaching and learning info for Unit of Study.
+curriculum_central::uos::get_tl \
+    -uos_id $uos_id \
+    -array uos_tl
+
+# Add widgets for Teaching and Learning.
+ad_form -extend -name uos -form {
+    {tl_id:integer(hidden),optional
+	{value $uos_tl(tl_id)}
     }
-    {outcomes:text
-        {label "[_ curriculum-central.learning_outcomes]"}
-        {html {size 50}}
-	{value $uos(outcomes)}
+    {tl_approach_ids:text(multiselect),multiple,optional
+	{label "[_ curriculum-central.teaching_and_learning_approach]"}
+	{options [curriculum_central::uos::tl_method_get_options]}
+	{html {size 5}}
+	{values $uos_tl(tl_approach_ids)}
 	{mode display}
+	{after_html "<a href=\"tl-methods\">[_ curriculum-central.view_details]</a>"}
     }
+}
+
+# Add history section
+template::form::section uos [_ curriculum-central.history]
+
+# Add widgets for fields that the Unit Coordinator must enter data into.
+ad_form -extend -name uos -form {
     {activity_log:richtext(richtext)
 	{label "#curriculum-central.activity_log#"}
 	{html {cols 50 rows 13}}
@@ -173,7 +210,7 @@ if { $enabled_action_id ne "" } {
 ad_form -extend -name uos -on_submit {
     array set row [list]
 
-    if { ![empty_string_p $enabled_action_id] } {
+    if { $enabled_action_id ne "" } {
         foreach field [workflow::action::get_element \
 			   -action_id $action_id -element edit_fields] {
             set row($field) [element get_value uos $field]
@@ -182,6 +219,37 @@ ad_form -extend -name uos -on_submit {
 
     set activity_log [element get_value uos activity_log]
 
+    # Retrieve some workflow information
+    workflow::case::enabled_action_get \
+	-enabled_action_id $enabled_action_id \
+	-array enabled_action_info
+
+    workflow::action::get \
+	-action_id $enabled_action_info(action_id) \
+	-array action_info
+
+    # Do edits specific to a workflow action.
+    # If action is edit_details, then update edit_details.
+    if { $action_info(short_name) eq "edit_details" } {
+
+	curriculum_central::uos::update_details \
+	    -detail_id $detail_id \
+	    -lecturer_id $lecturer_id \
+	    -objectives $objectives \
+	    -learning_outcomes $learning_outcomes \
+	    -syllabus $syllabus \
+	    -relevance $relevance \
+	    -online_course_content $online_course_content
+
+    } elseif { $action_info(short_name) eq "edit_tl"} {
+	ns_log Warning "NC: Update TL..."
+
+	curriculum_central::uos::update_tl \
+	    -tl_id $tl_id \
+	    -tl_approach_ids $tl_approach_ids
+    }
+
+    # Do a general edit update.
     curriculum_central::uos::edit \
 	-uos_id $uos(uos_id) \
 	-enabled_action_id $enabled_action_id \
@@ -209,7 +277,7 @@ if { ![form is_valid uos] } {
 	-array uos \
 	-enabled_action_id $enabled_action_id
 
-    # Hide elements that should be hidden depending on the bug status
+    # Hide elements that should be hidden depending on the workflow status
     foreach element $uos(hide_fields) {
         element set_properties uos $element -widget hidden
     }

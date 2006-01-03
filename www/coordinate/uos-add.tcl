@@ -61,18 +61,6 @@ ad_form -name uos -cancel_url $return_url -form {
 	{options [curriculum_central::staff_get_options] }
         {help_text "[_ curriculum-central.help_select_unit_coordinator]"}
     }
-    {core_uos_for:text,optional
-	{label "#curriculum-central.core_uos_for#"}
-	{html {size 50}}
-    }
-    {recommended_uos_for:text,optional
-	{label "#curriculum-central.recommended_uos_for#"}
-	{html {size 50}}
-    }
-    {prerequisites:text,optional
-	{label "#curriculum-central.prerequisites#"}
-	{html {size 50}}
-    }
     {activity_log:richtext(richtext)
 	{label "#curriculum-central.activity_log#"}
 	{html {cols 50 rows 13}}
@@ -92,9 +80,6 @@ ad_form -name uos -cancel_url $return_url -form {
 	-credit_value $credit_value \
 	-semester $semester \
 	-unit_coordinator_id $unit_coordinator_id \
-	-core_uos_for $core_uos_for \
-	-recommended_uos_for $recommended_uos_for \
-	-prerequisites $prerequisites \
 	-activity_log [template::util::richtext::get_property contents $activity_log] \
 	-activity_log_format [template::util::richtext::get_property format $activity_log]
 

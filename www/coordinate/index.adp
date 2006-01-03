@@ -8,6 +8,7 @@
 </if>
 <li><a href="uos-pending">#curriculum-central.your_pending_units_of_study#</a> (@num_users_pending@ #curriculum-central.pending#)</li>
 <li><a href="uos-all-pending">#curriculum-central.all_pending_units_of_study#</a> (@num_all_pending@ #curriculum-central.pending#)</li>
+<li><a href="tl-methods">#curriculum-central.view_list_of_tl_approaches#</a></i>
 </ul>
 
 <h3>Things To Do</h3>
