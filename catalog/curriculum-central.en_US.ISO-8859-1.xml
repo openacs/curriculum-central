@@ -22,7 +22,7 @@
   <msg key="help_online_course_content">The URL of the Unit of Study website where students can read the course content online, or interact with web-based learning activities.</msg>
   <msg key="uos_workload">UoS Workload</msg>
   <msg key="help_activity_log">For future reference, enter a short review of changes that were made.</msg>
-  <msg key="help_tl_approach_ids">Select one or more teaching and learning approaches that are used in this Unit of Study.  To select more than one item from the list, hold down the Shirt key whilst selecting an item.  If an item doesn't appear in the list, then click &lt;a href=&quot;tl-method-ae&quot;&gt;here&lt;/a&gt; to add it (Note: clicking on the link will redirect you to another page).</msg>
+  <msg key="help_tl_approach_ids">Select one or more teaching and learning approaches that are used in this Unit of Study.  To select more than one item from the list, hold down the Shirt key whilst selecting an item.  If an item doesn't appear in the list, then click &lt;a href=&quot;tl-method-ae?return_url=%return_url%&quot;&gt;here&lt;/a&gt; to add it (Note: clicking on the link will redirect you to another page).</msg>
   <msg key="view_details">View Details</msg>
   <msg key="view_all">View All</msg>
   <msg key="add_tl_approach">Add T&amp;L Approach</msg>
@@ -31,12 +31,12 @@
   <msg key="tl_approaches">Add T&amp;L Approaches</msg>
   <msg key="no_tl_approaches_created">No T&amp;L approaches have been created.</msg>
   <msg key="view_list_of_tl_approaches">View list of T&amp;L approaches</msg>
-  <msg key="help_enter_type_of_tl_method">Enter the type of Teaching &amp; Learning approach.  Eg. Lecture, Seminar, Tutorial, Online Discussions, etc.</msg>
+  <msg key="help_enter_type_of_tl_method">Enter the type of teaching delivery method.  Eg. Lecture, Seminar, Tutorial, Online Discussions, etc.</msg>
   <msg key="identifier">Identifier</msg>
   <msg key="help_enter_identifier">Enter an identifier (such as the UoS code, eg. ELEC1000 or something more generic such as GENERAL) to distinguish this Teaching &amp; Learning approach from others.  This must be entered to allow for multiple types of lectures or online activities that have the same name but have different descriptions.</msg>
   <msg key="history">History</msg>
   <msg key="description">Description</msg>
-  <msg key="help_enter_description">Enter a description of the T&amp;L approach, and describe the objectives of the approach.</msg>
+  <msg key="help_enter_description">Enter a description of the T&amp;L approach, and describe the objectives of the approach.  Why do you feel that this delivery approach is appropriate and will successfully develop student learning?</msg>
   <msg key="add_tl_method">Add T&amp;L Method</msg>
   <msg key="edit_tl_method">Edit T&amp;L Method</msg>
   <msg key="edit_tl">Edit T&amp;L</msg>

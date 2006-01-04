@@ -14,6 +14,7 @@ ad_page_contract {
     uos_id:integer,notnull
 }]
 
+# Registration required for all actions
 auth::require_login
 
 set return_url [export_vars -base [ad_conn url] [curriculum_central::get_export_variables {uos_id} ]]
@@ -27,8 +28,6 @@ set workflow_id [curriculum_central::uos::get_instance_workflow_id]
 
 # Action
 set enabled_action_id [form get_action uos]
-
-# Registration required for all actions
 set action_id ""
 
 if { $enabled_action_id ne "" } {
@@ -174,7 +173,6 @@ ad_form -extend -name uos -form {
 	{html {size 5}}
 	{values $uos_tl(tl_approach_ids)}
 	{mode display}
-	{after_html "<a href=\"tl-methods\">[_ curriculum-central.view_all]</a>"}
         {help_text "[_ curriculum-central.help_tl_approach_ids]"}
     }
 }
