@@ -2,6 +2,25 @@
 <message_catalog package_key="curriculum-central" package_version="0.1d" locale="en_US" charset="ISO-8859-1">
 
   <msg key="uos">UoS</msg>
+  <msg key="no_graduate_attributes_created">No graduate attributes have been created</msg>
+  <msg key="add_graduate_attribute_to_list">Add graduate attributes to the list.</msg>
+  <msg key="help_graduate_attributes">Select one or more graduate attributes from the list that are associated with this Unit of Study.  To select more than one item from the list, hold down the Shirt key whilst selecting an item.  If an item doesn't appear in the list, then click &lt;a href=&quot;gradattr-ae?return_url=%return_url%&quot;&gt;here&lt;/a&gt; to add it (Note: clicking on the link will redirect you to another page).</msg>
+  <msg key="very_low">Very Low</msg>
+  <msg key="low">Low</msg>
+  <msg key="moderate">Moderate</msg>
+  <msg key="high">High</msg>
+  <msg key="very_high">Very High</msg>
+  <msg key="level">Level</msg>
+  <msg key="help_enter_graduate_attribute_name">Enter a name for the graduate attribute.</msg>
+  <msg key="help_enter_graduate_attribute_identifier">Enter an identifier for the graduate attribute.  Use the Unit of Study code if you want this graduate attribute to be associated with a specific Unit of Study, eg ELEC1001.</msg>
+  <msg key="help_enter_graduate_attribute_description">Enter a description for the graduate attribute.  What are the qualities associated with this type of graduate attribute?</msg>
+  <msg key="help_enter_graduate_attribute_level">To what level of contribution does the Unit of Study have towards the associated Unit of Study?</msg>
+  <msg key="add_graduate_attribute">Add Graduate Attribute</msg>
+  <msg key="edit_graduate_attribute">Edit Graduate Attribute</msg>
+  <msg key="graduate_attribute">Graduate Attribute</msg>
+  <msg key="graduate_attributes">Graduate Attributes</msg>
+  <msg key="graduate_attribute_revision">Graduate Attribute Revision</msg>
+  <msg key="graduate_attribute_revisions">Graduate Attribute Revisions</msg>
   <msg key="assumed_concepts">Assumed Concepts</msg>
   <msg key="help_assumed_concepts">Concepts that are assumed students already know or are familiar with.</msg>
   <msg key="formal_contact_hrs">Formal Contact Hours</msg>

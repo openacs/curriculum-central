@@ -177,7 +177,29 @@ ad_form -extend -name uos -form {
     }
 }
 
-# Retrieve workflow info for Unit of Study.
+
+# Retrieve graduate attribute info for Unit of Study.
+curriculum_central::uos::get_graduate_attributes \
+    -uos_id $uos_id \
+    -array uos_gradattr
+
+# Add widgets for Graduate Attributes
+ad_form -extend -name uos -form {
+    {gradattr_set_id:integer(hidden),optional
+	{value $uos_gradattr(gradattr_set_id)}
+    }
+    {gradattr_ids:text(multiselect),multiple,optional
+	{label "[_ curriculum-central.graduate_attributes]"}
+	{options [curriculum_central::uos::graduate_attributes_get_options]}
+	{html {size 5}}
+	{values $uos_gradattr(gradattr_ids)}
+	{mode display}
+        {help_text "[_ curriculum-central.help_graduate_attributes]"}
+    }
+}
+
+
+# Retrieve workload info for Unit of Study.
 curriculum_central::uos::get_workload \
     -uos_id $uos_id \
     -array uos_workload
@@ -307,6 +329,10 @@ ad_form -extend -name uos -on_submit {
 	curriculum_central::uos::update_tl \
 	    -tl_id $tl_id \
 	    -tl_approach_ids $tl_approach_ids
+
+	curriculum_central::uos::update_graduate_attributes \
+	    -gradattr_set_id $gradattr_set_id \
+	    -gradattr_ids $gradattr_ids
 
 	curriculum_central::uos::update_workload \
 	    -workload_id $workload_id \

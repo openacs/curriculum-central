@@ -39,6 +39,17 @@
      </querytext>
    </fullquery>
 
+   <fullquery name="curriculum_central::uos::get_graduate_attributes.latest_ga">
+     <querytext>
+       SELECT g.gradattr_set_id, g.latest_revision_id
+           FROM cc_uos u, cc_uos_revisions r, cr_items i, cc_uos_gradattr_set g
+	   WHERE u.uos_id = :uos_id
+	   AND i.item_id = u.uos_id
+	   AND r.uos_revision_id = i.latest_revision
+	   AND g.parent_uos_id = :uos_id
+     </querytext>
+   </fullquery>
+
    <fullquery name="curriculum_central::uos::get_workload.latest_workload">
      <querytext>
        SELECT w.workload_id, wr.formal_contact_hrs, wr.informal_study_hrs,
@@ -58,6 +69,13 @@
      <querytext>
        SELECT method_id FROM cc_uos_tl_method_map
            WHERE tl_revision_id = :latest_revision_id
+     </querytext>
+   </fullquery>
+
+   <fullquery name="curriculum_central::uos::get_graduate_attributes.latest_gradattr_ids">
+     <querytext>
+       SELECT gradattr_id FROM cc_uos_gradattr_map
+           WHERE revision_id = :latest_revision_id
      </querytext>
    </fullquery>
 
@@ -167,6 +185,18 @@
      </querytext>
    </fullquery>
 
+   <fullquery name="curriculum_central::uos::update_graduate_attributes.update_ga">
+     <querytext>
+       SELECT cc_uos_gradattr_set_rev__new (
+           null,
+	   :gradattr_set_id,
+	   now(),
+	   :user_id,
+	   :creation_ip
+       );
+     </querytext>
+   </fullquery>
+
    <fullquery name="curriculum_central::uos::update_workload.update_workload">
      <querytext>
        SELECT cc_uos_workload_revision__new (
@@ -194,12 +224,31 @@
      </querytext>
    </fullquery>
 
+   <fullquery name="curriculum_central::uos::update_graduate_attributes.map_ga_to_revision">
+     <querytext>
+       SELECT cc_uos_gradattr__map (
+           :revision_id,
+	   :gradattr_id
+       );
+     </querytext>
+   </fullquery>
+
    <fullquery name="curriculum_central::uos::tl_method_get_options.tl_methods">
      <querytext>
        SELECT m.name || ' (' || m.identifier || ')' AS method_name,
            m.method_id
        FROM cc_uos_tl_method m, acs_objects o
        WHERE o.object_id = m.method_id
+       AND o.package_id = :package_id
+     </querytext>
+   </fullquery>
+
+   <fullquery name="curriculum_central::uos::graduate_attributes_get_options.select_ga">
+     <querytext>
+       SELECT g.name || ' (' || g.identifier || ')' AS ga_name,
+           g.gradattr_id
+       FROM cc_uos_gradattr g, acs_objects o
+       WHERE o.object_id = g.gradattr_id
        AND o.package_id = :package_id
      </querytext>
    </fullquery>
@@ -225,6 +274,16 @@
        SELECT i.latest_revision AS latest_tl_revision
            FROM cr_items i, cr_child_rels c
            WHERE c.relation_tag = 'cc_uos_tl'
+	   AND c.parent_id = :object_id
+	   AND i.item_id = c.child_id
+     </querytext>
+   </fullquery>
+
+   <fullquery name="curriculum_central::uos::go_live::do_side_effect.get_latest_ga_revision">
+     <querytext>
+       SELECT i.latest_revision AS latest_ga_revision
+           FROM cr_items i, cr_child_rels c
+           WHERE c.relation_tag = 'cc_uos_gradattr_set'
 	   AND c.parent_id = :object_id
 	   AND i.item_id = c.child_id
      </querytext>
@@ -257,6 +316,13 @@
    <fullquery name="curriculum_central::uos::go_live::do_side_effect.set_live_tl_revision">
      <querytext>
        UPDATE cc_uos_tl SET live_revision_id = :latest_tl_revision
+           WHERE parent_uos_id = :object_id
+     </querytext>
+   </fullquery>
+
+   <fullquery name="curriculum_central::uos::go_live::do_side_effect.set_live_ga_revision">
+     <querytext>
+       UPDATE cc_uos_gradattr_set SET live_revision_id = :latest_ga_revision
            WHERE parent_uos_id = :object_id
      </querytext>
    </fullquery>

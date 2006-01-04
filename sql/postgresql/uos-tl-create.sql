@@ -94,7 +94,7 @@ begin
     PERFORM acs_object_type__create_type (
     ''cc_uos_tl_method'',          -- object_type
     ''#curriculum-central.teaching_and_learning_method#'',   -- pretty_name
-    ''#curriculum-central.teaching_and_learning_method#s'',  -- pretty_plural
+    ''#curriculum-central.teaching_and_learning_methods#'',  -- pretty_plural
     ''acs_object'',                -- supertype
     ''cc_uos_tl_method'',          -- table_name
     ''method_id'',                 -- id_column

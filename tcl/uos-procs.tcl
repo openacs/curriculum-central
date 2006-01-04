@@ -137,6 +137,7 @@ ad_proc -private curriculum_central::uos::workflow_create {} {
                     privileges { write }
 		    edit_fields {
 			tl_approach_ids
+			gradattr_ids
 			formal_contact_hrs
 			informal_study_hrs
 			student_commitment
@@ -399,8 +400,15 @@ ad_proc -public curriculum_central::uos::insert {
 		        [list object_type "cc_uos_tl"]] \
 		       "cc_uos_tl"]
 
+    # Initiate cc_uos_gradattr_set
+    set ga_id [package_instantiate_object \
+        -var_list [list [list parent_uos_id $uos_id] \
+	  	        [list package_id $package_id] \
+		        [list object_type "cc_uos_gradattr_set"]] \
+		       "cc_uos_gradattr_set"]
+
     # Initiate cc_uos_workload
-    set tl_id [package_instantiate_object \
+    set workload_id [package_instantiate_object \
         -var_list [list [list parent_uos_id $uos_id] \
 	  	        [list package_id $package_id] \
 		        [list object_type "cc_uos_workload"]] \
@@ -588,6 +596,8 @@ ad_proc -public curriculum_central::uos::update_tl {
     This update proc creates a new teaching and learning revision..
 
     @param tl_id The ID of the teaching and learning object to update.
+    @param tl_approach_ids List of IDs that need to be mapped to the set
+    of teaching learning approaches (tl_id).
     @param user_id The ID of the user that updated the Unit of Study.
     @param creation_ip The IP of the user that made the update.
 
@@ -609,8 +619,48 @@ ad_proc -public curriculum_central::uos::update_tl {
 	# Foreach tl_approach_id map to the newly created revision_id
 	# retrieved above.
 	foreach tl_approach_id $tl_approach_ids {
-	    ns_log Warning "Map revision_id <$revision_id> to tl_approach_id <$tl_approach_id>"
 	    db_exec_plsql map_tl_to_revision {}
+	}
+    }
+
+    return $revision_id
+}
+
+
+ad_proc -public curriculum_central::uos::update_graduate_attributes {
+    -gradattr_set_id:required
+    -gradattr_ids:required
+    {-user_id ""}
+    {-creation_ip ""}
+} {
+    Updates the graduate attributes component for a Unit of Study.
+    This update proc creates a new graduate attributes revision.
+
+    @param gradattr_set_id The ID for a set of graduate attributes.
+    @param gradattr_ids List of selected graduate attributes that need
+    to be mapped to the graduate attributes set.
+    @param user_id The ID of the user that updated the Unit of Study.
+    @param creation_ip The IP of the user that made the update.
+
+    @return revision_id Returns the ID of the newly created revision for
+    convenience, otherwise the empty string if unsuccessful.
+} {
+    if { $user_id eq "" } {
+        set user_id [ad_conn user_id]
+    }
+    if { $creation_ip eq "" } {
+	set creation_ip [ad_conn peeraddr]
+    }
+
+    # Set the default value for revision_id.
+    set revision_id ""
+    db_transaction {
+	set revision_id [db_exec_plsql update_ga {}]
+
+	# Foreach gradattr_id map to the newly created revision_id
+	# retrieved above.
+	foreach gradattr_id $gradattr_ids {
+	    db_exec_plsql map_ga_to_revision {}
 	}
     }
 
@@ -724,6 +774,37 @@ ad_proc -public curriculum_central::uos::get_tl {
 }
 
 
+ad_proc -public curriculum_central::uos::get_graduate_attributes {
+    {-uos_id:required}
+    {-array:required}
+} {
+    Get the graduate attributes for a Unit of Study.
+
+    @param uos_id The ID of the Unit of Study for which we return
+    graduate attributes for.
+    @param array A predefined array for returning fields in.  Values include
+    gradattr_set_id, gradattr_ids, latest_revision_id.
+
+    @return Array containing graduate attributes infor for a UoS.
+} {
+    # Select the info into the upvar'ed Tcl array
+    upvar $array row
+
+    if { ![db_0or1row latest_ga {} -column_array row] } {
+	# Set default values
+	set row(gradattr_set_id) ""
+	set row(latest_revision_id) ""
+    }
+    
+    if { $row(latest_revision_id) ne "" } {
+	set latest_revision_id $row(latest_revision_id)
+	set row(gradattr_ids) [db_list latest_gradattr_ids {}]
+    } else {
+	set row(gradattr_ids) ""
+    }
+}
+
+
 ad_proc -public curriculum_central::uos::get_workload {
     {-uos_id:required}
     {-array:required}
@@ -769,6 +850,23 @@ ad_proc curriculum_central::uos::tl_method_get_options {
     set method_list [db_list_of_lists tl_methods {}]
 
     return $method_list
+}
+
+
+ad_proc curriculum_central::uos::graduate_attributes_get_options {
+    {-package_id ""}
+} {
+    Returns a two-column list of registered graduate attributes.
+
+    @return Returns a two-column list of registered graduate attributes.
+} {
+    if { $package_id eq ""} {
+	set package_id [ad_conn package_id]
+    }
+
+    set ga_list [db_list_of_lists select_ga {}]
+
+    return $ga_list
 }
 
 
@@ -968,6 +1066,11 @@ ad_proc -private curriculum_central::uos::go_live::do_side_effect {
     db_1row get_latest_tl_revision {}
     content::item::set_live_revision -revision_id $latest_tl_revision
     db_dml set_live_tl_revision {}
+
+    # Do the same for cc_uos_gradattr_set
+    db_1row get_latest_ga_revision {}
+    content::item::set_live_revision -revision_id $latest_ga_revision
+    db_dml set_live_ga_revision {}
 
     # Do the same for cc_uos_workload
     db_1row get_latest_workload_revision {}

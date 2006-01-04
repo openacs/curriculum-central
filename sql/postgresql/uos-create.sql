@@ -314,3 +314,6 @@ end;
 
 -- UoS Workload
 \i uos-workload-create.sql
+
+-- UoS Graduate Attributes
+\i uos-gradattr-create.sql

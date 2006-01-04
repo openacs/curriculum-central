@@ -1,5 +1,5 @@
 ad_page_contract {
-    Page for listing Teaching and Learning Approachess.
+    Page for listing Teaching and Learning Approaches.
 
     @author Nick Carroll (nick.c@rroll.net)
     @creation-date 2005-11-15
@@ -29,12 +29,6 @@ set elements {
     }
     description {
 	label "#curriculum-central.description#"
-    }
-    delete {
-	sub_class narrow
-	display_template {
-	    <img src="/shared/images/Delete16.gif" height="16" width="16" border="0">
-	}
     }
 }
 
