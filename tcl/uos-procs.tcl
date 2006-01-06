@@ -131,6 +131,7 @@ ad_proc -private curriculum_central::uos::workflow_create {} {
 			online_course_content
 			tl_approach_ids
 			gradattr_ids
+			textbook_ids
 			formal_contact_hrs
 			informal_study_hrs
 			student_commitment
@@ -407,6 +408,13 @@ ad_proc -public curriculum_central::uos::insert {
 		        [list object_type "cc_uos_tl"]] \
 		       "cc_uos_tl"]
 
+    # Initiate cc_uos_textbook_set
+    set textbook_set_id [package_instantiate_object \
+        -var_list [list [list parent_uos_id $uos_id] \
+	  	        [list package_id $package_id] \
+		        [list object_type "cc_uos_textbook_set"]] \
+		       "cc_uos_textbook_set"]
+
     # Initiate cc_uos_gradattr_set
     set ga_id [package_instantiate_object \
         -var_list [list [list parent_uos_id $uos_id] \
@@ -641,6 +649,47 @@ ad_proc -public curriculum_central::uos::update_tl {
 }
 
 
+ad_proc -public curriculum_central::uos::update_textbooks {
+    -textbook_set_id:required
+    -textbook_ids:required
+    {-user_id ""}
+    {-creation_ip ""}
+} {
+    Updates the textbooks component for a Unit of Study.
+    This update proc creates a new textbook revision.
+
+    @param textbook_set_id The ID for a set of textbooks.
+    @param textbook_ids List of selected textbooks that need
+    to be mapped to the textbook set.
+    @param user_id The ID of the user that updated the Unit of Study.
+    @param creation_ip The IP of the user that made the update.
+
+    @return revision_id Returns the ID of the newly created revision for
+    convenience, otherwise the empty string if unsuccessful.
+} {
+    if { $user_id eq "" } {
+        set user_id [ad_conn user_id]
+    }
+    if { $creation_ip eq "" } {
+	set creation_ip [ad_conn peeraddr]
+    }
+
+    # Set the default value for revision_id.
+    set revision_id ""
+    db_transaction {
+	set revision_id [db_exec_plsql update_textbook_set {}]
+
+	# Foreach textbook_id map to the newly created revision_id
+	# retrieved above.
+	foreach textbook_id $textbook_ids {
+	    db_exec_plsql map_textbook_revision {}
+	}
+    }
+
+    return $revision_id
+}
+
+
 ad_proc -public curriculum_central::uos::update_graduate_attributes {
     -gradattr_set_id:required
     -gradattr_ids:required
@@ -829,6 +878,37 @@ ad_proc -public curriculum_central::uos::get_tl {
 }
 
 
+ad_proc -public curriculum_central::uos::get_textbooks {
+    {-uos_id:required}
+    {-array:required}
+} {
+    Get textbook info for the given Unit of Study.
+
+    @param uos_id The ID of the Unit of Study for which we return
+    textbook info for.
+    @param array A predefined array for returning fields in.  Values include
+    textbook_set_id, textbook_ids, latest_revision_id.
+
+    @return Array containing all valid fields for the cc_uos_textbook table.
+} {
+    # Select the info into the upvar'ed Tcl array
+    upvar $array row
+
+    if { ![db_0or1row latest_textbook_set {} -column_array row] } {
+	# Set default values
+	set row(textbook_set_id) ""
+	set row(latest_revision_id) ""
+    }
+    
+    if { $row(latest_revision_id) ne "" } {
+	set latest_revision_id $row(latest_revision_id)
+	set row(textbook_ids) [db_list latest_textbook_ids {}]
+    } else {
+	set row(textbook_ids) ""
+    }
+}
+
+
 ad_proc -public curriculum_central::uos::get_graduate_attributes {
     {-uos_id:required}
     {-array:required}
@@ -946,6 +1026,33 @@ ad_proc curriculum_central::uos::tl_method_get_options {
     set method_list [db_list_of_lists tl_methods {}]
 
     return $method_list
+}
+
+
+ad_proc curriculum_central::uos::textbook_get_options {
+    {-package_id ""}
+    {-user_id ""}
+} {
+    Returns a two-column list of registered textbooks.
+
+    @param package_id ID of the current package instance.
+    @param user_id Specify a user to retrieve their list of
+    textbooks, otherwise a list of textbooks are
+    returned by default for the requesting user.
+
+    @return Returns a two-column list of registered textbooks.
+} {
+    if { $package_id eq ""} {
+	set package_id [ad_conn package_id]
+    }
+
+    if { $user_id eq ""} {
+	set user_id [ad_conn user_id]
+    }
+
+    set textbook_list [db_list_of_lists textbooks {}]
+
+    return $textbook_list
 }
 
 
@@ -1199,6 +1306,11 @@ ad_proc -private curriculum_central::uos::go_live::do_side_effect {
     db_1row get_latest_tl_revision {}
     content::item::set_live_revision -revision_id $latest_tl_revision
     db_dml set_live_tl_revision {}
+
+    # Do the same for cc_uos_textbook_set
+    db_1row get_latest_textbook_revision {}
+    content::item::set_live_revision -revision_id $latest_textbook_revision
+    db_dml set_live_textbook_revision {}
 
     # Do the same for cc_uos_gradattr_set
     db_1row get_latest_ga_revision {}

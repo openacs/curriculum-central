@@ -201,6 +201,27 @@ ad_form -extend -name uos -form {
 }
 
 
+# Retrieve textbook info for Unit of Study.
+curriculum_central::uos::get_textbooks \
+    -uos_id $uos_id \
+    -array uos_textbook
+
+# Add widgets for textbook
+ad_form -extend -name uos -form {
+    {textbook_set_id:integer(hidden),optional
+	{value $uos_textbook(textbook_set_id)}
+    }
+    {textbook_ids:text(multiselect),multiple,optional
+	{label "[_ curriculum-central.textbooks]"}
+	{options [curriculum_central::uos::textbook_get_options]}
+	{html {size 5}}
+	{values $uos_textbook(textbook_ids)}
+	{mode display}
+        {help_text "[_ curriculum-central.help_select_textbook_ids]"}
+    }
+}
+
+
 # Retrieve workload info for Unit of Study.
 curriculum_central::uos::get_workload \
     -uos_id $uos_id \
@@ -344,8 +365,7 @@ ad_form -extend -name uos -on_submit {
 	-array action_info
 
     # Do edits specific to a workflow action.
-    # If action is edit_details, then update edit_details.
-    if { $action_info(short_name) eq "edit_details" } {
+    if { $action_info(short_name) eq "edit_tl"} {
 
 	curriculum_central::uos::update_details \
 	    -detail_id $detail_id \
@@ -356,11 +376,13 @@ ad_form -extend -name uos -on_submit {
 	    -relevance $relevance \
 	    -online_course_content $online_course_content
 
-    } elseif { $action_info(short_name) eq "edit_tl"} {
-
 	curriculum_central::uos::update_tl \
 	    -tl_id $tl_id \
 	    -tl_approach_ids $tl_approach_ids
+
+	curriculum_central::uos::update_textbooks \
+	    -textbook_set_id $textbook_set_id \
+	    -textbook_ids $textbook_ids
 
 	curriculum_central::uos::update_graduate_attributes \
 	    -gradattr_set_id $gradattr_set_id \

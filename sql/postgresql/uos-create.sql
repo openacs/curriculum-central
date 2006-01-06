@@ -320,3 +320,6 @@ end;
 
 -- UoS Assessment Methods
 \i uos-assess-create.sql
+
+-- UoS Textbooks
+\i uos-textbook-create.sql

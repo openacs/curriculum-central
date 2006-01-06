@@ -39,6 +39,17 @@
      </querytext>
    </fullquery>
 
+   <fullquery name="curriculum_central::uos::get_textbooks.latest_textbook_set">
+     <querytext>
+       SELECT t.textbook_set_id, t.latest_revision_id
+           FROM cc_uos u, cc_uos_revisions r, cr_items i, cc_uos_textbook_set t
+	   WHERE u.uos_id = :uos_id
+	   AND i.item_id = u.uos_id
+	   AND r.uos_revision_id = i.latest_revision
+	   AND t.parent_uos_id = :uos_id
+     </querytext>
+   </fullquery>
+
    <fullquery name="curriculum_central::uos::get_graduate_attributes.latest_ga">
      <querytext>
        SELECT g.gradattr_set_id, g.latest_revision_id
@@ -87,6 +98,13 @@
      <querytext>
        SELECT method_id FROM cc_uos_tl_method_map
            WHERE tl_revision_id = :latest_revision_id
+     </querytext>
+   </fullquery>
+
+   <fullquery name="curriculum_central::uos::get_textbooks.latest_textbook_ids">
+     <querytext>
+       SELECT textbook_id FROM cc_uos_textbook_map
+           WHERE revision_id = :latest_revision_id
      </querytext>
    </fullquery>
 
@@ -215,6 +233,18 @@
      </querytext>
    </fullquery>
 
+   <fullquery name="curriculum_central::uos::update_textbooks.update_textbook_set">
+     <querytext>
+       SELECT cc_uos_textbook_set_rev__new (
+           null,
+	   :textbook_set_id,
+	   now(),
+	   :user_id,
+	   :creation_ip
+       );
+     </querytext>
+   </fullquery>
+
    <fullquery name="curriculum_central::uos::update_graduate_attributes.update_ga">
      <querytext>
        SELECT cc_uos_gradattr_set_rev__new (
@@ -254,6 +284,15 @@
      </querytext>
    </fullquery>
 
+   <fullquery name="curriculum_central::uos::update_textbooks.map_textbook_revision">
+     <querytext>
+       SELECT cc_uos_textbook__map (
+           :revision_id,
+	   :textbook_id
+       );
+     </querytext>
+   </fullquery>
+
    <fullquery name="curriculum_central::uos::update_assess.map_assess_to_revision">
      <querytext>
        SELECT cc_uos_assess_method__map (
@@ -278,6 +317,17 @@
            m.method_id
        FROM cc_uos_tl_method m, acs_objects o
        WHERE o.object_id = m.method_id
+       AND o.package_id = :package_id
+       AND o.creation_user = :user_id
+     </querytext>
+   </fullquery>
+
+   <fullquery name="curriculum_central::uos::textbook_get_options.textbooks">
+     <querytext>
+       SELECT t.title || ' (' || t.author || ')' AS textbook_name,
+           t.textbook_id
+       FROM cc_uos_textbook t, acs_objects o
+       WHERE o.object_id = t.textbook_id
        AND o.package_id = :package_id
        AND o.creation_user = :user_id
      </querytext>
@@ -341,6 +391,16 @@
      </querytext>
    </fullquery>
 
+   <fullquery name="curriculum_central::uos::go_live::do_side_effect.get_latest_textbook_revision">
+     <querytext>
+       SELECT i.latest_revision AS latest_textbook_revision
+           FROM cr_items i, cr_child_rels c
+           WHERE c.relation_tag = 'cc_uos_textbook_set'
+	   AND c.parent_id = :object_id
+	   AND i.item_id = c.child_id
+     </querytext>
+   </fullquery>
+
    <fullquery name="curriculum_central::uos::go_live::do_side_effect.get_latest_ga_revision">
      <querytext>
        SELECT i.latest_revision AS latest_ga_revision
@@ -392,6 +452,14 @@
    <fullquery name="curriculum_central::uos::go_live::do_side_effect.set_live_ga_revision">
      <querytext>
        UPDATE cc_uos_gradattr_set SET live_revision_id = :latest_ga_revision
+           WHERE parent_uos_id = :object_id
+     </querytext>
+   </fullquery>
+
+   <fullquery name="curriculum_central::uos::go_live::do_side_effect.set_live_textbook_revision">
+     <querytext>
+       UPDATE cc_uos_textbook_set
+           SET live_revision_id = :latest_textbook_revision
            WHERE parent_uos_id = :object_id
      </querytext>
    </fullquery>

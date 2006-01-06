@@ -2,6 +2,26 @@
 <message_catalog package_key="curriculum-central" package_version="0.1d" locale="en_US" charset="ISO-8859-1">
 
   <msg key="uos">UoS</msg>
+  <msg key="manage_your_list_of_textbooks">Manage your list of textbooks</msg>
+  <msg key="help_enter_textbook_title">Enter the title of the textbook.</msg>
+  <msg key="help_enter_textbook_author">Enter the author of the textbook.</msg>
+  <msg key="help_enter_textbook_publisher">Enter the publisher's details.</msg>
+  <msg key="help_enter_textbook_isbn">Enter the ISBN for the book.</msg>
+  <msg key="title">Title</msg>
+  <msg key="author">Author</msg>
+  <msg key="publisher">Publisher</msg>
+  <msg key="isbn">ISBN</msg>
+  <msg key="no_textbooks_created">No textbooks have been added to the list.</msg>
+  <msg key="add_textbook">Add Textbook</msg>
+  <msg key="add_textbook_to_list">Add textbook to list.</msg>
+  <msg key="edit_textbook">Edit Textbook</msg>
+  <msg key="textbook">Textbook</msg>
+  <msg key="textbooks">Textbooks</msg>
+  <msg key="uos_textbooks">UoS Textbooks</msg>
+  <msg key="uos_textbook_set">UoS Textbook Set</msg>
+  <msg key="uos_textbook_sets">UoS Textbook Sets</msg>
+  <msg key="uos_textbook_set_revision">UoS Textbook Set Revision</msg>
+  <msg key="uos_textbook_set_revisions">UoS Textbook Set Revisions</msg>
   <msg key="current_assessment_total">Current Assessment Total</msg>
   <msg key="help_assess_method_ids">Select one or more assessment methods that are used in this Unit of Study.  To select more than one item from the list, hold down the Shirt key whilst selecting an item.  If an item doesn't appear in the list, then click &lt;a href=&quot;assess-method-ae?return_url=%return_url%&quot;&gt;here&lt;/a&gt; to add it (Note: clicking on the link will redirect you to another page).</msg>
   <msg key="assessment_methods">Assessment Methods</msg>
