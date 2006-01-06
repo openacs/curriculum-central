@@ -2,6 +2,27 @@
 <message_catalog package_key="curriculum-central" package_version="0.1d" locale="en_US" charset="ISO-8859-1">
 
   <msg key="uos">UoS</msg>
+  <msg key="current_assessment_total">Current Assessment Total</msg>
+  <msg key="help_assess_method_ids">Select one or more assessment methods that are used in this Unit of Study.  To select more than one item from the list, hold down the Shirt key whilst selecting an item.  If an item doesn't appear in the list, then click &lt;a href=&quot;assess-method-ae?return_url=%return_url%&quot;&gt;here&lt;/a&gt; to add it (Note: clicking on the link will redirect you to another page).</msg>
+  <msg key="assessment_methods">Assessment Methods</msg>
+  <msg key="help_enter_type_of_assess_method">Enter a name for the type of assessment.</msg>
+  <msg key="help_enter_assess_identifier">Enter an identifier to distinguish this assessment method from other assessment methods that you have created.  Use something like GENERAL for generic methods, or the UoS code such as ELEC1000 for more specific assessment methods.</msg>
+  <msg key="help_enter_assess_description">Enter a description for this assessment method.</msg>
+  <msg key="help_enter_assess_weighting">The weighting of the assessment as a percentage.  Enter a value between 0 and 100 inclusive.</msg>
+  <msg key="add_assess_method">Add Assessment Method</msg>
+  <msg key="no_assess_methods_created">No assessment methods have been created.</msg>
+  <msg key="add_assess_method_to_list">Add assessment method to list</msg>
+  <msg key="weighting">Weighting</msg>
+  <msg key="edit_assess_method">Edit Assessment Method</msg>
+  <msg key="add_assess_method">Add Assessment Method</msg>
+  <msg key="assess_methods">Assessment Methods</msg>
+  <msg key="assessment_and_schedule">Asessment and Schedule</msg>
+  <msg key="edit_assess_sched">Edit Assessment and Schedule</msg>
+  <msg key="edited_assess_sched">Edited Assessment and Schedule</msg>
+  <msg key="uos_assessment">Uos Assessment</msg>
+  <msg key="uos_assessments">Uos Assessments</msg>
+  <msg key="uos_assessment_revision">Uos Assessment Revision</msg>
+  <msg key="uos_assessment_revisions">Uos Assessment Revisions</msg>
   <msg key="no_graduate_attributes_created">No graduate attributes have been created</msg>
   <msg key="add_graduate_attribute_to_list">Add graduate attributes to the list.</msg>
   <msg key="help_graduate_attributes">Select one or more graduate attributes from the list that are associated with this Unit of Study.  To select more than one item from the list, hold down the Shirt key whilst selecting an item.  If an item doesn't appear in the list, then click &lt;a href=&quot;gradattr-ae?return_url=%return_url%&quot;&gt;here&lt;/a&gt; to add it (Note: clicking on the link will redirect you to another page).</msg>

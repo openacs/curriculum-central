@@ -147,6 +147,20 @@ ad_proc -private curriculum_central::uos::workflow_create {} {
 		    }
 		    assigned_states { open }
                 }
+		edit_assess {
+		    pretty_name "#curriculum-central.edit_assess_sched#"
+		    pretty_past_tense "#curriculum-central.edited_assess_sched#"
+		    allowed_roles {
+			stream_coordinator
+			unit_coordinator
+			lecturer
+		    }
+		    privileges { write }
+		    edit_fields {
+			assess_method_ids
+		    }
+		    assigned_states { open }
+		}
                 submit {
                     pretty_name "#curriculum-central.submit#"
                     pretty_past_tense "#curriculum-central.submitted#"
@@ -413,6 +427,13 @@ ad_proc -public curriculum_central::uos::insert {
 	  	        [list package_id $package_id] \
 		        [list object_type "cc_uos_workload"]] \
 		       "cc_uos_workload"]
+
+    # Initiate cc_uos_assess
+    set assess_id [package_instantiate_object \
+        -var_list [list [list parent_uos_id $uos_id] \
+	  	        [list package_id $package_id] \
+		        [list object_type "cc_uos_assess"]] \
+		       "cc_uos_assess"]
 
     return $uos_id
 }
@@ -713,6 +734,47 @@ ad_proc -public curriculum_central::uos::update_workload {
 }
 
 
+ad_proc -public curriculum_central::uos::update_assess {
+    -assess_id:required
+    -assess_method_ids
+    {-user_id ""}
+    {-creation_ip ""}
+} {
+    Updates the assessment component for a Unit of Study.
+    This update proc creates a new assessment revision.
+
+    @param assess_id The ID of the assessment object to update.
+    @param assess_method_ids List of IDs that need to be mapped to the set
+    of assessment methods.
+    @param user_id The ID of the user that updated the Unit of Study.
+    @param creation_ip The IP of the user that made the update.
+
+    @return revision_id Returns the ID of the newly created revision for
+    convenience, otherwise the empty string if unsuccessful.
+} {
+    if { $user_id eq "" } {
+        set user_id [ad_conn user_id]
+    }
+    if { $creation_ip eq "" } {
+	set creation_ip [ad_conn peeraddr]
+    }
+
+    # Set the default value for revision_id.
+    set revision_id ""
+    db_transaction {
+	set revision_id [db_exec_plsql update_assess {}]
+
+	# Foreach assess_method_id map to the newly created revision_id
+	# retrieved above.
+	foreach assess_method_id $assess_method_ids {
+	    db_exec_plsql map_assess_to_revision {}
+	}
+    }
+
+    return $revision_id
+}
+
+
 ad_proc -public curriculum_central::uos::get_details {
     {-uos_id:required}
     {-array:required}
@@ -835,6 +897,37 @@ ad_proc -public curriculum_central::uos::get_workload {
 }
 
 
+ad_proc -public curriculum_central::uos::get_assessment {
+    {-uos_id:required}
+    {-array:required}
+} {
+    Get the assessment info for a Unit of Study.
+
+    @param uos_id The ID of the Unit of Study for which we return
+    assessment info for.
+    @param array A predefined array for returning fields in.  Values include
+    assess_id, assess_method_ids, latest_revision_id.
+
+    @return Array containing all valid fields for the cc_uos_assess table.
+} {
+    # Select the info into the upvar'ed Tcl array
+    upvar $array row
+
+    if { ![db_0or1row latest_assess {} -column_array row] } {
+	# Set default values
+	set row(assess_id) ""
+	set row(latest_revision_id) ""
+    }
+    
+    if { $row(latest_revision_id) ne "" } {
+	set latest_revision_id $row(latest_revision_id)
+	set row(assess_method_ids) [db_list latest_assess_method_ids {}]
+    } else {
+	set row(assess_method_ids) ""
+    }
+}
+
+
 ad_proc curriculum_central::uos::tl_method_get_options {
     {-package_id ""}
 } {
@@ -867,6 +960,23 @@ ad_proc curriculum_central::uos::graduate_attributes_get_options {
     set ga_list [db_list_of_lists select_ga {}]
 
     return $ga_list
+}
+
+
+ad_proc curriculum_central::uos::assess_method_get_options {
+    {-package_id ""}
+} {
+    Returns a two-column list of registered assessment methods.
+
+    @return Returns a two-column list of registered assessment methods.
+} {
+    if { $package_id eq ""} {
+	set package_id [ad_conn package_id]
+    }
+
+    set method_list [db_list_of_lists assess_methods {}]
+
+    return $method_list
 }
 
 
@@ -1076,4 +1186,37 @@ ad_proc -private curriculum_central::uos::go_live::do_side_effect {
     db_1row get_latest_workload_revision {}
     content::item::set_live_revision -revision_id $latest_workload_revision
     db_dml set_live_workload_revision {}
+
+    # Do the same for cc_uos_assess
+    db_1row get_latest_assess_revision {}
+    content::item::set_live_revision -revision_id $latest_assess_revision
+    db_dml set_live_assess_revision {}
+}
+
+
+#####
+#
+# Utility procs
+#
+#####
+
+ad_proc -public curriculum_central::uos::get_assessment_total {
+    {-assess_id:required}
+} {
+    Get the current assessment weighting total for the given assessment group.
+
+    @param assess_id The ID for an assessment group.
+
+    @return Returns the sum of all assessment weightings for a given
+    assessment group identified by the assess_id in table  cc_uos_assess.
+    If the result is an empty string, then 0 is returned.
+} {
+    set total [db_string latest_assess_total {} -default ""]
+
+    # Return 0 if there is an empty result.
+    if { $total eq ""} {
+	return 0
+    }
+
+    return $total
 }

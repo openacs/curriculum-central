@@ -65,6 +65,24 @@
      </querytext>
    </fullquery>
 
+   <fullquery name="curriculum_central::uos::get_assessment.latest_assess">
+     <querytext>
+       SELECT a.assess_id, a.latest_revision_id
+           FROM cc_uos u, cc_uos_revisions r, cr_items i, cc_uos_assess a
+	   WHERE u.uos_id = :uos_id
+	   AND i.item_id = u.uos_id
+	   AND r.uos_revision_id = i.latest_revision
+	   AND a.parent_uos_id = :uos_id
+     </querytext>
+   </fullquery>
+
+   <fullquery name="curriculum_central::uos::get_assessment.latest_assess_method_ids">
+     <querytext>
+       SELECT method_id FROM cc_uos_assess_method_map
+           WHERE assess_revision_id = :latest_revision_id
+     </querytext>
+   </fullquery>
+
    <fullquery name="curriculum_central::uos::get_tl.latest_tl_method_ids">
      <querytext>
        SELECT method_id FROM cc_uos_tl_method_map
@@ -185,6 +203,18 @@
      </querytext>
    </fullquery>
 
+   <fullquery name="curriculum_central::uos::update_assess.update_assess">
+     <querytext>
+       SELECT cc_uos_assess_revision__new (
+           null,
+	   :assess_id,
+	   now(),
+	   :user_id,
+	   :creation_ip
+       );
+     </querytext>
+   </fullquery>
+
    <fullquery name="curriculum_central::uos::update_graduate_attributes.update_ga">
      <querytext>
        SELECT cc_uos_gradattr_set_rev__new (
@@ -224,6 +254,15 @@
      </querytext>
    </fullquery>
 
+   <fullquery name="curriculum_central::uos::update_assess.map_assess_to_revision">
+     <querytext>
+       SELECT cc_uos_assess_method__map (
+           :revision_id,
+	   :assess_method_id
+       );
+     </querytext>
+   </fullquery>
+
    <fullquery name="curriculum_central::uos::update_graduate_attributes.map_ga_to_revision">
      <querytext>
        SELECT cc_uos_gradattr__map (
@@ -253,6 +292,16 @@
      </querytext>
    </fullquery>
 
+   <fullquery name="curriculum_central::uos::assess_method_get_options.assess_methods">
+     <querytext>
+       SELECT m.name || ' (' || m.identifier || '): ' || m.weighting || '%'
+           AS method_name, m.method_id
+       FROM cc_uos_assess_method m, acs_objects o
+       WHERE o.object_id = m.method_id
+       AND o.package_id = :package_id
+     </querytext>
+   </fullquery>
+
    <fullquery name="curriculum_central::uos::go_live::do_side_effect.get_latest_revision">
      <querytext>
        SELECT latest_revision FROM cr_items WHERE item_id = :object_id
@@ -274,6 +323,16 @@
        SELECT i.latest_revision AS latest_tl_revision
            FROM cr_items i, cr_child_rels c
            WHERE c.relation_tag = 'cc_uos_tl'
+	   AND c.parent_id = :object_id
+	   AND i.item_id = c.child_id
+     </querytext>
+   </fullquery>
+
+   <fullquery name="curriculum_central::uos::go_live::do_side_effect.get_latest_assess_revision">
+     <querytext>
+       SELECT i.latest_revision AS latest_assess_revision
+           FROM cr_items i, cr_child_rels c
+           WHERE c.relation_tag = 'cc_uos_assess'
 	   AND c.parent_id = :object_id
 	   AND i.item_id = c.child_id
      </querytext>
@@ -320,6 +379,13 @@
      </querytext>
    </fullquery>
 
+   <fullquery name="curriculum_central::uos::go_live::do_side_effect.set_live_assess_revision">
+     <querytext>
+       UPDATE cc_uos_assess SET live_revision_id = :latest_assess_revision
+           WHERE parent_uos_id = :object_id
+     </querytext>
+   </fullquery>
+
    <fullquery name="curriculum_central::uos::go_live::do_side_effect.set_live_ga_revision">
      <querytext>
        UPDATE cc_uos_gradattr_set SET live_revision_id = :latest_ga_revision
@@ -343,6 +409,18 @@
    <partialquery name="curriculum_central::uos::get_stream_coordinator::get_subquery.stream_coordinator_subquery">
      <querytext>
        (select * from cc_users u, cc_staff s where u.user_id = s.staff_id)
+     </querytext>
+   </partialquery>
+
+   <partialquery name="curriculum_central::uos::get_assessment_total.latest_assess_total">
+     <querytext>
+       SELECT sum(weighting)
+       FROM cc_uos_assess a,
+	   cc_uos_assess_method_map map,
+	   cc_uos_assess_method meth
+       WHERE a.assess_id = :assess_id
+           AND map.assess_revision_id = a.latest_revision_id
+	   AND map.method_id = meth.method_id
      </querytext>
    </partialquery>
 

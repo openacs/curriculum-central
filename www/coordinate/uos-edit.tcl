@@ -254,6 +254,36 @@ ad_form -extend -name uos -form {
 }
 
 
+# Add assessment and schedule section.
+template::form::section uos [_ curriculum-central.assessment_and_schedule]
+
+# TODO: Work on the following assessment section.
+# Retrieve assessment info for Unit of Study.
+curriculum_central::uos::get_assessment \
+    -uos_id $uos_id \
+    -array uos_assess
+
+# Add widgets for Assessment
+ad_form -extend -name uos -form {
+    {assess_id:integer(hidden),optional
+	{value $uos_assess(assess_id)}
+    }
+    {assess_method_ids:text(multiselect),multiple,optional
+	{label "[_ curriculum-central.assessment_methods]"}
+	{options [curriculum_central::uos::assess_method_get_options]}
+	{html {size 5}}
+	{values $uos_assess(assess_method_ids)}
+	{mode display}
+        {help_text "[_ curriculum-central.help_assess_method_ids]"}
+    }
+    {assess_total:text(inform)
+	{label "[_ curriculum-central.current_assessment_total]"}
+	{value "[curriculum_central::uos::get_assessment_total -assess_id $uos_assess(assess_id)]%"}
+	{mode display}
+    }
+}
+
+
 # Add history section
 template::form::section uos [_ curriculum-central.history]
 
@@ -342,6 +372,13 @@ ad_form -extend -name uos -on_submit {
 	    -expected_feedback $expected_feedback \
 	    -student_feedback $student_feedback \
 	    -assumed_concepts $assumed_concepts
+
+    } elseif { $action_info(short_name) eq "edit_assess" } {
+	
+	curriculum_central::uos::update_assess \
+	    -assess_id $assess_id \
+	    -assess_method_ids $assess_method_ids
+
     }
 
     # Do a general edit update.

@@ -317,3 +317,6 @@ end;
 
 -- UoS Graduate Attributes
 \i uos-gradattr-create.sql
+
+-- UoS Assessment Methods
+\i uos-assess-create.sql
