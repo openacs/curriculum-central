@@ -97,33 +97,20 @@ ad_proc -private curriculum_central::uos::workflow_create {} {
                     privileges { read write }
                     always_enabled_p t
                 }
-                reassign {
-                    pretty_name "#curriculum-central.reassign#"
-                    pretty_past_tense "#curriculum-central.reassigned#"
-                    allowed_roles {
-			stream_coordinator
-		    }
-                    privileges { write }
-                    assigned_states { open }
-                    edit_fields { role_unit_coordinator }
-                }
                 edit_details {
                     pretty_name "#curriculum-central.edit_details#"
                     pretty_past_tense "#curriculum-central.edited_details#"
                     allowed_roles {
 			stream_coordinator
-			unit_coordinator
-			lecturer
 		    }
                     privileges { write }
 		    assigned_states { open }
                     edit_fields { 
-			lecturer_id
-			objectives
-			learning_outcomes
-			syllabus
-			relevance
-			online_course_content
+			uos_code
+			uos_name
+			role_unit_coordinator
+			credit_value
+			semester
                     }
                 }
                 edit_tl {
@@ -136,6 +123,12 @@ ad_proc -private curriculum_central::uos::workflow_create {} {
 		    }
                     privileges { write }
 		    edit_fields {
+			lecturer_id
+			objectives
+			learning_outcomes
+			syllabus
+			relevance
+			online_course_content
 			tl_approach_ids
 			gradattr_ids
 			formal_contact_hrs

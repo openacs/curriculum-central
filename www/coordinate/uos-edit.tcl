@@ -62,18 +62,20 @@ set context [list [list . [_ curriculum-central.coordinate]] $page_title]
 ad_form -name uos -cancel_url $return_url \
     -mode display -has_edit 1 -actions $actions 
 
-# Add UoS Section
-template::form::section uos [_ curriculum-central.uos]
+# Add UoS Details Section
+template::form::section uos [_ curriculum-central.uos_details]
 
 ad_form -extend -name uos -form {
-    {uos_code:text(inform)
+    {uos_code:text
 	{label "[_ curriculum-central.uos_code]"}
 	{value $uos(uos_code)}
+        {html {size 50}}
 	{mode display}
     }
-    {uos_name:text(inform)
+    {uos_name:text
 	{label "[_ curriculum-central.uos_name]"}
 	{value $uos(uos_name)}
+        {html {size 50}}
 	{mode display}
     }
 }
@@ -86,20 +88,23 @@ workflow::case::role::add_assignee_widgets \
 		   -short_name unit_coordinator]
 
 ad_form -extend -name uos -form {
-    {credit_value:integer(inform)
+    {credit_value:integer
 	{label "[_ curriculum-central.credit_value]"}
 	{value $uos(credit_value)}
-	{mode display}	
+        {html {size 3}}
+	{mode display}
     }
-    {semester:integer(inform)
+    {semester:integer
 	{label "[_ curriculum-central.semester_offering]"}
 	{value $uos(semester)}
+        {html {size 3}}
 	{mode display}
     }
 }
 
-# Add UoS Details Section
-template::form::section uos [_ curriculum-central.uos_details]
+
+# Add teaching and learning section.
+template::form::section uos [_ curriculum-central.tl_arrangements_and_requirements]
 
 # Retrieve Details info for Unit of Study.
 curriculum_central::uos::get_details \
@@ -153,9 +158,6 @@ ad_form -extend -name uos -form {
         {help_text "[_ curriculum-central.help_online_course_content]"}
     }
 }
-
-# Add teaching and learning section.
-template::form::section uos [_ curriculum-central.tl_arrangements_and_requirements]
 
 # Retrieve teaching and learning info for Unit of Study.
 curriculum_central::uos::get_tl \
