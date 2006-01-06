@@ -946,7 +946,7 @@ ad_proc curriculum_central::uos::tl_method_get_options {
 	set package_id [ad_conn package_id]
     }
 
-    if { $user_id_id eq ""} {
+    if { $user_id eq ""} {
 	set user_id [ad_conn user_id]
     }
 
