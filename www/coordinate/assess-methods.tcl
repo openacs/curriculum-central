@@ -8,9 +8,12 @@ ad_page_contract {
     {orderby "name,asc"}
 }
 
+auth::require_login
+
 set page_title "[_ curriculum-central.assess_methods]"
 set context [list [list . [_ curriculum-central.coordinate]] $page_title]
 set package_id [ad_conn package_id]
+set user_id [ad_conn user_id]
 
 set elements {
     edit {

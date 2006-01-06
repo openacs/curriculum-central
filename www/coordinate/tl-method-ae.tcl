@@ -19,6 +19,7 @@ if { [info exists method_id] } {
 
 set context [list $page_title]
 set package_id [ad_conn package_id]
+set user_id [ad_conn user_id]
 
 ad_form -name tl_method -cancel_url $return_url -form {
     {method_id:key(acs_object_id_seq)}

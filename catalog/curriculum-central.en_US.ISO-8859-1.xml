@@ -70,7 +70,9 @@
   <msg key="add_tl_approach_to_list">Add T&amp;L approach to list</msg>
   <msg key="tl_approaches">Add T&amp;L Approaches</msg>
   <msg key="no_tl_approaches_created">No T&amp;L approaches have been created.</msg>
-  <msg key="view_list_of_tl_approaches">View list of T&amp;L approaches</msg>
+  <msg key="manage_your_list_of_tl_approaches">Manage your list of teaching &amp; learning approaches</msg>
+  <msg key="manage_your_list_of_graduate_attributes">Manage your list of graduate attributes</msg>
+  <msg key="manage_your_list_of_assessment_methods">Manage your list of assessment methods</msg>
   <msg key="help_enter_type_of_tl_method">Enter the type of teaching delivery method.  Eg. Lecture, Seminar, Tutorial, Online Discussions, etc.</msg>
   <msg key="identifier">Identifier</msg>
   <msg key="help_enter_identifier">Enter an identifier (such as the UoS code, eg. ELEC1000 or something more generic such as GENERAL) to distinguish this Teaching &amp; Learning approach from others.  This must be entered to allow for multiple types of lectures or online activities that have the same name but have different descriptions.</msg>

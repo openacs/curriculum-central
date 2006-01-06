@@ -9,6 +9,7 @@
        FROM cc_uos_assess_method m, acs_objects o
 	   WHERE package_id = :package_id
 	   AND m.method_id = o.object_id
+	   AND o.creation_user = :user_id
 	   [template::list::orderby_clause -orderby -name "methods"]
      </querytext>
    </fullquery>

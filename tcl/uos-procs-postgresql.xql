@@ -279,6 +279,7 @@
        FROM cc_uos_tl_method m, acs_objects o
        WHERE o.object_id = m.method_id
        AND o.package_id = :package_id
+       AND o.creation_user = :user_id
      </querytext>
    </fullquery>
 
@@ -289,6 +290,7 @@
        FROM cc_uos_gradattr g, acs_objects o
        WHERE o.object_id = g.gradattr_id
        AND o.package_id = :package_id
+       AND o.creation_user = :user_id
      </querytext>
    </fullquery>
 
@@ -299,6 +301,7 @@
        FROM cc_uos_assess_method m, acs_objects o
        WHERE o.object_id = m.method_id
        AND o.package_id = :package_id
+       AND o.creation_user = :user_id
      </querytext>
    </fullquery>
 

@@ -9,6 +9,7 @@
        FROM cc_uos_gradattr g, acs_objects o
 	   WHERE package_id = :package_id
 	   AND g.gradattr_id = o.object_id
+	   AND o.creation_user = :user_id
 	   [template::list::orderby_clause -orderby -name "gradattrs"]
      </querytext>
    </fullquery>

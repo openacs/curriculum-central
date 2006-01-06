@@ -930,14 +930,24 @@ ad_proc -public curriculum_central::uos::get_assessment {
 
 ad_proc curriculum_central::uos::tl_method_get_options {
     {-package_id ""}
+    {-user_id ""}
 } {
     Returns a two-column list of registered teaching and learning methods.
+
+    @param package_id ID of the current package instance.
+    @param user_id Specify a user to retrieve their list of
+    T&L methods, otherwise a list of T&L methods is
+    returned by default for the requesting user.
 
     @return Returns a two-column list of registered teaching and
     learning methods.
 } {
     if { $package_id eq ""} {
 	set package_id [ad_conn package_id]
+    }
+
+    if { $user_id_id eq ""} {
+	set user_id [ad_conn user_id]
     }
 
     set method_list [db_list_of_lists tl_methods {}]
@@ -948,13 +958,23 @@ ad_proc curriculum_central::uos::tl_method_get_options {
 
 ad_proc curriculum_central::uos::graduate_attributes_get_options {
     {-package_id ""}
+    {-user_id ""}
 } {
     Returns a two-column list of registered graduate attributes.
+
+    @param package_id ID of the current package instance.
+    @param user_id Specify a user to retrieve their list of
+    graduate attribtues, otherwise a list of graduate attributes is
+    returned by default for the requesting user.
 
     @return Returns a two-column list of registered graduate attributes.
 } {
     if { $package_id eq ""} {
 	set package_id [ad_conn package_id]
+    }
+
+    if { $user_id eq ""} {
+	set user_id [ad_conn user_id]
     }
 
     set ga_list [db_list_of_lists select_ga {}]
@@ -965,13 +985,23 @@ ad_proc curriculum_central::uos::graduate_attributes_get_options {
 
 ad_proc curriculum_central::uos::assess_method_get_options {
     {-package_id ""}
+    {-user_id ""}
 } {
     Returns a two-column list of registered assessment methods.
+
+    @param package_id ID of the current package instance.
+    @param user_id Specify a user to retrieve their list of
+    assessment methods, otherwise a list of assessment methods is
+    returned by default for the requesting user.
 
     @return Returns a two-column list of registered assessment methods.
 } {
     if { $package_id eq ""} {
 	set package_id [ad_conn package_id]
+    }
+
+    if { $user_id eq ""} {
+	set user_id [ad_conn user_id]
     }
 
     set method_list [db_list_of_lists assess_methods {}]
