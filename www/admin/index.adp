@@ -26,5 +26,11 @@
   <li><a href="stream-ae">#curriculum-central.add_a_stream#</a></li>
   </ul>
 </li>
+<li><span>#curriculum-central.grade_descriptors#</span>
+  <ul>
+  <li><a href="grades">#curriculum-central.view_grade_descriptors#</a></li>
+  <li><a href="grade-ae">#curriculum-central.add_a_grade_descriptor#</a></li>
+  </ul>
+</li>
 </ul>
 </div>

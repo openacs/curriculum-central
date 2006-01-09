@@ -2,6 +2,8 @@
 <message_catalog package_key="curriculum-central" package_version="0.1d" locale="en_US" charset="ISO-8859-1">
 
   <msg key="uos">UoS</msg>
+  <msg key="view_grade_descriptors">View Grade Descriptors</msg>
+  <msg key="add_a_grade_descriptor">Add a Grade Descriptor</msg>
   <msg key="help_enter_name_of_grade_type">Enter a name for the grade type.  Eg High Distinction or Pass.</msg>
   <msg key="help_enter_lower_bound">Enter a lower bound for the grade type.  For example, a lower bound for a Fail might be 0, a lower bound for a high distinction might be 85.</msg>
   <msg key="help_enter_upper_bound">Enter an upper bound for the grade type.  For example, an upper bound for a high distinction might be 100, whereas an upper bound for a Fail might be 49.</msg>
