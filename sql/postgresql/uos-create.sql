@@ -323,3 +323,6 @@ end;
 
 -- UoS Textbooks
 \i uos-textbook-create.sql
+
+-- UoS Grade Descriptors
+\i uos-grades-create.sql

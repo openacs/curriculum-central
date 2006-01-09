@@ -2,6 +2,23 @@
 <message_catalog package_key="curriculum-central" package_version="0.1d" locale="en_US" charset="ISO-8859-1">
 
   <msg key="uos">UoS</msg>
+  <msg key="help_enter_name_of_grade_type">Enter a name for the grade type.  Eg High Distinction or Pass.</msg>
+  <msg key="help_enter_lower_bound">Enter a lower bound for the grade type.  For example, a lower bound for a Fail might be 0, a lower bound for a high distinction might be 85.</msg>
+  <msg key="help_enter_upper_bound">Enter an upper bound for the grade type.  For example, an upper bound for a high distinction might be 100, whereas an upper bound for a Fail might be 49.</msg>
+  <msg key="add_grade_type_to_list">Add grade type to list.</msg>
+  <msg key="no_grade_types_created">No grade types have been created.</msg>
+  <msg key="edit_grade_type">Edit Grade Type</msg>
+  <msg key="add_grade_type">Add Grade Type</msg>
+  <msg key="grade_type">Grade Type</msg>
+  <msg key="lower_bound">Lower Bound</msg>
+  <msg key="upper_bound">Upper Bound</msg>
+  <msg key="uos_grade_types">Grade Types</msg>
+  <msg key="uos_grade_set">Grade Descriptor Set</msg>
+  <msg key="uos_grade_sets">Grade Descriptor Sets</msg>
+  <msg key="uos_grade_set_revision">Grade Descriptor Set Revision</msg>
+  <msg key="uos_grade_set_revisions">Grade Descriptor Set Revisions</msg>
+  <msg key="grade_descriptor">Grade Descriptor</msg>
+  <msg key="grade_descriptors">Grade Descriptors</msg>
   <msg key="manage_your_list_of_textbooks">Manage your list of textbooks</msg>
   <msg key="help_enter_textbook_title">Enter the title of the textbook.</msg>
   <msg key="help_enter_textbook_author">Enter the author of the textbook.</msg>

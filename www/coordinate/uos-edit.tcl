@@ -280,7 +280,6 @@ ad_form -extend -name uos -form {
 # Add assessment and schedule section.
 template::form::section uos [_ curriculum-central.assessment_and_schedule]
 
-# TODO: Work on the following assessment section.
 # Retrieve assessment info for Unit of Study.
 curriculum_central::uos::get_assessment \
     -uos_id $uos_id \
@@ -305,6 +304,12 @@ ad_form -extend -name uos -form {
 	{mode display}
     }
 }
+
+
+# Add the grade descriptor widgets.
+curriculum_central::uos::add_grade_descriptor_widgets \
+    -uos_id $uos_id \
+    -form_name uos
 
 
 # Add history section
@@ -339,6 +344,28 @@ if { $enabled_action_id ne "" } {
     foreach field [workflow::action::get_element -action_id $action_id -element edit_fields] {
 	element set_properties uos $field -mode edit
     }
+
+    # Retrieve some workflow information
+    workflow::case::enabled_action_get \
+	-enabled_action_id $enabled_action_id \
+	-array enabled_action_info
+
+    workflow::action::get \
+	-action_id $enabled_action_info(action_id) \
+	-array action_info
+
+    # If the current action is edit_assess, then set the
+    # grade descriptor fields as editable.
+    if { $action_info(short_name) eq "edit_assess"} {
+	foreach gd_field [curriculum_central::uos::get_grade_descriptor_fields] {
+	    # Get the field name from the list of lists.
+	    # type_id is the first item, and field_id is the second item.
+	    # We are only interested in the second item.
+	    set gd_field_name [lindex $gd_field 1]
+
+	    element set_properties uos $gd_field_name -mode edit
+	}
+    }
 }
 
 
@@ -346,11 +373,28 @@ if { $enabled_action_id ne "" } {
 ad_form -extend -name uos -on_submit {
     array set row [list]
 
+    # For Grade Descriptor fields
+    set grade_descriptors [list]
+
     if { $enabled_action_id ne "" } {
         foreach field [workflow::action::get_element \
 			   -action_id $action_id -element edit_fields] {
             set row($field) [element get_value uos $field]
+
+	    ns_log Warning "NC: $field = [element get_value uos $field]"
         }
+
+	# TODO: Create get_grade_descriptor_fields proc
+	foreach descriptor_field \
+	    [curriculum_central::uos::get_grade_descriptor_fields] {
+		set type_id [lindex $descriptor_field 0]
+		set field_id [lindex $descriptor_field 1]
+
+		# Append grade_type_id followed by the description.
+		lappend grade_descriptors [list $type_id [element get_value uos $field_id]]
+
+		ns_log Warning "$type_id - $field_id - [element get_value uos $field_id]"
+	}
     }
 
     set activity_log [element get_value uos activity_log]
@@ -403,6 +447,9 @@ ad_form -extend -name uos -on_submit {
 	    -assess_id $assess_id \
 	    -assess_method_ids $assess_method_ids
 
+	curriculum_central::uos::update_grade_descriptors \
+	    -grade_set_id $grade_set_id \
+	    -grade_descriptors $grade_descriptors
     }
 
     # Do a general edit update.

@@ -436,6 +436,13 @@ ad_proc -public curriculum_central::uos::insert {
 		        [list object_type "cc_uos_assess"]] \
 		       "cc_uos_assess"]
 
+    # Initiate cc_uos_grade_set
+    set textbook_set_id [package_instantiate_object \
+        -var_list [list [list parent_uos_id $uos_id] \
+	  	        [list package_id $package_id] \
+		        [list object_type "cc_uos_grade_set"]] \
+		       "cc_uos_grade_set"]
+
     return $uos_id
 }
 
@@ -810,6 +817,62 @@ ad_proc -public curriculum_central::uos::update_assess {
 	# retrieved above.
 	foreach assess_method_id $assess_method_ids {
 	    db_exec_plsql map_assess_to_revision {}
+	}
+    }
+
+    return $revision_id
+}
+
+
+ad_proc -public curriculum_central::uos::update_grade_descriptors {
+    -grade_set_id:required
+    -grade_descriptors:required
+    {-user_id ""}
+    {-creation_ip ""}
+} {
+    Updates the grade descriptor component for a Unit of Study.
+    This update proc creates a new grade descriptor revision.
+
+    @param grade_set_id The ID for a set of grade descriptors.
+    @param grade_descriptors List of grade descriptors
+    to be mapped to the textbook set.
+    @param user_id The ID of the user that updated the Unit of Study.
+    @param creation_ip The IP of the user that made the update.
+
+    @return revision_id Returns the ID of the newly created revision for
+    convenience, otherwise the empty string if unsuccessful.
+} {
+    if { $user_id eq "" } {
+        set user_id [ad_conn user_id]
+    }
+    if { $creation_ip eq "" } {
+	set creation_ip [ad_conn peeraddr]
+    }
+
+    set package_id [ad_conn package_id]
+
+    # Set the default value for revision_id.
+    set revision_id ""
+    db_transaction {
+	set revision_id [db_exec_plsql update_grade_set {}]
+
+	# Foreach grade_descriptor map to the newly created revision_id
+	# retrieved above.
+	foreach grade_descriptor $grade_descriptors {
+	    set grade_type_id [lindex $grade_descriptor 0]
+	    set description [lindex $grade_descriptor 1]
+
+	    ns_log Warning "NC: (grade_type_id $grade_type_id) = $description"
+
+	    set grade_id [package_instantiate_object \
+	        -var_list [list [list package_id $package_id] \
+ 			        [list grade_type_id $grade_type_id] \
+			        [list description $description] \
+			        [list object_type "cc_uos_grade"]] \
+			      "cc_uos_grade"]
+	    
+	    # Use the above grade_id to map to the revision_id
+	    db_exec_plsql map_grade_descriptor_revision {}
 	}
     }
 
@@ -1354,4 +1417,95 @@ ad_proc -public curriculum_central::uos::get_assessment_total {
     }
 
     return $total
+}
+
+
+ad_proc -public curriculum_central::uos::get_grade_descriptor_pretty_name {
+    {-type_id:required}
+    {-package_id ""}
+} {
+    Returns a pretty name for the grade descriptor that matches the given
+    type_id.
+
+    @param type_id The ID for a grade descriptor type.
+    @param package_id Instance ID of a package.
+
+    @return Returns a pretty name for the grade descriptor that matches the
+    given type_id.  Pretty name includes the grade bounds.  Returns an
+    empty string if there is no name for the given type_id.
+} {
+    if { $package_id eq ""} {
+	set package_id [ad_conn package_id]
+    }
+
+    return [db_string pretty_name {} -default ""]
+}
+
+
+ad_proc -public curriculum_central::uos::get_grade_descriptor_fields {
+    {-package_id ""}
+} {
+    Gets a list of grade descriptor field IDs.
+
+    @param package_id Instance ID of a package.
+
+    @return Returns a list of lists where the first item of a list contains
+    the grade type ID, and the second item is the field ID, which is just
+    the grade type ID appended to the grade_descriptor_ prefix.
+} {
+    if { $package_id eq ""} {
+	set package_id [ad_conn package_id]
+    }
+
+    set prefix "grade_descriptor_"
+
+    return [db_list_of_lists fields {}]
+}
+
+
+ad_proc -public curriculum_central::uos::add_grade_descriptor_widgets {
+    {-uos_id:required}
+    {-form_name:required}
+    {-package_id ""}
+    {-prefix "grade_descriptor_"}
+} {
+    @param uos_id The ID of the Unit of Study for which we create grade
+    descriptor widgets for.
+    @param form_name The name of the form to add widgets to.
+    @param package_id
+    @param prefix
+} {
+    if { $package_id eq ""} {
+	set package_id [ad_conn package_id]
+    }
+
+    array set row [list]
+
+    if { ![db_0or1row latest_grade_set {} -column_array row] } {
+	set row(grade_set_id) ""
+	set row(latest_revision_id) ""
+    }
+
+    set grade_set_id $row(grade_set_id)
+    set latest_revision_id $row(latest_revision_id)
+
+    ad_form -extend -name $form_name -form {
+	{grade_set_id:integer(hidden),optional
+	    {value $grade_set_id}
+	}
+    }
+
+    foreach grade_descriptors [db_list_of_lists latest_grade_descriptors {}] {
+	set type_id [lindex $grade_descriptors 0]
+	set description [lindex $grade_descriptors 1]
+
+	ad_form -extend -name $form_name -form {
+	    {${prefix}${type_id}:text(textarea)
+		{label "[curriculum_central::uos::get_grade_descriptor_pretty_name -type_id $type_id]"}
+		{html {cols 50 rows 4}}
+		{mode display}
+		{value $description}
+	    }
+	}
+    }
 }

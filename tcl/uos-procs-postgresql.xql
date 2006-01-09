@@ -87,6 +87,17 @@
      </querytext>
    </fullquery>
 
+   <fullquery name="curriculum_central::uos::add_grade_descriptor_widgets.latest_grade_set">
+     <querytext>
+       SELECT g.grade_set_id, g.latest_revision_id
+           FROM cc_uos u, cc_uos_revisions r, cr_items i, cc_uos_grade_set g
+	   WHERE u.uos_id = :uos_id
+	   AND i.item_id = u.uos_id
+	   AND r.uos_revision_id = i.latest_revision
+	   AND g.parent_uos_id = :uos_id
+     </querytext>
+   </fullquery>
+
    <fullquery name="curriculum_central::uos::get_assessment.latest_assess_method_ids">
      <querytext>
        SELECT method_id FROM cc_uos_assess_method_map
@@ -105,6 +116,19 @@
      <querytext>
        SELECT textbook_id FROM cc_uos_textbook_map
            WHERE revision_id = :latest_revision_id
+     </querytext>
+   </fullquery>
+
+   <fullquery name="curriculum_central::uos::add_grade_descriptor_widgets.latest_grade_descriptors">
+     <querytext>
+       SELECT t.type_id, grade_rev.description
+       FROM cc_uos_grade_type t LEFT OUTER JOIN
+           (SELECT g.grade_type_id, g.description
+	       FROM cc_uos_grade_map map, cc_uos_grade g
+	       WHERE map.revision_id = :latest_revision_id
+	       AND map.grade_id = g.grade_id) AS grade_rev
+       ON (t.type_id = grade_rev.grade_type_id)
+       ORDER BY t.upper_bound DESC
      </querytext>
    </fullquery>
 
@@ -271,6 +295,27 @@
 	   now(),
 	   :user_id,
 	   :creation_ip
+       );
+     </querytext>
+   </fullquery>
+
+   <fullquery name="curriculum_central::uos::update_grade_descriptors.update_grade_set">
+     <querytext>
+       SELECT cc_uos_grade_set_rev__new (
+           null,
+	   :grade_set_id,
+	   now(),
+	   :user_id,
+	   :creation_ip
+       );
+     </querytext>
+   </fullquery>
+
+   <fullquery name="curriculum_central::uos::update_grade_descriptors.map_grade_descriptor_revision">
+     <querytext>
+       SELECT cc_uos_grade__map (
+           :revision_id,
+	   :grade_id
        );
      </querytext>
    </fullquery>
@@ -483,7 +528,7 @@
      </querytext>
    </partialquery>
 
-   <partialquery name="curriculum_central::uos::get_assessment_total.latest_assess_total">
+   <fullquery name="curriculum_central::uos::get_assessment_total.latest_assess_total">
      <querytext>
        SELECT sum(weighting)
        FROM cc_uos_assess a,
@@ -493,6 +538,22 @@
            AND map.assess_revision_id = a.latest_revision_id
 	   AND map.method_id = meth.method_id
      </querytext>
-   </partialquery>
+   </fullquery>
 
+   <fullquery name="curriculum_central::uos::get_grade_descriptor_pretty_name.pretty_name">
+     <querytext>
+       SELECT name || ' (' || lower_bound || ' to ' || upper_bound || ')'
+           AS pretty_name
+       FROM cc_uos_grade_type WHERE type_id = :type_id
+           AND package_id = :package_id
+     </querytext>
+   </fullquery>
+
+   <fullquery name="curriculum_central::uos::get_grade_descriptor_fields.fields">
+     <querytext>
+       SELECT type_id, :prefix || type_id AS field_id
+           FROM cc_uos_grade_type WHERE package_id = :package_id
+	   ORDER BY upper_bound DESC
+     </querytext>
+   </fullquery>
 </queryset>

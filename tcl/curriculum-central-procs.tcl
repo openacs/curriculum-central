@@ -65,6 +65,11 @@ ad_proc curriculum_central::curriculum_new { curriculum_id } {
 		-content_type "cc_uos_textbook_set_rev" \
 		-include_subtypes "t"
 
+	    content::folder::register_content_type \
+		-folder_id $folder_id \
+		-content_type "cc_uos_grade_set_rev" \
+		-include_subtypes "t"
+
 	    set keyword_id [content::keyword::new -heading "$instance_name"]
 
 	    # Inserts into cc_curriculum
