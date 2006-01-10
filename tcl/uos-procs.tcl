@@ -1389,6 +1389,11 @@ ad_proc -private curriculum_central::uos::go_live::do_side_effect {
     db_1row get_latest_assess_revision {}
     content::item::set_live_revision -revision_id $latest_assess_revision
     db_dml set_live_assess_revision {}
+
+    # Do the same for cc_uos_assess
+    db_1row get_latest_grade_revision {}
+    content::item::set_live_revision -revision_id $latest_grade_revision
+    db_dml set_live_grade_revision {}
 }
 
 

@@ -446,6 +446,16 @@
      </querytext>
    </fullquery>
 
+   <fullquery name="curriculum_central::uos::go_live::do_side_effect.get_latest_grade_revision">
+     <querytext>
+       SELECT i.latest_revision AS latest_grade_revision
+           FROM cr_items i, cr_child_rels c
+           WHERE c.relation_tag = 'cc_uos_grade_set'
+	   AND c.parent_id = :object_id
+	   AND i.item_id = c.child_id
+     </querytext>
+   </fullquery>
+
    <fullquery name="curriculum_central::uos::go_live::do_side_effect.get_latest_ga_revision">
      <querytext>
        SELECT i.latest_revision AS latest_ga_revision
@@ -490,6 +500,13 @@
    <fullquery name="curriculum_central::uos::go_live::do_side_effect.set_live_assess_revision">
      <querytext>
        UPDATE cc_uos_assess SET live_revision_id = :latest_assess_revision
+           WHERE parent_uos_id = :object_id
+     </querytext>
+   </fullquery>
+
+   <fullquery name="curriculum_central::uos::go_live::do_side_effect.set_live_grade_revision">
+     <querytext>
+       UPDATE cc_uos_grade_set SET live_revision_id = :latest_grade_revision
            WHERE parent_uos_id = :object_id
      </querytext>
    </fullquery>
