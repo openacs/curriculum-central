@@ -32,7 +32,6 @@ ad_proc -public curriculum_central::uos::object_type {} {
 }
 
 
-# TODO: Complete workflow
 ad_proc -private curriculum_central::uos::workflow_create {} {
     Create the 'uos' workflow for curriculum-central
 } {
@@ -141,9 +140,9 @@ ad_proc -private curriculum_central::uos::workflow_create {} {
 		    }
 		    assigned_states { open }
                 }
-		edit_assess {
-		    pretty_name "#curriculum-central.edit_assess_sched#"
-		    pretty_past_tense "#curriculum-central.edited_assess_sched#"
+		edit_assessment {
+		    pretty_name "#curriculum-central.edit_assessment#"
+		    pretty_past_tense "#curriculum-central.edited_assessment#"
 		    allowed_roles {
 			stream_coordinator
 			unit_coordinator
@@ -153,6 +152,17 @@ ad_proc -private curriculum_central::uos::workflow_create {} {
 		    edit_fields {
 			assess_method_ids
 		    }
+		    assigned_states { open }
+		}
+		edit_schedule {
+		    pretty_name "#curriculum-central.edit_schedule#"
+		    pretty_past_tense "#curriculum-central.edited_schedule#"
+		    allowed_roles {
+			stream_coordinator
+			unit_coordinator
+			lecturer
+		    }
+		    privileges { write }
 		    assigned_states { open }
 		}
                 submit {
@@ -442,6 +452,13 @@ ad_proc -public curriculum_central::uos::insert {
 	  	        [list package_id $package_id] \
 		        [list object_type "cc_uos_grade_set"]] \
 		       "cc_uos_grade_set"]
+
+    # Initiate cc_uos_schedule_set
+    set textbook_set_id [package_instantiate_object \
+        -var_list [list [list parent_uos_id $uos_id] \
+	  	        [list package_id $package_id] \
+		        [list object_type "cc_uos_schedule_set"]] \
+		       "cc_uos_schedule_set"]
 
     return $uos_id
 }
@@ -862,8 +879,6 @@ ad_proc -public curriculum_central::uos::update_grade_descriptors {
 	    set grade_type_id [lindex $grade_descriptor 0]
 	    set description [lindex $grade_descriptor 1]
 
-	    ns_log Warning "NC: (grade_type_id $grade_type_id) = $description"
-
 	    set grade_id [package_instantiate_object \
 	        -var_list [list [list package_id $package_id] \
  			        [list grade_type_id $grade_type_id] \
@@ -873,6 +888,64 @@ ad_proc -public curriculum_central::uos::update_grade_descriptors {
 	    
 	    # Use the above grade_id to map to the revision_id
 	    db_exec_plsql map_grade_descriptor_revision {}
+	}
+    }
+
+    return $revision_id
+}
+
+
+ad_proc -public curriculum_central::uos::update_schedule {
+    -schedule_set_id:required
+    -schedule_fields:required
+    {-user_id ""}
+    {-creation_ip ""}
+} {
+    Updates the weekly schedule component for a Unit of Study.
+    This update proc creates a new schedule revision.
+
+    @param schedule_set_id The ID for a set of schedule weeks.
+    @param schedule_fields List of schedule fields to be mapped
+    to the textbook set.  The list is structured to contain the week_id
+    as the first item, the value for the course content field as the
+    second item, and a list of assessment IDs as the third item.
+    @param user_id The ID of the user that updated the Unit of Study.
+    @param creation_ip The IP of the user that made the update.
+
+    @return revision_id Returns the ID of the newly created revision for
+    convenience, otherwise the empty string if unsuccessful.
+} {
+    if { $user_id eq "" } {
+        set user_id [ad_conn user_id]
+    }
+    if { $creation_ip eq "" } {
+	set creation_ip [ad_conn peeraddr]
+    }
+
+    set package_id [ad_conn package_id]
+
+    # Set the default value for revision_id.
+    set revision_id ""
+    db_transaction {
+	set revision_id [db_exec_plsql update_schedule_set {}]
+
+	# Foreach schedule field, map to the newly created revision_id
+	# retrieved above.
+	foreach field $schedule_fields {
+	    set week_id [lindex $field 0]
+	    set course_content [lindex $field 1]
+	    set assessment_ids [lindex $field 2]
+
+	    set schedule_id [package_instantiate_object \
+	        -var_list [list [list package_id $package_id] \
+ 			        [list week_id $week_id] \
+			        [list course_content $course_content] \
+			        [list assessment_ids $assessment_ids] \
+			        [list object_type "cc_uos_schedule"]] \
+			      "cc_uos_schedule"]
+	    
+	    # Use the above schedule_id to map to the revision_id
+	    db_exec_plsql map_schedule_revision {}
 	}
     }
 
@@ -1360,6 +1433,8 @@ ad_proc -private curriculum_central::uos::go_live::do_side_effect {
     # Also set the latest revision to the live revision in cc_uos.
     db_dml set_live_revision {}
 
+    # NC: This needs to be done better.  Works for the timebeing.
+
     # Do the same for cc_uos_detail
     db_1row get_latest_detail_revision {}
     content::item::set_live_revision -revision_id $latest_detail_revision
@@ -1390,10 +1465,15 @@ ad_proc -private curriculum_central::uos::go_live::do_side_effect {
     content::item::set_live_revision -revision_id $latest_assess_revision
     db_dml set_live_assess_revision {}
 
-    # Do the same for cc_uos_assess
+    # Do the same for cc_uos_grade
     db_1row get_latest_grade_revision {}
     content::item::set_live_revision -revision_id $latest_grade_revision
     db_dml set_live_grade_revision {}
+
+    # Do the same for cc_uos_schedule
+    db_1row get_latest_schedule_revision {}
+    content::item::set_live_revision -revision_id $latest_schedule_revision
+    db_dml set_live_schedule_revision {}
 }
 
 
@@ -1498,6 +1578,10 @@ ad_proc -public curriculum_central::uos::add_grade_descriptor_widgets {
 	{grade_set_id:integer(hidden),optional
 	    {value $grade_set_id}
 	}
+	{grade_inform:text(inform)
+	    {label "[_ curriculum-central.grade_descriptors]"}
+	    {value "[_ curriculum-central.following_are_grade_descriptors]"}
+	}
     }
 
     foreach grade_descriptors [db_list_of_lists latest_grade_descriptors {}] {
@@ -1510,6 +1594,124 @@ ad_proc -public curriculum_central::uos::add_grade_descriptor_widgets {
 		{html {cols 50 rows 4}}
 		{mode display}
 		{value $description}
+		{help_text "[_ curriculum-central.help_enter_details_of_what_a_student_must_achieve_to_earn_this_grade]"}
+	    }
+	}
+    }
+}
+
+
+ad_proc -public curriculum_central::uos::get_schedule_pretty_name {
+    {-week_id:required}
+    {-package_id ""}
+} {
+    Returns a pretty name for the schedule week that matches the given
+    week_id.
+
+    @param week_id The ID for a schedule week.
+    @param package_id Instance ID of a package.
+
+    @return Returns a pretty name for the schedule week that matches the
+    given week_id.  Returns an empty string if there is no name for the
+    given week_id.
+} {
+    if { $package_id eq ""} {
+	set package_id [ad_conn package_id]
+    }
+
+    return [db_string pretty_name {} -default ""]
+}
+
+
+ad_proc -public curriculum_central::uos::get_schedule_fields {
+    {-package_id ""}
+} {
+    Gets a list of schedule field IDs.
+
+    @param package_id Instance ID of a package.
+
+    @return Returns a list of lists where the first item of a list contains
+    the schedule week ID, the second item is the field ID for course content,
+    which is just the schedule week ID appended to the schedule_week_content_
+    prefix.  Similarly, the third item is the field ID for assessment IDs,
+    which is the schedule week ID appended to the schedule_week_assessment_
+    prefix.
+} {
+    if { $package_id eq ""} {
+	set package_id [ad_conn package_id]
+    }
+
+    set content_prefix "schedule_week_content_"
+    set assessment_prefix "schedule_week_assessment_"
+
+    return [db_list_of_lists fields {}]
+}
+
+
+ad_proc -public curriculum_central::uos::add_schedule_widgets {
+    {-uos_id:required}
+    {-form_name:required}
+    {-section_name ""}
+    {-package_id ""}
+    {-content_prefix "schedule_week_content_"}
+    {-assessment_prefix "schedule_week_assessment_"}
+} {
+    @param uos_id The ID of the Unit of Study for which we create
+    schedule widgets for.
+    @param form_name The name of the form to add widgets to.
+    @param section_name If provided, a section will be added to the form
+    with the given name.  Otherwise no section header will be added.
+    @param package_id A package instance ID.  Otherwise the current
+    package instance ID is used.
+    @param content_prefix Prefix used to generate the form field for
+    the course content for a scheduled week.
+    @param assessment_prefix Prefix used to generate the form field for
+    the assessment for a scheduled week.
+} {
+    if { $package_id eq "" } {
+	set package_id [ad_conn package_id]
+    }
+
+    # If the section name is provided, then add a section to the form
+    # using the given section name.
+    if { $section_name ne "" } {
+	template::form::section $form_name $section_name
+    }
+
+    array set row [list]
+
+    if { ![db_0or1row latest_schedule_set {} -column_array row] } {
+	set row(schedule_set_id) ""
+	set row(latest_revision_id) ""
+    }
+
+    set schedule_set_id $row(schedule_set_id)
+    set latest_revision_id $row(latest_revision_id)
+
+    ad_form -extend -name $form_name -form {
+	{schedule_set_id:integer(hidden),optional
+	    {value $schedule_set_id}
+	}
+    }
+
+    foreach week [db_list_of_lists latest_schedule {}] {
+	set week_id [lindex $week 0]
+	set course_content [lindex $week 1]
+	set assessment_ids [lindex $week 2]
+	
+	ad_form -extend -name $form_name -form {
+	    {${content_prefix}${week_id}:text(textarea)
+		{label "[curriculum_central::uos::get_schedule_pretty_name -week_id $week_id] [_ curriculum-central.course_content]"}
+		{html {cols 50 rows 4}}
+		{mode display}
+		{value $course_content}
+	    }
+	    {${assessment_prefix}${week_id}:text(multiselect),multiple,optional
+		{label "[curriculum_central::uos::get_schedule_pretty_name -week_id $week_id] [_ curriculum-central.assessment]"}
+		{options [curriculum_central::uos::assess_method_get_options]}
+		{html {size 5}}
+		{mode display}
+		{values $assessment_ids}
 	    }
 	}
     }

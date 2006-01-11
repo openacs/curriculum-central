@@ -98,6 +98,17 @@
      </querytext>
    </fullquery>
 
+   <fullquery name="curriculum_central::uos::add_schedule_widgets.latest_schedule_set">
+     <querytext>
+       SELECT s.schedule_set_id, s.latest_revision_id
+           FROM cc_uos u, cc_uos_revisions r, cr_items i, cc_uos_schedule_set s
+	   WHERE u.uos_id = :uos_id
+	   AND i.item_id = u.uos_id
+	   AND r.uos_revision_id = i.latest_revision
+	   AND s.parent_uos_id = :uos_id
+     </querytext>
+   </fullquery>
+
    <fullquery name="curriculum_central::uos::get_assessment.latest_assess_method_ids">
      <querytext>
        SELECT method_id FROM cc_uos_assess_method_map
@@ -129,6 +140,19 @@
 	       AND map.grade_id = g.grade_id) AS grade_rev
        ON (t.type_id = grade_rev.grade_type_id)
        ORDER BY t.upper_bound DESC
+     </querytext>
+   </fullquery>
+
+   <fullquery name="curriculum_central::uos::add_schedule_widgets.latest_schedule">
+     <querytext>
+       SELECT w.week_id, rev.course_content, rev.assessment_ids
+       FROM cc_uos_schedule_week w LEFT OUTER JOIN
+           (SELECT s.week_id, s.course_content, s.assessment_ids
+	       FROM cc_uos_schedule_map map, cc_uos_schedule s
+	       WHERE map.revision_id = :latest_revision_id
+	       AND map.schedule_id = s.schedule_id) AS rev
+       ON (w.week_id = rev.week_id)
+       ORDER BY w.week_id ASC
      </querytext>
    </fullquery>
 
@@ -456,6 +480,16 @@
      </querytext>
    </fullquery>
 
+   <fullquery name="curriculum_central::uos::go_live::do_side_effect.get_latest_schedule_revision">
+     <querytext>
+       SELECT i.latest_revision AS latest_schedule_revision
+           FROM cr_items i, cr_child_rels c
+           WHERE c.relation_tag = 'cc_uos_schedule_set'
+	   AND c.parent_id = :object_id
+	   AND i.item_id = c.child_id
+     </querytext>
+   </fullquery>
+
    <fullquery name="curriculum_central::uos::go_live::do_side_effect.get_latest_ga_revision">
      <querytext>
        SELECT i.latest_revision AS latest_ga_revision
@@ -507,6 +541,14 @@
    <fullquery name="curriculum_central::uos::go_live::do_side_effect.set_live_grade_revision">
      <querytext>
        UPDATE cc_uos_grade_set SET live_revision_id = :latest_grade_revision
+           WHERE parent_uos_id = :object_id
+     </querytext>
+   </fullquery>
+
+   <fullquery name="curriculum_central::uos::go_live::do_side_effect.set_live_schedule_revision">
+     <querytext>
+       UPDATE cc_uos_schedule_set
+           SET live_revision_id = :latest_schedule_revision
            WHERE parent_uos_id = :object_id
      </querytext>
    </fullquery>
@@ -573,4 +615,43 @@
 	   ORDER BY upper_bound DESC
      </querytext>
    </fullquery>
+
+   <fullquery name="curriculum_central::uos::update_schedule.update_schedule_set">
+     <querytext>
+       SELECT cc_uos_schedule_set_rev__new (
+           null,
+	   :schedule_set_id,
+	   now(),
+	   :user_id,
+	   :creation_ip
+       );
+     </querytext>
+   </fullquery>
+
+   <fullquery name="curriculum_central::uos::update_schedule.map_schedule_revision">
+     <querytext>
+       SELECT cc_uos_schedule__map (
+           :revision_id,
+	   :schedule_id
+       );
+     </querytext>
+   </fullquery>
+
+   <fullquery name="curriculum_central::uos::get_schedule_pretty_name.pretty_name">
+     <querytext>
+       SELECT name
+       FROM cc_uos_schedule_week WHERE week_id = :week_id
+           AND package_id = :package_id
+     </querytext>
+   </fullquery>
+
+   <fullquery name="curriculum_central::uos::get_schedule_fields.fields">
+     <querytext>
+       SELECT week_id, :content_prefix || week_id AS content_field,
+           :assessment_prefix || week_id AS assessment_field
+       FROM cc_uos_schedule_week WHERE package_id = :package_id
+       ORDER BY week_id DESC
+     </querytext>
+   </fullquery>
+
 </queryset>

@@ -2,6 +2,22 @@
 <message_catalog package_key="curriculum-central" package_version="0.1d" locale="en_US" charset="ISO-8859-1">
 
   <msg key="uos">UoS</msg>
+  <msg key="course_content">Course Content</msg>
+  <msg key="help_enter_name_of_schedule_week">Enter a name for a scheduled week.  For example, enter either Week 1, Week 2, Study Vacation, or Exam Period.</msg>
+  <msg key="uos_schedule">UoS Schedule</msg>
+  <msg key="uos_schedules">UoS Schedules</msg>
+  <msg key="add_schedule_week">Add Schedule Week</msg>
+  <msg key="add_week_to_list">Add week to list</msg>
+  <msg key="schedule_week">Schedule Week</msg>
+  <msg key="no_schedule_weeks_created">No schedule weeks created.</msg>
+  <msg key="schedule">Schedule</msg>
+  <msg key="add_a_schedule_week">Add a Schedule Week</msg>
+  <msg key="view_schedule_template">View Schedule Template</msg>
+  <msg key="edit_schedule">Edit Schedule</msg>
+  <msg key="edited_schedule">Edited Schedule</msg>
+  <msg key="assessment">Assessment</msg>
+  <msg key="following_are_grade_descriptors">The following are grade descriptors for this Unit of Study.</msg>
+  <msg key="help_enter_details_of_what_a_student_must_achieve_to_earn_this_grade">Enter details of what a student must acheive to earn this grade.</msg>
   <msg key="view_grade_descriptors">View Grade Descriptors</msg>
   <msg key="add_a_grade_descriptor">Add a Grade Descriptor</msg>
   <msg key="help_enter_name_of_grade_type">Enter a name for the grade type.  Eg High Distinction or Pass.</msg>
@@ -55,9 +71,8 @@
   <msg key="edit_assess_method">Edit Assessment Method</msg>
   <msg key="add_assess_method">Add Assessment Method</msg>
   <msg key="assess_methods">Assessment Methods</msg>
-  <msg key="assessment_and_schedule">Asessment and Schedule</msg>
-  <msg key="edit_assess_sched">Edit Assessment and Schedule</msg>
-  <msg key="edited_assess_sched">Edited Assessment and Schedule</msg>
+  <msg key="edit_assessment">Edit Assessment</msg>
+  <msg key="edited_assessment">Edited Assessment</msg>
   <msg key="uos_assessment">Uos Assessment</msg>
   <msg key="uos_assessments">Uos Assessments</msg>
   <msg key="uos_assessment_revision">Uos Assessment Revision</msg>
@@ -122,7 +137,7 @@
   <msg key="edit_tl_method">Edit T&amp;L Method</msg>
   <msg key="edit_tl">Edit T&amp;L</msg>
   <msg key="edited_tl">Edited T&amp;L</msg>
-  <msg key="tl_arrangements_and_requirements">Teaching &amp; Learning Arrangements and Requirements</msg>
+  <msg key="tl_arrangements_and_requirements">Teaching &amp; Learning (T&amp;L) Arrangements and Requirements</msg>
   <msg key="teaching_and_learning_approach">Teaching and Learning Approach</msg>
   <msg key="uos_teaching_and_learning">UoS Teaching and Learning</msg>
   <msg key="uos_teaching_and_learning_revision">UoS Teaching and Learning Revision</msg>

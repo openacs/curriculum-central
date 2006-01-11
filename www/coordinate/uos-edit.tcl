@@ -277,8 +277,8 @@ ad_form -extend -name uos -form {
 }
 
 
-# Add assessment and schedule section.
-template::form::section uos [_ curriculum-central.assessment_and_schedule]
+# Add assessment and section.
+template::form::section uos [_ curriculum-central.assessment]
 
 # Retrieve assessment info for Unit of Study.
 curriculum_central::uos::get_assessment \
@@ -310,6 +310,13 @@ ad_form -extend -name uos -form {
 curriculum_central::uos::add_grade_descriptor_widgets \
     -uos_id $uos_id \
     -form_name uos
+
+
+# Add the schedule section and widgets.
+curriculum_central::uos::add_schedule_widgets \
+    -uos_id $uos_id \
+    -form_name uos \
+    -section_name [_ curriculum-central.schedule]
 
 
 # Add history section
@@ -354,9 +361,9 @@ if { $enabled_action_id ne "" } {
 	-action_id $enabled_action_info(action_id) \
 	-array action_info
 
-    # If the current action is edit_assess, then set the
+    # If the current action is edit_assessment, then set the
     # grade descriptor fields as editable.
-    if { $action_info(short_name) eq "edit_assess"} {
+    if { $action_info(short_name) eq "edit_assessment"} {
 	foreach gd_field [curriculum_central::uos::get_grade_descriptor_fields] {
 	    # Get the field name from the list of lists.
 	    # type_id is the first item, and field_id is the second item.
@@ -366,6 +373,22 @@ if { $enabled_action_id ne "" } {
 	    element set_properties uos $gd_field_name -mode edit
 	}
     }
+
+    # If the current action is edit_schedule, then set the
+    # schedule fields as editable.
+    if { $action_info(short_name) eq "edit_schedule"} {
+	foreach schedule_field [curriculum_central::uos::get_schedule_fields] {
+	    # Get the field name from the list of lists.
+	    # week_id is the first item, content field ID is the second item,
+	    # and assessment field ID is the third item.
+	    # We are only interested in the second item.
+	    set schedule_content_field [lindex $schedule_field 1]
+	    element set_properties uos $schedule_content_field -mode edit
+
+	    set schedule_assessment_field [lindex $schedule_field 2]
+	    element set_properties uos $schedule_assessment_field -mode edit
+	}
+    }
 }
 
 
@@ -373,28 +396,11 @@ if { $enabled_action_id ne "" } {
 ad_form -extend -name uos -on_submit {
     array set row [list]
 
-    # For Grade Descriptor fields
-    set grade_descriptors [list]
-
     if { $enabled_action_id ne "" } {
         foreach field [workflow::action::get_element \
 			   -action_id $action_id -element edit_fields] {
             set row($field) [element get_value uos $field]
-
-	    ns_log Warning "NC: $field = [element get_value uos $field]"
         }
-
-	# TODO: Create get_grade_descriptor_fields proc
-	foreach descriptor_field \
-	    [curriculum_central::uos::get_grade_descriptor_fields] {
-		set type_id [lindex $descriptor_field 0]
-		set field_id [lindex $descriptor_field 1]
-
-		# Append grade_type_id followed by the description.
-		lappend grade_descriptors [list $type_id [element get_value uos $field_id]]
-
-		ns_log Warning "$type_id - $field_id - [element get_value uos $field_id]"
-	}
     }
 
     set activity_log [element get_value uos activity_log]
@@ -441,15 +447,58 @@ ad_form -extend -name uos -on_submit {
 	    -student_feedback $student_feedback \
 	    -assumed_concepts $assumed_concepts
 
-    } elseif { $action_info(short_name) eq "edit_assess" } {
+    } elseif { $action_info(short_name) eq "edit_assessment" } {
 	
 	curriculum_central::uos::update_assess \
 	    -assess_id $assess_id \
 	    -assess_method_ids $assess_method_ids
 
+
+	# For Grade Descriptor fields
+	set grade_descriptors [list]
+
+	if { $enabled_action_id ne "" } {
+	    # Get the grade descriptors, and the information
+	    # added for each one.
+	    foreach descriptor_field \
+		[curriculum_central::uos::get_grade_descriptor_fields] {
+		    set type_id [lindex $descriptor_field 0]
+		    set field_id [lindex $descriptor_field 1]
+		    
+		    # Append grade_type_id followed by the description.
+		    lappend grade_descriptors \
+			[list $type_id [element get_value uos $field_id]]
+		}
+	}
+
 	curriculum_central::uos::update_grade_descriptors \
 	    -grade_set_id $grade_set_id \
 	    -grade_descriptors $grade_descriptors
+
+    } elseif { $action_info(short_name) eq "edit_schedule" } {
+
+	# For schedule fields
+	set schedule_fields [list]
+
+	if { $enabled_action_id ne "" } {
+	    # Get the schedule fields, and the information
+	    # added for each one.
+	    foreach schedule_field \
+		[curriculum_central::uos::get_schedule_fields] {
+		    set week_id [lindex $schedule_field 0]
+		    set content_field [lindex $schedule_field 1]
+		    set assessment_field [lindex $schedule_field 2]
+
+		    # Append week_id, content field and assessment field data.
+		    lappend schedule_fields \
+			[list $week_id [element get_value uos $content_field] \
+			     [element get_value uos $assessment_field]]
+		}
+	}
+
+	curriculum_central::uos::update_schedule \
+	    -schedule_set_id $schedule_set_id \
+	    -schedule_fields $schedule_fields
     }
 
     # Do a general edit update.

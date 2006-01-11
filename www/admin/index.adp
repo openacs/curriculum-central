@@ -32,5 +32,11 @@
   <li><a href="grade-ae">#curriculum-central.add_a_grade_descriptor#</a></li>
   </ul>
 </li>
+<li><span>#curriculum-central.schedule#</span>
+  <ul>
+  <li><a href="schedule">#curriculum-central.view_schedule_template#</a></li>
+  <li><a href="schedule-week-ae">#curriculum-central.add_a_schedule_week#</a></li>
+  </ul>
+</li>
 </ul>
 </div>

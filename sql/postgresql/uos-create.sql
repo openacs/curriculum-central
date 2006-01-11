@@ -326,3 +326,6 @@ end;
 
 -- UoS Grade Descriptors
 \i uos-grades-create.sql
+
+-- UoS Schedule
+\i uos-schedule-create.sql
