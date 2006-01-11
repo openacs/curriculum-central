@@ -492,7 +492,7 @@ ad_form -extend -name uos -on_submit {
 		    # Append week_id, content field and assessment field data.
 		    lappend schedule_fields \
 			[list $week_id [element get_value uos $content_field] \
-			     [element get_value uos $assessment_field]]
+			     [element get_values uos $assessment_field]]
 		}
 	}
 

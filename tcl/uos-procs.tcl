@@ -1240,9 +1240,12 @@ ad_proc curriculum_central::uos::assess_method_get_options {
 	set user_id [ad_conn user_id]
     }
 
+    # Create an empty option that the user can select.  The value of
+    # which is an empty string.
+    set empty_option [list [list [list [_ curriculum-central.none]] 0]]
     set method_list [db_list_of_lists assess_methods {}]
 
-    return $method_list
+    return [concat $empty_option $method_list]
 }
 
 
@@ -1698,7 +1701,7 @@ ad_proc -public curriculum_central::uos::add_schedule_widgets {
 	set week_id [lindex $week 0]
 	set course_content [lindex $week 1]
 	set assessment_ids [lindex $week 2]
-	
+
 	ad_form -extend -name $form_name -form {
 	    {${content_prefix}${week_id}:text(textarea)
 		{label "[curriculum_central::uos::get_schedule_pretty_name -week_id $week_id] [_ curriculum-central.course_content]"}
