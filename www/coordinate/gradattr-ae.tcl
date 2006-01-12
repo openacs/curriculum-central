@@ -24,8 +24,8 @@ set user_id [ad_conn user_id]
 ad_form -name gradattr -cancel_url $return_url -form {
     {gradattr_id:key(acs_object_id_seq)}
     {return_url:text(hidden) {value $return_url}}
-    {name:text
-	{html {size 25}}
+    {name_id:integer(select)
+	{options [curriculum_central::graduate_attribute_names_get_options] }
 	{label "[_ curriculum-central.name]" }
 	{help_text "[_ curriculum-central.help_enter_graduate_attribute_name]"}
     }
@@ -51,13 +51,13 @@ ad_form -name gradattr -cancel_url $return_url -form {
 	}
     }
 } -select_query {
-       SELECT name, identifier, description, level
+       SELECT name_id, identifier, description, level
 	   FROM cc_uos_gradattr WHERE gradattr_id = :gradattr_id
 } -new_data {
     package_instantiate_object \
 	-var_list [list [list package_id $package_id] \
 		        [list object_type cc_uos_gradattr] \
-		        [list name $name] \
+		        [list name_id $name_id] \
 		        [list identifier $identifier] \
 		        [list description $description] \
 		        [list level $level]] \

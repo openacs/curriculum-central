@@ -12,6 +12,44 @@ create function inline_0 ()
 returns integer as'
 begin 
     PERFORM acs_object_type__create_type (
+	''cc_uos_gradattr_name'',			-- object_type
+	''#curriculum-central.uos_graduate_attribtue_name#'',  -- pretty_name
+	''#curriculum-central.uos_graduate_attribute_names#'', -- pretty_plural
+	''acs_object'',					-- supertype
+	''cc_uos_gradattr_name'',			-- table_name
+	''name_id'',					-- id_column
+	null,						-- package_name
+	''f'',						-- abstract_p
+	null,						-- type_extension_table
+	''cc_uos_gradattr_name__name''			-- name_method
+    );
+
+    return 0;
+end;' language 'plpgsql';
+
+select inline_0 ();
+drop function inline_0 ();
+
+
+-- Table storing the names of admin defined graduate attributes that
+-- can be used globally.  Used for consistence.
+-- Names include: Research and Inquiry; Information Literacy; Communication.
+create table cc_uos_gradattr_name (
+	name_id			integer
+                        	constraint cc_uos_gradattr_name_fk
+                        	references acs_objects(object_id)
+				on delete cascade
+				constraint cc_uos_gradattr_name_pk
+				primary key,
+	name			varchar(256),
+	package_id		integer
+);
+
+
+create function inline_0 ()
+returns integer as'
+begin 
+    PERFORM acs_object_type__create_type (
 	''cc_uos_gradattr_set'',			-- object_type
 	''#curriculum-central.uos_graduate_attribtue_set#'',   -- pretty_name
 	''#curriculum-central.uos_graduate_attribute_sets#'',  -- pretty_plural
@@ -119,7 +157,9 @@ create table cc_uos_gradattr (
 				references acs_objects(object_id)
 				constraint cc_uos_gradattr_id_pk
 				primary key,
-	name			varchar(256), -- eg. Communication, Research.
+	name_id			integer
+				constraint cc_uos_graddtr_name_fk
+				references cc_uos_gradattr_name(name_id),
 	identifier		varchar(256), -- for form multiselect.
 	description		text,         -- GA description.
 	level			integer	      -- 1, 2, 3, 4 or 5.
@@ -136,6 +176,95 @@ create table cc_uos_gradattr_map (
 				constraint cc_uos_gradattr_map_gradattr_id_fk
 				references cc_uos_gradattr(gradattr_id)
 );
+
+
+--
+--
+-- Create the functions for cc_uos_gradattr_name
+--
+--
+
+select define_function_args('cc_uos_gradattr_name__new','name_id,name,creation_date;now,creation_user,creation_ip,package_id,context_id');
+
+create function cc_uos_gradattr_name__new (
+	integer,			-- name_id
+	varchar,			-- name
+	timestamptz,			-- creation_date
+	integer,			-- creation_user
+	varchar,			-- creation_ip
+	integer,			-- package_id
+	integer				-- context_id
+) returns integer as '
+declare
+    	p_name_id			alias for $1;        -- default null
+    	p_name				alias for $2;
+    	p_creation_date             	alias for $3;        -- default now()
+    	p_creation_user             	alias for $4;        -- default null
+    	p_creation_ip              	alias for $5;        -- default null
+	p_package_id			alias for $6;
+    	p_context_id                	alias for $7;       -- default null
+
+	v_name_id			cc_uos_gradattr_name.name_id%TYPE;
+begin
+
+	v_name_id := acs_object__new (
+        	p_name_id,
+        	''cc_uos_gradattr_name'',
+        	p_creation_date,
+        	p_creation_user,
+        	p_creation_ip,
+        	p_context_id,
+		p_name,
+		p_package_id
+    	);
+
+	INSERT INTO cc_uos_gradattr_name (
+		name_id, name, package_id
+	)
+	VALUES (
+		v_name_id, p_name, p_package_id
+	);
+
+    return v_name_id;
+
+end;' language 'plpgsql';
+
+
+select define_function_args('cc_uos_gradattr_name__del','name_id');
+
+create function cc_uos_gradattr_name__del (integer)
+returns integer as '
+declare
+    	p_name_id                alias for $1;
+begin
+    	DELETE FROM acs_permissions WHERE object_id = p_name_id;
+
+    	DELETE FROM cc_uos_gradattr_name WHERE name_id = p_name_id;
+
+	RAISE NOTICE ''Deleting graduate attribute name...'';
+    	PERFORM acs_object__delete(p_name_id);
+
+	return 0;
+
+end;' language 'plpgsql';
+
+
+select define_function_args('cc_uos_gradattr_name__name','name_id');
+
+create function cc_uos_gradattr_name__name (integer)
+returns varchar as '
+declare
+    	p_name_id      alias for $1;
+
+	v_gradattr_name    cc_uos_gradattr_name.name%TYPE;
+begin
+	SELECT name INTO v_gradattr_name
+       	FROM cc_uos_gradattr_name
+        WHERE name_id = p_name_id;
+
+    	return v_gradattr_name;
+end;
+' language 'plpgsql';
 
 
 --
@@ -317,11 +446,11 @@ end;
 --
 --
 
-select define_function_args('cc_uos_gradattr__new','gradattr_id,name,identifier,description,level,creation_date;now,creation_user,creation_ip,package_id,context_id');
+select define_function_args('cc_uos_gradattr__new','gradattr_id,name_id,identifier,description,level,creation_date;now,creation_user,creation_ip,package_id,context_id');
 
 create function cc_uos_gradattr__new (
 	integer,			-- gradattr_id
-	varchar,			-- name
+	integer,			-- name_id
 	varchar,			-- identifier
 	text,				-- description
 	integer,			-- level
@@ -333,7 +462,7 @@ create function cc_uos_gradattr__new (
 ) returns integer as '
 declare
     	p_gradattr_id			alias for $1;        -- default null
-    	p_name				alias for $2;
+    	p_name_id			alias for $2;
     	p_identifier			alias for $3;
 	p_description			alias for $4;
 	p_level				alias for $5;
@@ -346,7 +475,8 @@ declare
 	v_gradattr_id			cc_uos_gradattr.gradattr_id%TYPE;
 	v_title				varchar;
 begin
-	v_title := p_name || '' ('' || p_identifier || '')'';
+	v_title := cc_uos_gradattr_name__name(p_name_id) ||
+	    '' ('' || p_identifier || '')'';
 
 	v_gradattr_id := acs_object__new (
         	p_gradattr_id,
@@ -360,10 +490,10 @@ begin
     	);
 
 	INSERT INTO cc_uos_gradattr (
-		gradattr_id, name, identifier, description, level
+		gradattr_id, name_id, identifier, description, level
 	)
 	VALUES (
-		v_gradattr_id, p_name, p_identifier, p_description, p_level
+		v_gradattr_id, p_name_id, p_identifier, p_description, p_level
 	);
 
     return v_gradattr_id;
@@ -397,9 +527,9 @@ returns varchar as '
 declare
     	p_gradattr_id      alias for $1;
 
-	v_gradattr_name    cc_uos_gradattr.name%TYPE;
+	v_gradattr_name    varchar;
 begin
-	SELECT name INTO v_gradattr_name
+	SELECT cc_uos_gradattr_name__name(name_id) INTO v_gradattr_name
        	FROM cc_uos_gradattr
         WHERE gradattr_id = p_gradattr_id;
 

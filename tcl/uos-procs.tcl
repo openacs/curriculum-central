@@ -1196,7 +1196,10 @@ ad_proc curriculum_central::uos::graduate_attributes_get_options {
     {-package_id ""}
     {-user_id ""}
 } {
-    Returns a two-column list of registered graduate attributes.
+    Returns a two-column list of user registered graduate attributes.
+    These are graduate attributes that have been selected from the
+    global list of graduate attributes, and assigned a description
+    by the Unit Coordinator.
 
     @param package_id ID of the current package instance.
     @param user_id Specify a user to retrieve their list of

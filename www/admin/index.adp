@@ -32,6 +32,12 @@
   <li><a href="grade-ae">#curriculum-central.add_a_grade_descriptor#</a></li>
   </ul>
 </li>
+<li><span>#curriculum-central.graduate_attributes#</span>
+  <ul>
+  <li><a href="gradattrs">#curriculum-central.view_graduate_attributes#</a></li>
+  <li><a href="gradattr-ae">#curriculum-central.add_a_graduate_attribute#</a></li>
+  </ul>
+</li>
 <li><span>#curriculum-central.schedule#</span>
   <ul>
   <li><a href="schedule">#curriculum-central.view_schedule_template#</a></li>

@@ -2,6 +2,8 @@
 <message_catalog package_key="curriculum-central" package_version="0.1d" locale="en_US" charset="ISO-8859-1">
 
   <msg key="uos">UoS</msg>
+  <msg key="view_graduate_attributes">View Graduate Attributes</msg>
+  <msg key="add_a_graduate_attribute">Add a Graduate Attribute</msg>
   <msg key="help_select_textbook_ids">Select textbooks from the list that will be used for this Unit of Study.  Hold the Ctrl key down whilst selecting to add more than one selection.</msg>
   <msg key="none">None</msg>
   <msg key="course_content">Course Content</msg>

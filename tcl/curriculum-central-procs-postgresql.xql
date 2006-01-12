@@ -62,4 +62,12 @@
            WHERE package_id = :package_id
      </querytext>
    </fullquery>
+
+   <fullquery name="curriculum_central::graduate_attribute_names_get_options.ga_names">
+     <querytext>
+       SELECT name, name_id FROM cc_uos_gradattr_name
+           WHERE package_id = :package_id
+     </querytext>
+   </fullquery>
+
 </queryset>

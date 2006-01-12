@@ -150,6 +150,28 @@ ad_proc curriculum_central::departments_get_options {
     return $departments_list    
 }
 
+
+ad_proc curriculum_central::graduate_attribute_names_get_options {
+    {-package_id {}}
+} {
+    Returns a two-column list of valid graduate attribute names that have
+    been defined by the package administrator.  The first column contains the
+    pretty name of a graduate attribute, and the second contains the
+    corresponding name_id.
+
+    @param package_id The package ID for an instance of Curriculum Central.
+    @return Returns a list of graduate attribute names.
+} {
+    if { [empty_string_p $package_id] } {
+        set package_id [ad_conn package_id]
+    }
+
+    set ga_names_list [db_list_of_lists ga_names {}]
+
+    return $ga_names_list
+}
+
+
 #####
 #
 # Procs for page variables and filters for UoS edit form.

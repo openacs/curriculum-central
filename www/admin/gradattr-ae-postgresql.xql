@@ -5,12 +5,9 @@
 
    <fullquery name="gradattr_update">
      <querytext>
-       UPDATE cc_uos_gradattr
-           SET name_id = :name_id,
-	   identifier = :identifier,
-	   description = :description,
-	   level = :level
-	   WHERE gradattr_id = :gradattr_id
+       UPDATE cc_uos_gradattr_name
+           SET name = :name
+	   WHERE name_id = :name_id
      </querytext>
    </fullquery>
 
@@ -20,7 +17,7 @@
            SET modifying_user = :modifying_user,
 	   modifying_ip = :modifying_ip,
 	   package_id = :package_id
-	   WHERE object_id = :gradattr_id
+	   WHERE object_id = :name_id
      </querytext>
    </fullquery>
 
