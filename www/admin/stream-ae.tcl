@@ -31,6 +31,18 @@ ad_form -name stream -cancel_url $return_url -form {
 	{label "#curriculum-central.stream_code#" }
 	{help_text "[_ curriculum-central.help_enter_stream_code]"}
     }
+    {year_ids:text(multiselect),multiple
+	{label "#curriculum-central.years#"}
+	{options [curriculum_central::stream::years_get_options]}
+	{html {size 5}}
+	{help_text "[_ curriculum-central.help_select_years_for_this_stream]"}
+    }
+    {semester_ids:text(multiselect),multiple
+	{label "#curriculum-central.semesters_in_a_year#"}
+	{options [curriculum_central::stream::semesters_get_options]}
+	{html {size 5}}
+	{help_text "[_ curriculum-central.help_select_semesters_in_a_year]"}
+    }
     {department_id:integer(select)
 	{label "#curriculum-central.department#" }
 	{options [curriculum_central::departments_get_options] }
@@ -43,12 +55,18 @@ ad_form -name stream -cancel_url $return_url -form {
     }
 } -select_query {
        SELECT coordinator_id, stream_name, stream_code,
-           department_id
+           year_ids, semester_ids, department_id
 	   FROM cc_stream WHERE stream_id = :stream_id
 } -new_data {
+    
+
     package_instantiate_object \
 	-var_list [list [list package_id $package_id] \
 		        [list object_type cc_stream] \
+		        [list stream_name $stream_name] \
+		        [list stream_code $stream_code] \
+		        [list year_ids $year_ids] \
+		        [list semester_ids $semester_ids] \
 		        [list department_id $department_id] \
 		        [list coordinator_id $coordinator_id]] \
 	-form_id stream cc_stream

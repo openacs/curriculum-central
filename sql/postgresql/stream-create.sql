@@ -45,6 +45,8 @@ create table cc_stream (
 			constraint cc_stream_stream_name_nn not null
 			constraint cc_stream_stream_name_un unique,
 	stream_code 	varchar(256),
+	year_ids	varchar(256),
+	semester_ids	varchar(256),
 	department_id	integer
 			constraint cc_stream_department_id_fk
 			references cc_department(department_id)
@@ -79,7 +81,7 @@ begin
 	);
 
     PERFORM acs_attribute__create_attribute (
-	  ''cc_stream'',			-- object_type
+	  ''cc_stream'',		-- object_type
 	  ''stream_code'',		-- attribute_name
 	  ''string'',			-- datatype
 	  ''Stream Code'',		-- pretty_name
@@ -101,9 +103,9 @@ select inline_1 ();
 drop function inline_1 ();
 
 
-select define_function_args('cc_stream__new', 'stream_id,coordinator_id,object_type,stream_name,stream_code,department_id,creation_user,creation_ip,package_id');
+select define_function_args('cc_stream__new', 'stream_id,coordinator_id,object_type,stream_name,stream_code,year_ids,semester_ids,department_id,creation_user,creation_ip,package_id');
 
-create function cc_stream__new(integer, integer, varchar, varchar, varchar, integer, integer, varchar, integer)
+create function cc_stream__new(integer, integer, varchar, varchar, varchar, varchar, varchar, integer, integer, varchar, integer)
 returns integer as'
 
 declare
@@ -113,10 +115,12 @@ declare
 	p_object_type		alias for $3;
 	p_stream_name		alias for $4;
 	p_stream_code		alias for $5;
-	p_department_id		alias for $6;
-	p_creation_user		alias for $7;
-	p_creation_ip		alias for $8;
-	p_package_id		alias for $9;
+	p_year_ids		alias for $6;
+	p_semester_ids		alias for $7;
+	p_department_id		alias for $8;
+	p_creation_user		alias for $9;
+	p_creation_ip		alias for $10;
+	p_package_id		alias for $11;
 
 	v_stream_id		cc_stream.stream_id%TYPE;
 begin
@@ -130,7 +134,7 @@ begin
 			p_package_id
 		);
 
-	insert into cc_stream values(v_stream_id, p_coordinator_id, p_stream_name, p_stream_code, p_department_id,  p_package_id);
+	insert into cc_stream values(v_stream_id, p_coordinator_id, p_stream_name, p_stream_code, p_year_ids, p_semester_ids, p_department_id,  p_package_id);
 	
 	PERFORM acs_permission__grant_permission(
           v_stream_id,
@@ -187,3 +191,7 @@ begin
     return v_stream_name;
 end;
 ' language plpgsql;
+
+
+-- Create Stream to UoS mapping object.
+\i stream-uos-map-create.sql

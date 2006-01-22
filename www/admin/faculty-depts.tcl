@@ -32,7 +32,6 @@ set elements {
     }
     department_name {
 	label "#curriculum-central.dept_name#"
-	link_url_eval {[export_vars -base dept {department_id}]}
     }
     hod {
 	label "#curriculum-central.hod#"

@@ -36,7 +36,6 @@ set page_title "[_ curriculum-central.add_unit_of_study]"
 set context [list [list . [_ curriculum-central.coordinate]] $page_title]
 
 # Create the form.
-# TODO: Fix up form.  Can use drop-down boxes for some of the fields.
 ad_form -name uos -cancel_url $return_url -form {
     {uos_id:key(acs_object_id_seq)}
 
@@ -51,10 +50,6 @@ ad_form -name uos -cancel_url $return_url -form {
     {credit_value:integer
 	{label "#curriculum-central.credit_value#"}
 	{html {size 50}}	
-    }
-    {semester:integer
-	{label "#curriculum-central.semester_offering#"}
-	{html {size 50}}
     }
     {unit_coordinator_id:integer(select)
 	{label "#curriculum-central.unit_coordinator#"}
@@ -78,7 +73,6 @@ ad_form -name uos -cancel_url $return_url -form {
 	-uos_code $uos_code \
 	-uos_name $uos_name \
 	-credit_value $credit_value \
-	-semester $semester \
 	-unit_coordinator_id $unit_coordinator_id \
 	-activity_log [template::util::richtext::get_property contents $activity_log] \
 	-activity_log_format [template::util::richtext::get_property format $activity_log]

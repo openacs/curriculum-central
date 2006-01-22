@@ -71,7 +71,6 @@ create table cc_uos_revisions (
 	uos_name 		varchar(256)
 				constraint cc_uos_rev_uos_name_nn not null,
 	credit_value		integer,
-	semester		varchar(32),
 	unit_coordinator_id	integer
 				constraint cc_uos_rev_coordinator_id_fk
 				references users(user_id)
@@ -93,7 +92,7 @@ select content_type__create_type (
 );
 
 
-select define_function_args('cc_uos__new', 'uos_id,uos_code,uos_name,unit_coordinator_id,credit_value,semester,activity_log,activity_log_format,creation_user,creation_ip,context_id,item_subtype;cc_uos,content_type;cc_uos_revision,object_type,package_id');
+select define_function_args('cc_uos__new', 'uos_id,uos_code,uos_name,unit_coordinator_id,credit_value,activity_log,activity_log_format,creation_user,creation_ip,context_id,item_subtype;cc_uos,content_type;cc_uos_revision,object_type,package_id');
 
 create function cc_uos__new(
 	integer,	-- uos_id
@@ -101,7 +100,6 @@ create function cc_uos__new(
 	varchar,	-- uos_name
 	integer,	-- unit_coordinator_id
 	integer,	-- credit_value
-	varchar,	-- semester
 	text,		-- activity_log
 	varchar,	-- activity_log_format
 	integer,	-- creation_user
@@ -119,16 +117,15 @@ declare
 	p_uos_name			alias for $3;
 	p_unit_coordinator_id		alias for $4;
 	p_credit_value			alias for $5;
-	p_semester			alias for $6;
-	p_activity_log			alias for $7;
-	p_activity_log_format		alias for $8;
-	p_creation_user			alias for $9;
-	p_creation_ip			alias for $10;
-	p_context_id			alias for $11;
-	p_item_subtype			alias for $12;
-	p_content_type			alias for $13;
-	p_object_type			alias for $14;
-	p_package_id			alias for $15;
+	p_activity_log			alias for $6;
+	p_activity_log_format		alias for $7;
+	p_creation_user			alias for $8;
+	p_creation_ip			alias for $9;
+	p_context_id			alias for $10;
+	p_item_subtype			alias for $11;
+	p_content_type			alias for $12;
+	p_object_type			alias for $13;
+	p_package_id			alias for $14;
 
 	v_uos_id			cc_uos.uos_id%TYPE;
 	v_folder_id			integer;
@@ -172,7 +169,6 @@ begin
 		p_uos_code,			-- uos_code
 		p_uos_name,			-- uos_name
 		p_credit_value,			-- credit_value
-		p_semester,			-- semester
 		p_unit_coordinator_id,		-- unit_coordinator_id
 		p_activity_log,			-- activity_log
 		p_activity_log_format,		-- activity_log_format
@@ -245,7 +241,6 @@ create or replace function cc_uos_revision__new (
 	varchar,			-- uos_code
 	varchar,			-- uos_name
 	integer,			-- credit_value
-	varchar,			-- semester
 	integer,			-- unit_coordinator_id
 	text,				-- activity_log
 	varchar,			-- activity_log_format
@@ -260,13 +255,12 @@ declare
 	p_uos_code			alias for $3;
 	p_uos_name			alias for $4;
 	p_credit_value			alias for $5;
-	p_semester			alias for $6;
-	p_unit_coordinator_id		alias for $7;
-	p_activity_log			alias for $8;
-	p_activity_log_format		alias for $9;
-	p_creation_date			alias for $10;
-	p_creation_user			alias for $11;
-	p_creation_ip			alias for $12;
+	p_unit_coordinator_id		alias for $6;
+	p_activity_log			alias for $7;
+	p_activity_log_format		alias for $8;
+	p_creation_date			alias for $9;
+	p_creation_user			alias for $10;
+	p_creation_ip			alias for $11;
 
 	v_revision_id			integer;
 begin
@@ -288,11 +282,11 @@ begin
 	-- insert into the uos-specific revision table
 	insert into cc_uos_revisions
 		(uos_revision_id, uos_code, uos_name, credit_value,
-		semester, unit_coordinator_id, activity_log,
+		unit_coordinator_id, activity_log,
 		activity_log_format)
 	values
 		(v_revision_id, p_uos_code, p_uos_name, p_credit_value,
-		p_semester, p_unit_coordinator_id, p_activity_log,
+		p_unit_coordinator_id, p_activity_log,
 		p_activity_log_format);
 
 	return v_revision_id;
@@ -329,3 +323,9 @@ end;
 
 -- UoS Schedule
 \i uos-schedule-create.sql
+
+-- Semester
+\i semester-create.sql
+
+-- Year: 1st Year, 2nd Year, 3rd Year or Freshman, Sophomore, etc.
+\i year-create.sql

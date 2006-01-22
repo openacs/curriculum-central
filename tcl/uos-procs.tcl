@@ -109,7 +109,6 @@ ad_proc -private curriculum_central::uos::workflow_create {} {
 			uos_name
 			role_unit_coordinator
 			credit_value
-			semester
                     }
                 }
                 edit_tl {
@@ -302,7 +301,6 @@ ad_proc -public curriculum_central::uos::new {
     -uos_code:required
     -uos_name:required
     -credit_value:required
-    -semester:required
     -unit_coordinator_id:required
     -activity_log:required
     -activity_log_format:required
@@ -332,7 +330,6 @@ ad_proc -public curriculum_central::uos::new {
 			-uos_code $uos_code \
 			-uos_name $uos_name \
 			-credit_value $credit_value \
-			-semester $semester \
 			-unit_coordinator_id $unit_coordinator_id \
 			-activity_log $activity_log \
 			-activity_log_format $activity_log_format ]
@@ -377,7 +374,6 @@ ad_proc -public curriculum_central::uos::insert {
     -uos_code:required
     -uos_name:required
     -credit_value:required
-    -semester:required
     -unit_coordinator_id:required
     -activity_log:required
     -activity_log_format:required
@@ -396,7 +392,6 @@ ad_proc -public curriculum_central::uos::insert {
 		       [list uos_code $uos_code] \
 		       [list uos_name $uos_name] \
 		       [list credit_value $credit_value] \
-		       [list semester $semester] \
 		       [list unit_coordinator_id $unit_coordinator_id] \
 		       [list activity_log $activity_log] \
 		       [list activity_log_format $activity_log_format] \
@@ -950,6 +945,21 @@ ad_proc -public curriculum_central::uos::update_schedule {
     }
 
     return $revision_id
+}
+
+
+ad_proc -public curriculum_central::uos::get_pretty_name {
+    {-uos_id:required}
+} {
+    Get the name for a UoS.
+
+    @param uos_id The ID of the Unit of Study for which we return
+    the name for.
+
+    @return The name of the given UoS ID.  Returns an empty string
+    if a name could not be found.
+} {
+    return [db_string pretty_name {} -default ""]
 }
 
 

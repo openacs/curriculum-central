@@ -2,6 +2,48 @@
 <message_catalog package_key="curriculum-central" package_version="0.1d" locale="en_US" charset="ISO-8859-1">
 
   <msg key="uos">UoS</msg>
+  <msg key="help_enter_year_name">Enter a name for a school year.  Eg Year 1.</msg>
+  <msg key="help_select_uos_to_map">Select UoS to map to the %stream_name% degree stream.</msg>
+  <msg key="help_select_semesters_that_uos_is_offered">Select the Semesters that this UoS is offered.  Note: You can select multiple entries by holding down the CTRL key whilst selecting.</msg>
+  <msg key="help_select_years_that_uos_is_offered">Select the Years that this UoS is offered.  Note: You can select multiple entries by holding down the CTRL key whilst selecting.</msg>
+  <msg key="help_select_prerequisites_for_uos">Select prerequisite UoS for the mapped UoS.  Note: You can select multiple entries by holding down the CTRL key whilst selecting.</msg>
+  <msg key="help_select_assumed_knowledge_for_uos">Select assumed knowledge for the mapped UoS.  Note: You can select multiple entries by holding down the CTRL key whilst selecting.</msg>
+  <msg key="help_select_corequisites_for_uos">Select co-requisites for the mapped UoS.  Note: You can select multiple entries by holding down the CTRL key whilst selecting.</msg>
+  <msg key="help_select_prohibitions_for_uos">Select prohibitions for the mapped UoS.  Note: You can select multiple entries by holding down the CTRL key whilst selecting.</msg>
+  <msg key="help_select_uos_no_longer_offered">Select (prohibited) UoS that are no longer offered for the mapped UoS.  Note: You can select multiple entries by holding down the CTRL key whilst selecting.</msg>
+  <msg key="assumed_knowledge">Assumed Knowledge</msg>
+  <msg key="corequisites">Co-Requisites</msg>
+  <msg key="prohibitions">Prohibitions</msg>
+  <msg key="no_longer_offered">Units no longer offered</msg>
+  <msg key="map_uos_to_stream">Map UoS to Stream</msg>
+  <msg key="edit_uos_to_stream_mapping">Edit UoS to Stream Mapping</msg>
+  <msg key="help_select_semesters_in_a_year">Select the semesters that apply to the school year.  Note: Hold the CTRL key down to select more than one semester.</msg>
+  <msg key="help_select_years_for_this_stream">Select years that apply to this degree stream.  Note: Hold the CTRL key down to select more than one year.</msg>
+  <msg key="you_are_not_the_coordinator_for">You are not the coordinator for any degree streams.</msg>
+  <msg key="map_uos_to_this_stream">Map a Unit of Study to this stream.</msg>
+  <msg key="streams_that_you_are_the_stream_coordinator_of">You have been assigned as the Stream Coordinator for the following degree streams.</msg>
+  <msg key="your_streams">Your Streams</msg>
+  <msg key="start_date_must_be_set_before_end_date">Start date must be set before end date.</msg>
+  <msg key="start_date">Start Date</msg>
+  <msg key="end_date">End Date</msg>
+  <msg key="years">Years</msg>
+  <msg key="help_enter_semester_name">Enter the name for a semester.  Eg 1st Semester, Spring, Fall, 2nd Term, etc.</msg>
+  <msg key="help_enter_start_date">Enter a start date.</msg>
+  <msg key="help_enter_end_date">Enter an end date.</msg>
+  <msg key="view_years">View Years</msg>
+  <msg key="add_a_year">Add a Year</msg>
+  <msg key="add_year">Add Year</msg>
+  <msg key="edit_year_info">Edit Year</msg>
+  <msg key="add_year_to_list">Add year to list.</msg>
+  <msg key="view_semesters">View Semesters</msg>
+  <msg key="add_a_semester">Add a Semester</msg>
+  <msg key="add_semester">Add Semester</msg>
+  <msg key="no_semesters_created">No semesters created</msg>
+  <msg key="add_semester_to_list">Add semester to list.</msg>
+  <msg key="help_enter_semesters_per_year">Enter the number of semesters in a year.</msg>
+  <msg key="semesters_in_a_year">Semesters in a Year</msg>
+  <msg key="semesters">Semesters</msg>
+  <msg key="only_stream_coordinators_can_develop_a_stream">Only stream coordinators can develop a stream</msg>
   <msg key="view_graduate_attributes">View Graduate Attributes</msg>
   <msg key="add_a_graduate_attribute">Add a Graduate Attribute</msg>
   <msg key="help_select_textbook_ids">Select textbooks from the list that will be used for this Unit of Study.  Hold the Ctrl key down whilst selecting to add more than one selection.</msg>
@@ -62,7 +104,7 @@
   <msg key="uos_textbook_set_revision">UoS Textbook Set Revision</msg>
   <msg key="uos_textbook_set_revisions">UoS Textbook Set Revisions</msg>
   <msg key="current_assessment_total">Current Assessment Total</msg>
-  <msg key="help_assess_method_ids">Select one or more assessment methods that are used in this Unit of Study.  To select more than one item from the list, hold down the Shirt key whilst selecting an item.  If an item doesn't appear in the list, then click &lt;a href=&quot;assess-method-ae?return_url=%return_url%&quot;&gt;here&lt;/a&gt; to add it (Note: clicking on the link will redirect you to another page).</msg>
+  <msg key="help_assess_method_ids">Select one or more assessment methods that are used in this Unit of Study.  To select more than one item from the list, hold down the CTRL key whilst selecting an item.  If an item doesn't appear in the list, then click &lt;a href=&quot;assess-method-ae?return_url=%return_url%&quot;&gt;here&lt;/a&gt; to add it (Note: clicking on the link will redirect you to another page).</msg>
   <msg key="assessment_methods">Assessment Methods</msg>
   <msg key="help_enter_type_of_assess_method">Enter a name for the type of assessment.</msg>
   <msg key="help_enter_assess_identifier">Enter an identifier to distinguish this assessment method from other assessment methods that you have created.  Use something like GENERAL for generic methods, or the UoS code such as ELEC1000 for more specific assessment methods.</msg>
@@ -83,7 +125,7 @@
   <msg key="uos_assessment_revisions">Uos Assessment Revisions</msg>
   <msg key="no_graduate_attributes_created">No graduate attributes have been created</msg>
   <msg key="add_graduate_attribute_to_list">Add graduate attributes to the list.</msg>
-  <msg key="help_graduate_attributes">Select one or more graduate attributes from the list that are associated with this Unit of Study.  To select more than one item from the list, hold down the Shirt key whilst selecting an item.  If an item doesn't appear in the list, then click &lt;a href=&quot;gradattr-ae?return_url=%return_url%&quot;&gt;here&lt;/a&gt; to add it (Note: clicking on the link will redirect you to another page).</msg>
+  <msg key="help_graduate_attributes">Select one or more graduate attributes from the list that are associated with this Unit of Study.  To select more than one item from the list, hold down the CTRL key whilst selecting an item.  If an item doesn't appear in the list, then click &lt;a href=&quot;gradattr-ae?return_url=%return_url%&quot;&gt;here&lt;/a&gt; to add it (Note: clicking on the link will redirect you to another page).</msg>
   <msg key="very_low">Very Low</msg>
   <msg key="low">Low</msg>
   <msg key="moderate">Moderate</msg>
@@ -120,7 +162,7 @@
   <msg key="help_online_course_content">The URL of the Unit of Study website where students can read the course content online, or interact with web-based learning activities.</msg>
   <msg key="uos_workload">UoS Workload</msg>
   <msg key="help_activity_log">For future reference, enter a short review of changes that were made.</msg>
-  <msg key="help_tl_approach_ids">Select one or more teaching and learning approaches that are used in this Unit of Study.  To select more than one item from the list, hold down the Shirt key whilst selecting an item.  If an item doesn't appear in the list, then click &lt;a href=&quot;tl-method-ae?return_url=%return_url%&quot;&gt;here&lt;/a&gt; to add it (Note: clicking on the link will redirect you to another page).</msg>
+  <msg key="help_tl_approach_ids">Select one or more teaching and learning approaches that are used in this Unit of Study.  To select more than one item from the list, hold down the CTRL key whilst selecting an item.  If an item doesn't appear in the list, then click &lt;a href=&quot;tl-method-ae?return_url=%return_url%&quot;&gt;here&lt;/a&gt; to add it (Note: clicking on the link will redirect you to another page).</msg>
   <msg key="view_details">View Details</msg>
   <msg key="view_all">View All</msg>
   <msg key="add_tl_approach">Add T&amp;L Approach</msg>

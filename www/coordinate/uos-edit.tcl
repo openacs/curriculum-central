@@ -94,12 +94,6 @@ ad_form -extend -name uos -form {
         {html {size 3}}
 	{mode display}
     }
-    {semester:integer
-	{label "[_ curriculum-central.semester_offering]"}
-	{value $uos(semester)}
-        {html {size 3}}
-	{mode display}
-    }
 }
 
 

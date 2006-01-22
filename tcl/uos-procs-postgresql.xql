@@ -13,6 +13,12 @@
      </querytext>
    </fullquery>
 
+   <fullquery name="curriculum_central::uos::get_pretty_name.pretty_name">
+     <querytext>
+       SELECT uos_code || ' ' ||uos_name FROM cc_uos WHERE uos_id = :uos_id
+     </querytext>
+   </fullquery>
+
    <fullquery name="curriculum_central::uos::get_details.latest_details">
      <querytext>
        SELECT d.detail_id, dr.lecturer_id, dr.objectives,
@@ -221,7 +227,6 @@
 	   :uos_code,
 	   :uos_name,
 	   :credit_value,
-	   :semester,
 	   :unit_coordinator_id,
 	   :activity_log,
 	   :activity_log_format,

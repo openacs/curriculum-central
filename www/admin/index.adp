@@ -20,6 +20,18 @@
   <li><a href="staff-ae">#curriculum-central.add_staff_member#</a></li>
   </ul>
 </li>
+<li><span>#curriculum-central.years#</span>
+  <ul>
+  <li><a href="years">#curriculum-central.view_years#</a></li>
+  <li><a href="year-ae">#curriculum-central.add_a_year#</a></li>
+  </ul>
+</li>
+<li><span>#curriculum-central.semesters#</span>
+  <ul>
+  <li><a href="semesters">#curriculum-central.view_semesters#</a></li>
+  <li><a href="semester-ae">#curriculum-central.add_a_semester#</a></li>
+  </ul>
+</li>
 <li><span>#curriculum-central.streams#</span>
   <ul>
   <li><a href="streams">#curriculum-central.view_streams#</a></li>

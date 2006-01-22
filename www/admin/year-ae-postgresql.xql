@@ -3,16 +3,11 @@
 <queryset>
    <rdbms><type>postgresql</type><version>7.4</version></rdbms>
 
-   <fullquery name="stream_update">
+   <fullquery name="year_update">
      <querytext>
-       UPDATE cc_stream
-           SET coordinator_id = :coordinator_id,
-	   stream_name = :stream_name,
-	   stream_code = :stream_code,
-	   year_ids = :year_ids,
-	   semester_ids = :semester_ids,
-	   department_id = :department_id
-	   WHERE stream_id = :stream_id
+       UPDATE cc_year
+	   name = :name
+	   WHERE year_id = :year_id
      </querytext>
    </fullquery>
 
@@ -21,7 +16,7 @@
        UPDATE acs_objects
            SET modifying_user = :modifying_user,
 	   modifying_ip = :modifying_ip
-	   WHERE object_id = :stream_id
+	   WHERE object_id = :year_id
      </querytext>
    </fullquery>
 
