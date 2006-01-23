@@ -29,7 +29,7 @@ if { ![curriculum_central::staff::stream_coordinator_p $user_id] } {
 set units_of_study [db_list_of_lists units_of_study {}]
 
 template::multirow create stream map_id year_id year_name \
-    semester_id semester_name uos_id uos_code uos_name
+    semester_id semester_name uos_id uos_code uos_name group edit_url
 
 foreach uos $units_of_study {
     set map_id [lindex $uos 0]
@@ -44,8 +44,19 @@ foreach uos $units_of_study {
 	# Get name for semester_id
 	set semester_name [db_string semester_name {} -default ""]
 	
+	# Create a "derived column" called group that is the amalgamation
+	# of the year_id and semester_id.  It is used as a workaround for
+	# bug 428 (http://openacs.org/bugtracker/openacs/bug?bug%5fnumber=428),
+	# when using the <group> tag in the template.
+	set group "$year_id$semester_id"
+
+	set return_url [export_vars -base stream-view {stream_id}]
+	set edit_url [export_vars -base stream-map-ae \
+			  {stream_id uos_id map_id return_url}]
+
 	template::multirow append stream $map_id $year_id $year_name \
-	    $semester_id $semester_name $uos_id $uos_code $uos_name
+	    $semester_id $semester_name $uos_id $uos_code $uos_name \
+	    $group $edit_url
     }
 }
 

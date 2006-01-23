@@ -77,3 +77,66 @@
 	border-bottom: 1px solid #fff;
 	font-weight: normal;
 }
+
+/* Stream Container */
+#cc-stream-container {
+	margin-left: 30px;
+}
+
+#cc-stream-container ul {
+	margin: 0;
+	padding: 0;
+	list-style-type: none;
+	font-family: verdana, arial, sans-serif;
+}
+
+#cc-stream-container li {
+	margin: 0;
+}
+
+/* Year */
+#cc-stream-container ul li {
+	color: #686868;
+	font-size: 18px;
+	font-weight: bold;
+	padding-top: 20px;
+}
+
+#cc-stream-container ul ul {
+	margin-left: 30px;
+	padding: 0;
+	list-style-type: none;
+}
+
+/* Semester */
+#cc-stream-container ul ul li {
+	color: #9B9B9B;
+	font-size: 16px;
+	padding-top: 10px;
+	padding-bottom: 6px;
+}
+
+#cc-stream-container ul ul ul {
+	margin-left: 30px;
+	padding: 0;
+	list-style-type: none;
+}
+
+/* UoS */
+#cc-stream-container ul ul ul li {
+	color: #000;
+	font-size: 12px;
+	display: block;
+	border-left: 1em solid #686868;
+	border-bottom: 1px solid #686868;
+	padding: 4px 8px;
+	width: 50em;
+	margin-bottom: 5px;
+}
+
+#cc-stream-container ul ul ul li a {
+	vertical-align: bottom;
+	border: 0;
+	text-decoration: none;
+	margin-right: 4em;
+}
