@@ -54,12 +54,11 @@
      </querytext>
    </fullquery>
 
-   <fullquery name="curriculum_central::stream::non_mapped_uos.non_mapped_uos">
+   <fullquery name="curriculum_central::stream::all_stream_uos.all_stream_uos">
      <querytext>
        SELECT uos.uos_code || ' ' ||uos.uos_name AS name, uos.uos_id
            FROM cc_uos uos
 	   WHERE uos.package_id = :package_id
-	   AND uos.uos_id NOT IN (SELECT uos_id FROM cc_stream_uos_map WHERE stream_id = :stream_id)
      </querytext>
    </fullquery>
 

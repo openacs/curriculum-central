@@ -43,58 +43,55 @@ if { [info exists uos_id] } {
 	    {label "[_ curriculum-central.uos]"}
 	    {value "[curriculum_central::uos::get_pretty_name -uos_id $uos_id]"}
 	}
-	{year_ids:text(multiselect)
+	{year_id:text(select)
 	    {label "[_ curriculum-central.years]"}
 	    {options "[curriculum_central::stream::years_for_uos_get_options -stream_id $stream_id]"}
-	    {html {size 5}}
 	    {help_text "[_ curriculum-central.help_select_years_that_uos_is_offered]"}
 	}
-	{semester_ids:text(multiselect)
+	{semester_ids:text(multiselect),multiple
 	    {label "[_ curriculum-central.semesters]"}
 	    {options "[curriculum_central::stream::semesters_in_a_year_get_options -stream_id $stream_id]"}
 	    {html {size 5}}
 	    {help_text "[_ curriculum-central.help_select_semesters_that_uos_is_offered]"}
 	}
-	{prerequisite_ids:text(multiselect)
+	{prerequisite_ids:text(multiselect),multiple
 	    {label "[_ curriculum-central.prerequisites]"}
 	    {options $requisite_uos_options}
 	    {html {size 5}}
 	    {help_text "[_ curriculum-central.help_select_prerequisites_for_uos]"}
 	}
-	{assumed_knowledge_ids:text(multiselect)
+	{assumed_knowledge_ids:text(multiselect),multiple
 	    {label "[_ curriculum-central.assumed_knowledge]"}
 	    {options $requisite_uos_options}
 	    {html {size 5}}
 	    {help_text "[_ curriculum-central.help_select_assumed_knowledge_for_uos]"}
 	}
-	{corequisite_ids:text(multiselect)
+	{corequisite_ids:text(multiselect),multiple
 	    {label "[_ curriculum-central.corequisites]"}
 	    {options $requisite_uos_options}
 	    {html {size 5}}
 	    {help_text "[_ curriculum-central.help_select_corequisites_for_uos]"}
 	}
-	{prohibition_ids:text(multiselect)
+	{prohibition_ids:text(multiselect),multiple
 	    {label "[_ curriculum-central.prohibitions]"}
 	    {options $requisite_uos_options}
 	    {html {size 5}}
 	    {help_text "[_ curriculum-central.help_select_prohibitions_for_uos]"}
 	}
-	{no_longer_offered_ids:text(multiselect)
+	{no_longer_offered_ids:text(multiselect),multiple
 	    {label "[_ curriculum-central.no_longer_offered]"}
 	    {options $requisite_uos_options}
 	    {html {size 5}}
 	    {help_text "[_ curriculum-central.help_select_uos_no_longer_offered]"}
 	}
-    } -select_query_name {
-	form_info
-    } -new_data {
+    } -select_query_name {form_info} -new_data {
 	# Create new CR object
-	package_instantiate_object \
+	set map_id [package_instantiate_object \
 	    -var_list [list \
 	        [list package_id $package_id] \
 		[list stream_id $stream_id] \
 		[list uos_id $uos_id] \
-		[list year_ids $year_ids] \
+		[list year_id $year_id] \
 		[list semester_ids $semester_ids] \
 		[list prerequisite_ids $prerequisite_ids] \
 		[list assumed_knowledge_ids $assumed_knowledge_ids] \
@@ -102,7 +99,12 @@ if { [info exists uos_id] } {
 		[list prohibition_ids $prohibition_ids] \
 		[list no_longer_offered_ids $no_longer_offered_ids] \
 		[list object_type "cc_stream_uos_map"]] \
-	    "cc_stream_uos_map"
+			       "cc_stream_uos_map"]
+
+	# Set the latest revision as the live revision.
+	db_1row get_latest_revision {}
+	content::item::set_live_revision -revision_id $latest_revision_id
+	db_dml set_live_revision {}
 	
     } -edit_data {
 	
@@ -110,10 +112,10 @@ if { [info exists uos_id] } {
 	set modifying_ip [ad_conn peeraddr]
 	
 	# Create new revision
-	set new_revision_id [db_exec_plsql new_revision {}]
+	set latest_revision_id [db_exec_plsql new_revision {}]
 	
 	# Make the new revision the live revision
-	content::item::set_live_revision -revision_id $new_revision_id
+	content::item::set_live_revision -revision_id $latest_revision_id
 	db_dml set_live_revision {}
 	
     } -after_submit {
@@ -131,7 +133,7 @@ if { [info exists uos_id] } {
 	{return_url:text(hidden) {value $return_url}}
 	{uos_id:integer(select)
 	    {label "[_ curriculum-central.uos]"}
-	    {options "[curriculum_central::stream::non_mapped_uos -stream_id $stream_id]"}
+	    {options "[curriculum_central::stream::all_stream_uos]"}
 	    {help_text "[_ curriculum-central.help_select_uos_to_map]"}
 	    {mode edit}
 	}

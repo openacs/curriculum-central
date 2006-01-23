@@ -168,23 +168,21 @@ ad_proc curriculum_central::stream::all_uos_except_get_options {
 }
 
 
-ad_proc curriculum_central::stream::non_mapped_uos {
-    {-stream_id:required}
+ad_proc curriculum_central::stream::all_stream_uos {
     {-package_id ""}
 } {
-    Returns a two-column list of the names of all UoS and their
-    corresponding UoS ID that have not been mapped to the given
-    Stream ID.
+    Returns a two-column list of the names of all UoS and
+    corresponding UoS ID for the given Stream ID.
 
     @param stream_id Stream ID.
     @param package_id ID of the current package instance.
 
-    @return Returns a two-column list of all UoS that have not been mapped to
+    @return Returns a two-column list of all UoS that have been mapped to
     the given Stream ID.
 } {
     if { $package_id eq ""} {
 	set package_id [ad_conn package_id]
     }
 
-    return [db_list_of_lists non_mapped_uos {}]
+    return [db_list_of_lists all_stream_uos {}]
 }

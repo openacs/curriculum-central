@@ -30,6 +30,7 @@ set elements {
     }
     stream_name {
 	label "#curriculum-central.stream_name#"
+	link_url_eval {[export_vars -base stream-view { stream_id }]}
     }
     stream_code {
 	label "#curriculum-central.stream_code#"

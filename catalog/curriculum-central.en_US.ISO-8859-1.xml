@@ -2,10 +2,11 @@
 <message_catalog package_key="curriculum-central" package_version="0.1d" locale="en_US" charset="ISO-8859-1">
 
   <msg key="uos">UoS</msg>
+  <msg key="stream_overview">Stream Overview</msg>
   <msg key="help_enter_year_name">Enter a name for a school year.  Eg Year 1.</msg>
   <msg key="help_select_uos_to_map">Select UoS to map to the %stream_name% degree stream.</msg>
-  <msg key="help_select_semesters_that_uos_is_offered">Select the Semesters that this UoS is offered.  Note: You can select multiple entries by holding down the CTRL key whilst selecting.</msg>
-  <msg key="help_select_years_that_uos_is_offered">Select the Years that this UoS is offered.  Note: You can select multiple entries by holding down the CTRL key whilst selecting.</msg>
+  <msg key="help_select_semesters_that_uos_is_offered">Select the semesters that this UoS is offered.  Note: You can select multiple entries by holding down the CTRL key whilst selecting.</msg>
+  <msg key="help_select_years_that_uos_is_offered">Select the year that this UoS is offered.</msg>
   <msg key="help_select_prerequisites_for_uos">Select prerequisite UoS for the mapped UoS.  Note: You can select multiple entries by holding down the CTRL key whilst selecting.</msg>
   <msg key="help_select_assumed_knowledge_for_uos">Select assumed knowledge for the mapped UoS.  Note: You can select multiple entries by holding down the CTRL key whilst selecting.</msg>
   <msg key="help_select_corequisites_for_uos">Select co-requisites for the mapped UoS.  Note: You can select multiple entries by holding down the CTRL key whilst selecting.</msg>

@@ -54,7 +54,7 @@ create table cc_stream_uos_map_rev (
 				constraint cc_stream_uos_map_rev_rev_id_fk
 				references cr_revisions(revision_id)
 				on delete cascade,
-	year_ids		varchar(256),
+	year_id			integer,
 	semester_ids		varchar(256),
 	prerequisite_ids	varchar(256),
 	assumed_knowledge_ids	varchar(256),
@@ -75,13 +75,13 @@ select content_type__create_type (
 );
 
 
-select define_function_args('cc_stream_uos_map__new', 'map_id,stream_id,uos_id,year_ids,semester_ids,prerequisite_ids,assumed_knowledge_ids,corequisite_ids,prohibition_ids,no_longer_offered_ids,creation_user,creation_ip,context_id,item_subtype;cc_stream_uos_map,content_type;cc_stream_uos_map_rev,object_type,package_id');
+select define_function_args('cc_stream_uos_map__new', 'map_id,stream_id,uos_id,year_id,semester_ids,prerequisite_ids,assumed_knowledge_ids,corequisite_ids,prohibition_ids,no_longer_offered_ids,creation_user,creation_ip,context_id,item_subtype;cc_stream_uos_map,content_type;cc_stream_uos_map_rev,object_type,package_id');
 
 create function cc_stream_uos_map__new(
 	integer,	-- map_id
 	integer,	-- stream_id
 	integer,	-- uos_id
-	varchar,	-- year_ids
+	integer,	-- year_id
 	varchar,	-- semester_ids
 	varchar,	-- prerequisite_ids
 	varchar,	-- assumed_knowledge_ids
@@ -101,7 +101,7 @@ declare
 	p_map_id			alias for $1;
 	p_stream_id			alias for $2;
 	p_uos_id			alias for $3;
-	p_year_ids			alias for $4;
+	p_year_id			alias for $4;
 	p_semester_ids			alias for $5;
 	p_prerequisite_ids		alias for $6;
 	p_assumed_knowledge_ids		alias for $7;
@@ -121,6 +121,7 @@ declare
 	v_revision_id			integer;
 	v_name				varchar;
 	v_rel_id			integer;
+	v_unique_val			integer;
 begin
 	-- get the content folder for this instance
 	select folder_id into v_folder_id
@@ -128,7 +129,12 @@ begin
 	    where curriculum_id = p_package_id;
 
 	-- Create a unique name
-	v_name := ''map_uos_'' || p_uos_id || ''_to_stream_'' || p_stream_id;
+        select nextval
+        into   v_unique_val
+        from   acs_object_id_seq;
+
+	v_name := ''map_uos_'' || p_uos_id || ''_to_stream_''
+		|| p_stream_id || ''_'' || v_unique_val;
 
 	-- create the content item
 	v_map_id := content_item__new (
@@ -154,7 +160,7 @@ begin
 	v_revision_id := cc_stream_uos_map_rev__new (
 		null,				-- revision_id
 		v_map_id,			-- map_id
-		p_year_ids,			-- year_ids
+		p_year_id,			-- year_id
 		p_semester_ids,			-- semester_ids
 		p_prerequisite_ids,		-- requisite_ids
 		p_assumed_knowledge_ids,	-- assumed_knowledge_ids
@@ -196,7 +202,7 @@ end;
 create or replace function cc_stream_uos_map_rev__new (
 	integer,			-- revision_id
 	integer,			-- map_id
-	varchar,			-- year_ids
+	integer,			-- year_id
 	varchar,			-- semester_ids
 	varchar,			-- prerequisite_ids
 	varchar,			-- assumed_knowledge_ids
@@ -211,7 +217,7 @@ as '
 declare
 	p_revision_id				alias for $1;
 	p_map_id				alias for $2;
-	p_year_ids				alias for $3;
+	p_year_id				alias for $3;
 	p_semester_ids				alias for $4;
 	p_prerequisite_ids			alias for $5;
 	p_assumed_knowledge_ids			alias for $6;
@@ -243,7 +249,7 @@ begin
 	-- Insert into the uos-specific revision table
 	INSERT into cc_stream_uos_map_rev (
 		map_rev_id,
-		year_ids,
+		year_id,
 		semester_ids,
 		prerequisite_ids,
 		assumed_knowledge_ids,
@@ -252,7 +258,7 @@ begin
 		no_longer_offered_ids
 	) VALUES (
 		v_revision_id,
-		p_year_ids,
+		p_year_id,
 		p_semester_ids,
 		p_prerequisite_ids,
 		p_assumed_knowledge_ids,
