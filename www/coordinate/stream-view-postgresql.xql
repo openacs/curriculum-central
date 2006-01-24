@@ -6,7 +6,8 @@
    <fullquery name="units_of_study">
      <querytext>
        SELECT map.map_id, uos.uos_code, uos.uos_name, uos.uos_id,
-           rev.year_id, y.name, rev.semester_ids
+           rev.year_id, y.name, rev.semester_ids, map.live_revision_id,
+	   map.latest_revision_id
        FROM cc_uos uos, cc_stream_uos_map map, cc_stream_uos_map_rev rev,
            cc_year y
        WHERE uos.uos_id = map.uos_id

@@ -20,14 +20,6 @@
      </querytext>
    </fullquery>
 
-   <fullquery name="get_latest_revision">
-     <querytext>
-       SELECT latest_revision_id FROM cc_stream_uos_map
-           WHERE map_id = :map_id
-     </querytext>
-   </fullquery>
-
-
    <fullquery name="new_revision">
      <querytext>
        SELECT cc_stream_uos_map_rev__new (
@@ -44,13 +36,6 @@
 	   :modifying_user,
 	   :modifying_ip
        )
-     </querytext>
-   </fullquery>
-
-   <fullquery name="set_live_revision">
-     <querytext>
-       UPDATE cc_stream_uos_map SET live_revision_id = :latest_revision_id
-           WHERE map_id = :map_id
      </querytext>
    </fullquery>
 

@@ -100,11 +100,6 @@ if { [info exists uos_id] } {
 		[list no_longer_offered_ids $no_longer_offered_ids] \
 		[list object_type "cc_stream_uos_map"]] \
 			       "cc_stream_uos_map"]
-
-	# Set the latest revision as the live revision.
-	db_1row get_latest_revision {}
-	content::item::set_live_revision -revision_id $latest_revision_id
-	db_dml set_live_revision {}
 	
     } -edit_data {
 	
@@ -112,12 +107,8 @@ if { [info exists uos_id] } {
 	set modifying_ip [ad_conn peeraddr]
 	
 	# Create new revision
-	set latest_revision_id [db_exec_plsql new_revision {}]
-	
-	# Make the new revision the live revision
-	content::item::set_live_revision -revision_id $latest_revision_id
-	db_dml set_live_revision {}
-	
+	db_exec_plsql new_revision {}
+
     } -after_submit {
 	ad_returnredirect $return_url
 	ad_script_abort

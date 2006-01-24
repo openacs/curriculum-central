@@ -2,6 +2,10 @@
 <message_catalog package_key="curriculum-central" package_version="0.1d" locale="en_US" charset="ISO-8859-1">
 
   <msg key="uos">UoS</msg>
+  <msg key="status_modified">Status: Modified</msg>
+  <msg key="status_published">Status: Published</msg>
+  <msg key="publish">Publish</msg>
+  <msg key="stream_overview_has_been_published">Stream overview has been published.</msg>
   <msg key="stream_overview">Stream Overview</msg>
   <msg key="help_enter_year_name">Enter a name for a school year.  Eg Year 1.</msg>
   <msg key="help_select_uos_to_map">Select UoS to map to the %stream_name% degree stream.</msg>

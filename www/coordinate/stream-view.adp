@@ -5,7 +5,14 @@
 <link rel="stylesheet" type="text/css" href="/resources/curriculum-central/curriculum-central.css" media="all">
 </property>
 
-
+<div id="cc-stream-view-status">
+<if @modified_p@>
+#curriculum-central.status_modified# | <a href="@publish_url@" class="button">#curriculum-central.publish#</a>
+</if>
+<else>
+#curriculum-central.status_published#
+</else>
+</div>
 
 <div id="cc-stream-container">
   <multiple name="stream">
@@ -16,7 +23,7 @@
       <li>@stream.semester_name@</li>
       <ul id="uos">
         <group column="group">
-        <li><a href="@stream.edit_url@"><img src="/shared/images/Edit16.gif" height="16" width="16" border="0"></a>@stream.uos_code@ @stream.uos_name@</li>
+        <li><a href="@stream.edit_url@">#curriculum-central.edit#</a>@stream.uos_code@ @stream.uos_name@</li>
         </group>
       </ul>
       </group>

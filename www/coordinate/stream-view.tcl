@@ -31,6 +31,12 @@ set units_of_study [db_list_of_lists units_of_study {}]
 template::multirow create stream map_id year_id year_name \
     semester_id semester_name uos_id uos_code uos_name group edit_url
 
+# Set the modified state to 0 by default.  This means the stream
+# overview has been published.  The state will be toggled below when
+# we find a UoS mapping that has been modified.
+set modified_p 0
+set modified_list [list]
+
 foreach uos $units_of_study {
     set map_id [lindex $uos 0]
     set uos_code [lindex $uos 1]
@@ -39,6 +45,16 @@ foreach uos $units_of_study {
     set year_id [lindex $uos 4]
     set year_name [lindex $uos 5]
     set semester_ids [lindex $uos 6]
+    set live_revision_id [lindex $uos 7]
+    set latest_revision_id [lindex $uos 8]
+
+    # If there is no live revision or that the live revision and
+    # latest revision IDs are different, then set modified flag to 1.
+    if { $live_revision_id eq "" || \
+	     $live_revision_id ne $latest_revision_id } {
+	set modified_p "1"
+	lappend modified_list $map_id
+    }
 
     foreach semester_id $semester_ids {
 	# Get name for semester_id
@@ -59,6 +75,8 @@ foreach uos $units_of_study {
 	    $group $edit_url
     }
 }
+
+set publish_url [export_vars -base stream-publish {stream_id modified_list}]
 
 # Sort stream info by increasing year and semester.
 template::multirow sort stream -increasing year_id semester_id
