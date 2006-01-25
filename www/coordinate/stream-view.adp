@@ -5,12 +5,19 @@
 <link rel="stylesheet" type="text/css" href="/resources/curriculum-central/curriculum-central.css" media="all">
 </property>
 
-<div id="cc-stream-view-status">
+<div id="cc-stream-view-status-container">
 <if @modified_p@>
-#curriculum-central.status_modified# | <a href="@publish_url@" class="button">#curriculum-central.publish#</a>
+<div class="modified">
+<ul>
+<li>#curriculum-central.status_modified#</li>
+<li><a href="@publish_url@" class="button">#curriculum-central.publish#</a></li>
+</ul>
+</div>
 </if>
 <else>
+<div class="published">
 #curriculum-central.status_published#
+</div>
 </else>
 </div>
 

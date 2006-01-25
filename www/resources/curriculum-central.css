@@ -140,3 +140,33 @@
 	text-decoration: none;
 	margin-right: 4em;
 }
+
+/* Stream view status box */
+
+#cc-stream-view-status-container {
+	text-align: center;
+	margin: 0px auto;
+	width: 180px;
+	margin-top: 2em;
+}
+
+#cc-stream-view-status-container .published {
+	color: #128812;
+	padding: 5px;
+	padding: 5px;
+	border: 1px solid #000;
+	font-weight: bold;
+}
+
+#cc-stream-view-status-container .modified ul {
+	color: #B91309;
+	list-style-type: none;
+	padding: 5px;
+	border: 1px solid #000;
+	font-weight: bold;
+}
+
+#cc-stream-view-status-container .modified ul li {
+	padding-top: 3px;
+	padding-bottom: 3px;
+}
