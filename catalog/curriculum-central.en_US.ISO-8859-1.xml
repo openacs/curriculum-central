@@ -2,6 +2,12 @@
 <message_catalog package_key="curriculum-central" package_version="0.1d" locale="en_US" charset="ISO-8859-1">
 
   <msg key="uos">UoS</msg>
+  <msg key="stream_mapping_has_been_deleted">Stream mapping has been deleted.</msg>
+  <msg key="core">Core</msg>
+  <msg key="recommended">Recommended</msg>
+  <msg key="elective">Elective</msg>
+  <msg key="help_select_core_recommended_or_elective">Select the relationship that this Unit of Study has with the Degree Stream.  Choose from either Core, Recommended or Elective.</msg>
+  <msg key="core_recommended_or_elective">Core, Recommended or Elective UoS</msg>
   <msg key="uos_not_offered_in_any_years">Units of Study Not Offered in any Years</msg>
   <msg key="status_modified">Status: Modified</msg>
   <msg key="status_published">Status: Published</msg>

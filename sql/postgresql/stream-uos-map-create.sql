@@ -56,6 +56,7 @@ create table cc_stream_uos_map_rev (
 				on delete cascade,
 	year_id			integer,
 	semester_ids		varchar(256),
+	core_id			integer,      -- core, elective, or recommended
 	prerequisite_ids	varchar(256),
 	assumed_knowledge_ids	varchar(256),
 	corequisite_ids		varchar(256),
@@ -75,7 +76,7 @@ select content_type__create_type (
 );
 
 
-select define_function_args('cc_stream_uos_map__new', 'map_id,stream_id,uos_id,year_id,semester_ids,prerequisite_ids,assumed_knowledge_ids,corequisite_ids,prohibition_ids,no_longer_offered_ids,creation_user,creation_ip,context_id,item_subtype;cc_stream_uos_map,content_type;cc_stream_uos_map_rev,object_type,package_id');
+select define_function_args('cc_stream_uos_map__new', 'map_id,stream_id,uos_id,year_id,semester_ids,core_id,prerequisite_ids,assumed_knowledge_ids,corequisite_ids,prohibition_ids,no_longer_offered_ids,creation_user,creation_ip,context_id,item_subtype;cc_stream_uos_map,content_type;cc_stream_uos_map_rev,object_type,package_id');
 
 create function cc_stream_uos_map__new(
 	integer,	-- map_id
@@ -83,6 +84,7 @@ create function cc_stream_uos_map__new(
 	integer,	-- uos_id
 	integer,	-- year_id
 	varchar,	-- semester_ids
+	integer,	-- core_id
 	varchar,	-- prerequisite_ids
 	varchar,	-- assumed_knowledge_ids
 	varchar,	-- corequisite_ids
@@ -103,18 +105,19 @@ declare
 	p_uos_id			alias for $3;
 	p_year_id			alias for $4;
 	p_semester_ids			alias for $5;
-	p_prerequisite_ids		alias for $6;
-	p_assumed_knowledge_ids		alias for $7;
-	p_corequisite_ids		alias for $8;
-	p_prohibition_ids		alias for $9;
-	p_no_longer_offered_ids		alias for $10;
-	p_creation_user			alias for $11;
-	p_creation_ip			alias for $12;
-	p_context_id			alias for $13;
-	p_item_subtype			alias for $14;
-	p_content_type			alias for $15;
-	p_object_type			alias for $16;
-	p_package_id			alias for $17;
+	p_core_id			alias for $6;
+	p_prerequisite_ids		alias for $7;
+	p_assumed_knowledge_ids		alias for $8;
+	p_corequisite_ids		alias for $9;
+	p_prohibition_ids		alias for $10;
+	p_no_longer_offered_ids		alias for $11;
+	p_creation_user			alias for $12;
+	p_creation_ip			alias for $13;
+	p_context_id			alias for $14;
+	p_item_subtype			alias for $15;
+	p_content_type			alias for $16;
+	p_object_type			alias for $17;
+	p_package_id			alias for $18;
 
 	v_map_id			cc_stream_uos_map.map_id%TYPE;
 	v_folder_id			integer;
@@ -162,6 +165,7 @@ begin
 		v_map_id,			-- map_id
 		p_year_id,			-- year_id
 		p_semester_ids,			-- semester_ids
+		p_core_id,			-- core_id
 		p_prerequisite_ids,		-- requisite_ids
 		p_assumed_knowledge_ids,	-- assumed_knowledge_ids
 		p_corequisite_ids,		-- corequisite_ids
@@ -193,6 +197,8 @@ begin
 
 	perform content_item__delete(p_map_id);	
 
+	delete from cc_stream_uos_map where map_id = p_map_id;
+
 	return 0;
 
 end;
@@ -204,6 +210,7 @@ create or replace function cc_stream_uos_map_rev__new (
 	integer,			-- map_id
 	integer,			-- year_id
 	varchar,			-- semester_ids
+	integer,			-- core_id
 	varchar,			-- prerequisite_ids
 	varchar,			-- assumed_knowledge_ids
 	varchar,			-- corequisite_ids
@@ -219,14 +226,15 @@ declare
 	p_map_id				alias for $2;
 	p_year_id				alias for $3;
 	p_semester_ids				alias for $4;
-	p_prerequisite_ids			alias for $5;
-	p_assumed_knowledge_ids			alias for $6;
-	p_corequisite_ids			alias for $7;
-	p_prohibition_ids			alias for $8;
-	p_no_longer_offered_ids			alias for $9;
-	p_creation_date				alias for $10;
-	p_creation_user				alias for $11;
-	p_creation_ip				alias for $12;
+	p_core_id				alias for $5;
+	p_prerequisite_ids			alias for $6;
+	p_assumed_knowledge_ids			alias for $7;
+	p_corequisite_ids			alias for $8;
+	p_prohibition_ids			alias for $9;
+	p_no_longer_offered_ids			alias for $10;
+	p_creation_date				alias for $11;
+	p_creation_user				alias for $12;
+	p_creation_ip				alias for $13;
 
 	v_revision_id				integer;
 begin
@@ -251,6 +259,7 @@ begin
 		map_rev_id,
 		year_id,
 		semester_ids,
+		core_id,
 		prerequisite_ids,
 		assumed_knowledge_ids,
 		corequisite_ids,
@@ -260,6 +269,7 @@ begin
 		v_revision_id,
 		p_year_id,
 		p_semester_ids,
+		p_core_id,
 		p_prerequisite_ids,
 		p_assumed_knowledge_ids,
 		p_corequisite_ids,

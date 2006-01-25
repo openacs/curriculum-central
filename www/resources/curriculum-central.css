@@ -164,13 +164,17 @@
 	margin-bottom: 5px;
 }
 
-#cc-stream-container ul ul ul li a {
+#cc-stream-container ul ul ul li img {
 	vertical-align: bottom;
 	border: 0;
 	text-decoration: none;
-	margin-right: 4em;
+	margin-right: 3px;
+	margin-left: 3px;
 }
 
+#cc-stream-container ul ul ul li span {
+	margin-left: 3em;
+}
 
 /* UoS no longer offered. Used in stream-view. */
 #cc-stream-container h2 {

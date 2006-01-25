@@ -30,7 +30,7 @@
       <li>@stream.semester_name@</li>
       <ul id="uos">
         <group column="group">
-        <li><a href="@stream.edit_url@">#curriculum-central.edit#</a>@stream.uos_code@ @stream.uos_name@</li>
+        <li><a href="@stream.edit_url@"><img src="/shared/images/Edit16.gif" /></a> | <a href="@stream.delete_url@"><img src="/shared/images/Delete16.gif" /></a><span>@stream.uos_code@ @stream.uos_name@ (@stream.core_or_not@)</span></li>
         </group>
       </ul>
       </group>

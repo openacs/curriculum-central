@@ -54,6 +54,11 @@ if { [info exists uos_id] } {
 	    {html {size 5}}
 	    {help_text "[_ curriculum-central.help_select_semesters_that_uos_is_offered]"}
 	}
+	{core_id:integer(select)
+	    {label "[_ curriculum-central.core_recommended_or_elective]"}
+	    {options "[curriculum_central::stream::stream_uos_relation_get_options]"}
+	    {help_text "[_ curriculum-central.help_select_core_recommended_or_elective]"}
+	}
 	{prerequisite_ids:text(multiselect),multiple
 	    {label "[_ curriculum-central.prerequisites]"}
 	    {options $requisite_uos_options}
@@ -93,6 +98,7 @@ if { [info exists uos_id] } {
 		[list uos_id $uos_id] \
 		[list year_id $year_id] \
 		[list semester_ids $semester_ids] \
+		[list core_id $core_id] \
 		[list prerequisite_ids $prerequisite_ids] \
 		[list assumed_knowledge_ids $assumed_knowledge_ids] \
 		[list corequisite_ids $corequisite_ids] \

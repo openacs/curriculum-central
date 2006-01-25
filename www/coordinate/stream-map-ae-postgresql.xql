@@ -11,7 +11,7 @@
 
    <fullquery name="form_info">
      <querytext>
-	SELECT map.uos_id, rev.year_id, rev.semester_ids,
+	SELECT map.uos_id, rev.year_id, rev.semester_ids, rev.core_id,
    	    rev.prerequisite_ids, rev.assumed_knowledge_ids,
 	    rev.corequisite_ids, rev.prohibition_ids, rev.no_longer_offered_ids
 	FROM cc_stream_uos_map map, cc_stream_uos_map_rev rev
@@ -27,6 +27,7 @@
 	   :map_id,
 	   :year_id,
 	   :semester_ids,
+	   :core_id,
 	   :prerequisite_ids,
 	   :assumed_knowledge_ids,
 	   :corequisite_ids,

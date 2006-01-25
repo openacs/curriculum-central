@@ -186,3 +186,39 @@ ad_proc curriculum_central::stream::all_stream_uos {
 
     return [db_list_of_lists all_stream_uos {}]
 }
+
+
+ad_proc curriculum_central::stream::stream_uos_relation_get_options {} {
+    Returns a two-column list of UoS to Stream relations.  The list
+    contains hard coded values for Core, Recommended and Elective, with
+    values of 0, 1, and 2 respectively.
+
+    @return Returns a two-column list of UoS to Stream relations.
+} {
+    set relations [list]
+    lappend relations "[_ curriculum-central.core] 0"
+    lappend relations "[_ curriculum-central.recommended] 1"
+    lappend relations "[_ curriculum-central.elective] 2"
+
+    return $relations
+}
+
+
+ad_proc curriculum_central::stream::stream_uos_relation_name {
+    {-id:required}
+} {
+    Returns the pretty name for the given relation_id.
+
+    @param id The ID that corresponds to either "Core", "Recommended",
+    or "Elective".
+
+    @see curriculum_central::stream::stream_uos_relation_get_options
+} {
+    if { $id eq 0 } {
+	return [_ curriculum-central.core]
+    } elseif { $id eq 1} {
+	return [_ curriculum-central.recommended]
+    } else {
+	return [_ curriculum-central.elective]
+    }
+}

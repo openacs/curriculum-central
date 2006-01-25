@@ -22,14 +22,11 @@ if { ![curriculum_central::staff::stream_coordinator_p $user_id] } {
     ad_returnredirect -message [_ curriculum-central.only_stream_coordinators_can_develop_a_stream] index
 }
 
-# Get stream years.
-# Get semesters in a year.
-# Get mapped revisions
-
 set units_of_study [db_list_of_lists units_of_study {}]
 
 template::multirow create stream map_id year_id year_name \
-    semester_id semester_name uos_id uos_code uos_name group edit_url
+    semester_id semester_name core_or_not uos_id uos_code uos_name \
+    group edit_url delete_url
 
 # Set the modified state to 0 by default.  This means the stream
 # overview has been published.  The state will be toggled below when
@@ -45,8 +42,12 @@ foreach uos $units_of_study {
     set year_id [lindex $uos 4]
     set year_name [lindex $uos 5]
     set semester_ids [lindex $uos 6]
-    set live_revision_id [lindex $uos 7]
-    set latest_revision_id [lindex $uos 8]
+    set core_id [lindex $uos 7]
+    set live_revision_id [lindex $uos 8]
+    set latest_revision_id [lindex $uos 9]
+
+    set core_or_not [curriculum_central::stream::stream_uos_relation_name \
+			 -id $core_id]
 
     # If there is no live revision or that the live revision and
     # latest revision IDs are different, then set modified flag to 1.
@@ -69,10 +70,12 @@ foreach uos $units_of_study {
 	set return_url [export_vars -base stream-view {stream_id}]
 	set edit_url [export_vars -base stream-map-ae \
 			  {stream_id uos_id map_id return_url}]
+	set delete_url [export_vars -base stream-map-del \
+			    {stream_id map_id return_url}]
 
 	template::multirow append stream $map_id $year_id $year_name \
-	    $semester_id $semester_name $uos_id $uos_code $uos_name \
-	    $group $edit_url
+	    $semester_id $semester_name $core_or_not $uos_id $uos_code \
+	    $uos_name $group $edit_url $delete_url
     }
 }
 
