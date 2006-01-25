@@ -14,6 +14,7 @@
        AND map.stream_id = :stream_id
        AND map.latest_revision_id = rev.map_rev_id
        AND rev.year_id = y.year_id
+       AND rev.year_id != 0
      </querytext>
    </fullquery>
 
@@ -26,6 +27,18 @@
    <fullquery name="semester_name">
      <querytext>
        SELECT cc_semester__name(:semester_id)
+     </querytext>
+   </fullquery>
+
+   <fullquery name="not_offered">
+     <querytext>
+       SELECT map.map_id, uos.uos_code, uos.uos_name, uos.uos_id,
+           rev.year_id, map.live_revision_id, map.latest_revision_id
+       FROM cc_uos uos, cc_stream_uos_map map, cc_stream_uos_map_rev rev
+       WHERE uos.uos_id = map.uos_id
+       AND map.stream_id = :stream_id
+       AND map.latest_revision_id = rev.map_rev_id
+       AND rev.year_id = 0
      </querytext>
    </fullquery>
 

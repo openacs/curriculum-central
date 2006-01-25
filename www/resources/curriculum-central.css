@@ -78,6 +78,36 @@
 	font-weight: normal;
 }
 
+/* Stream view status box */
+
+#cc-stream-view-status-container {
+	text-align: center;
+	margin: 0px auto;
+	width: 180px;
+	margin-top: 2em;
+}
+
+#cc-stream-view-status-container .published {
+	color: #128812;
+	padding: 5px;
+	padding: 5px;
+	border: 1px solid #000;
+	font-weight: bold;
+}
+
+#cc-stream-view-status-container .modified ul {
+	color: #B91309;
+	list-style-type: none;
+	padding: 5px;
+	border: 1px solid #000;
+	font-weight: bold;
+}
+
+#cc-stream-view-status-container .modified ul li {
+	padding-top: 3px;
+	padding-bottom: 3px;
+}
+
 /* Stream Container */
 #cc-stream-container {
 	margin-left: 30px;
@@ -141,32 +171,25 @@
 	margin-right: 4em;
 }
 
-/* Stream view status box */
 
-#cc-stream-view-status-container {
-	text-align: center;
-	margin: 0px auto;
-	width: 180px;
-	margin-top: 2em;
+/* UoS no longer offered. Used in stream-view. */
+#cc-stream-container h2 {
+	color: #686868;
+	padding-top: 3em;
 }
 
-#cc-stream-view-status-container .published {
-	color: #128812;
-	padding: 5px;
-	padding: 5px;
-	border: 1px solid #000;
-	font-weight: bold;
+#cc-stream-container .cc-stream-view-not-offered ul li {
+	color: #000;
+	font-size: 12px;
+	padding: 3px;
+	width: 50em;
+	margin-bottom: 5px;
+	margin-left: 4em;
+	list-style-type: disc;
 }
 
-#cc-stream-view-status-container .modified ul {
-	color: #B91309;
-	list-style-type: none;
-	padding: 5px;
-	border: 1px solid #000;
-	font-weight: bold;
-}
-
-#cc-stream-view-status-container .modified ul li {
-	padding-top: 3px;
-	padding-bottom: 3px;
+#cc-stream-container .cc-stream-view-not-offered ul li a {
+	vertical-align: bottom;
+	border: 0;
+	text-decoration: none;
 }

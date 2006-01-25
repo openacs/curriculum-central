@@ -37,4 +37,15 @@
     </ul>
   </ul>
   </multiple>
+
+  <if @not_offered:rowcount@ ne 0>
+  <h2>#curriculum-central.uos_not_offered_in_any_years#</h2>
+  <div class="cc-stream-view-not-offered">
+  <ul>
+    <multiple name="not_offered">
+    <li>@not_offered.uos_code@ @not_offered.uos_name@ (<a href="@not_offered.edit_url@">#curriculum-central.edit#</a>)</li>
+    </multiple>
+  </ul>
+  </div>
+  </if>
 </div>

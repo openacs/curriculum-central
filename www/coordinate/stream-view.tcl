@@ -81,4 +81,11 @@ set publish_url [export_vars -base stream-publish {stream_id modified_list}]
 # Sort stream info by increasing year and semester.
 template::multirow sort stream -increasing year_id semester_id
 
+# Get all UoS that are no longer offered.  These are UoS that were
+# previously mapped, but now have a year_id that is set to 0.
+db_multirow -extend {edit_url} not_offered not_offered {} {
+    set return_url [export_vars -base stream-view {stream_id}]
+    set edit_url [export_vars -base stream-map-ae {stream_id uos_id map_id return_url}]
+}
+
 ad_return_template
