@@ -2,6 +2,8 @@
 <message_catalog package_key="curriculum-central" package_version="0.1d" locale="en_US" charset="ISO-8859-1">
 
   <msg key="uos">UoS</msg>
+  <msg key="add_uos">Add UoS</msg>
+  <msg key="delete">Delete</msg>
   <msg key="stream_mapping_has_been_deleted">Stream mapping has been deleted.</msg>
   <msg key="core">Core</msg>
   <msg key="recommended">Recommended</msg>

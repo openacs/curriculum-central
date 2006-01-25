@@ -34,6 +34,8 @@ template::multirow create stream map_id year_id year_name \
 set modified_p 0
 set modified_list [list]
 
+set return_url [export_vars -base stream-view {stream_id}]
+
 foreach uos $units_of_study {
     set map_id [lindex $uos 0]
     set uos_code [lindex $uos 1]
@@ -67,7 +69,6 @@ foreach uos $units_of_study {
 	# when using the <group> tag in the template.
 	set group "$year_id$semester_id"
 
-	set return_url [export_vars -base stream-view {stream_id}]
 	set edit_url [export_vars -base stream-map-ae \
 			  {stream_id uos_id map_id return_url}]
 	set delete_url [export_vars -base stream-map-del \
@@ -79,6 +80,7 @@ foreach uos $units_of_study {
     }
 }
 
+set add_url [export_vars -base stream-map-ae {stream_id return_url}]
 set publish_url [export_vars -base stream-publish {stream_id modified_list}]
 
 # Sort stream info by increasing year and semester.
@@ -86,9 +88,9 @@ template::multirow sort stream -increasing year_id semester_id
 
 # Get all UoS that are no longer offered.  These are UoS that were
 # previously mapped, but now have a year_id that is set to 0.
-db_multirow -extend {edit_url} not_offered not_offered {} {
-    set return_url [export_vars -base stream-view {stream_id}]
+db_multirow -extend {edit_url delete_url} not_offered not_offered {} {
     set edit_url [export_vars -base stream-map-ae {stream_id uos_id map_id return_url}]
+    set delete_url [export_vars -base stream-map-del {stream_id map_id return_url}]
 }
 
 ad_return_template

@@ -21,6 +21,8 @@
 </else>
 </div>
 
+<a href="@add_url@" class="button">#curriculum-central.add_uos#</a>
+
 <div id="cc-stream-container">
   <multiple name="stream">
   <ul id="years">
@@ -43,7 +45,7 @@
   <div class="cc-stream-view-not-offered">
   <ul>
     <multiple name="not_offered">
-    <li>@not_offered.uos_code@ @not_offered.uos_name@ (<a href="@not_offered.edit_url@">#curriculum-central.edit#</a>)</li>
+    <li>@not_offered.uos_code@ @not_offered.uos_name@ (<a href="@not_offered.edit_url@">#curriculum-central.edit#</a> | <a href="@not_offered.delete_url@">#curriculum-central.delete#</a>)</li>
     </multiple>
   </ul>
   </div>
