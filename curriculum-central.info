@@ -7,14 +7,14 @@
     <initial-install-p>f</initial-install-p>
     <singleton-p>f</singleton-p>
     
-    <version name="0.4.0d" url="http://openacs.org/repository/download/apm/curriculum-central-0.4.0d.apm">
+    <version name="0.4.1d" url="http://openacs.org/repository/download/apm/curriculum-central-0.4.1d.apm">
         <owner url="mailto:ncarroll@ee.usyd.edu.au">Nick Carroll</owner>
         <summary>An application for managing the subjects comprising a course of study in a School or University.</summary>
         <vendor url="http://www.weg.ee.usyd.edu.au">WEG</vendor>
         <description format="text/html">Curriculum Central is an application for managing subjects comprising a course of study in a School or University.  The application will allow academic staff to collaborate on course syllabus and rubrics, which can then be conveyed to students using course maps.</description>
         <maturity>0</maturity>
 
-        <provides url="curriculum-central" version="0.4.0d"/>
+        <provides url="curriculum-central" version="0.4.1d"/>
         <requires url="acs-content-repository" version="5.2.0d2"/>
         <requires url="acs-kernel" version="5.2.0d2"/>
         <requires url="acs-tcl" version="5.2.0d1"/>

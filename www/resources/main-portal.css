@@ -1,0 +1,39 @@
+.portletOptions {
+    display: inline;
+    font-size: 10px;
+    font-weight: normal;
+    float:right;
+    padding: 1px;
+}
+
+.visualClear {
+    display: block;
+    clear: both;
+}
+
+#portal-columns {
+    width: 100% !important;
+    border-collapse: collapse;
+    border-spacing: 0;
+}
+
+#portal-column-content {
+    vertical-align: top;
+    margin: 0;
+    padding: 0;
+}
+
+/* Padding for the columns */
+#portal-column-content .visualPadding {
+    /*padding: 0em 2em 1em 2em;*/
+    padding: 0em 1em 1em 1em;
+}
+
+.documentBorder {
+    border: 1px solid #666;
+    background: White;
+}
+
+.documentContent {
+    padding: 1em !important;
+}
