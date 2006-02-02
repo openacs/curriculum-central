@@ -5,18 +5,18 @@
 
    <fullquery name="object_new">
      <querytext>
-       SELECT cc_semester__new (NULL, :name, $start_date, $end_date,
+       SELECT cc_session__new (NULL, :name, $start_date, $end_date,
            :user_id, :peeraddr, :package_id)
      </querytext>
    </fullquery>
 
-   <fullquery name="semester_update">
+   <fullquery name="session_update">
      <querytext>
-       UPDATE cc_semester
+       UPDATE cc_session
 	   name = :name,
 	   start_date = :start_date,
 	   end_date = :end_date
-	   WHERE semester_id = :semester_id
+	   WHERE session_id = :session_id
      </querytext>
    </fullquery>
 
@@ -25,7 +25,7 @@
        UPDATE acs_objects
            SET modifying_user = :modifying_user,
 	   modifying_ip = :modifying_ip
-	   WHERE object_id = :semester_id
+	   WHERE object_id = :session_id
      </querytext>
    </fullquery>
 

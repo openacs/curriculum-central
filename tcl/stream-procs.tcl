@@ -57,7 +57,7 @@ ad_proc curriculum_central::stream::years_get_options {
 ad_proc curriculum_central::stream::semesters_get_options {
     {-package_id ""}
 } {
-    Returns a two-column list of years that a stream runs for.
+    Returns a two-column list of semesters that a stream runs for.
 
     @param package_id ID of the current package instance.
 
@@ -106,16 +106,14 @@ ad_proc curriculum_central::stream::years_for_uos_get_options {
 }
 
 
-ad_proc curriculum_central::stream::semesters_in_a_year_get_options {
+ad_proc curriculum_central::stream::sessions_get_options {
     {-package_id ""}
-    {-stream_id:required}
 } {
-    Returns a two-column list of years that a stream runs for.
+    Returns a two-column list of all available sessions.
 
     @param package_id ID of the current package instance.
-    @param stream_id Stream ID to retrieve valid semesters for.
 
-    @return Returns a two-column list of registered semesters.
+    @return Returns a two-column list of registered sessions.
 } {
     if { $package_id eq ""} {
 	set package_id [ad_conn package_id]
@@ -123,16 +121,16 @@ ad_proc curriculum_central::stream::semesters_in_a_year_get_options {
 
     # Create an empty option that the user can select.  The value of
     # which is an empty string.
-    set semester_list [list [list [list [_ curriculum-central.none]] 0]]
+    set session_list [list [list [list [_ curriculum-central.none]] 0]]
 
-    set semester_ids [db_string semester_ids {} -default ""]
+    #set session_ids [db_string session_ids {} -default ""]
 
-    foreach semester_id $semester_ids {
-	set semester_name [db_string semester_name {} -default ""]
-	lappend semester_list "[list $semester_name] $semester_id"
+    db_foreach session_ids {} {
+	set session_name [db_string session_name {} -default ""]
+	lappend session_list "[list $session_name] $session_id"
     }
 
-    return $semester_list
+    return $session_list
 }
 
 
@@ -168,23 +166,41 @@ ad_proc curriculum_central::stream::all_uos_except_get_options {
 }
 
 
-ad_proc curriculum_central::stream::all_stream_uos {
+ad_proc curriculum_central::stream::all_uos_get_options {
     {-package_id ""}
 } {
     Returns a two-column list of the names of all UoS and
-    corresponding UoS ID for the given Stream ID.
+    corresponding UoS ID from a package_id.
 
-    @param stream_id Stream ID.
     @param package_id ID of the current package instance.
 
-    @return Returns a two-column list of all UoS that have been mapped to
-    the given Stream ID.
+    @return Returns a two-column list of all UoS.
 } {
     if { $package_id eq ""} {
 	set package_id [ad_conn package_id]
     }
 
-    return [db_list_of_lists all_stream_uos {}]
+    return [db_list_of_lists all_uos {}]
+}
+
+
+ad_proc curriculum_central::stream::all_uos_names_get_options {
+    {-package_id ""}
+} {
+    Returns a two-column list of the names of all UoS names and
+    corresponding UoS name ID from a package_id.
+
+    @param package_id ID of the current package instance.
+
+    @return Returns a two-column list of all UoS names.
+} {
+    if { $package_id eq ""} {
+	set package_id [ad_conn package_id]
+    }
+
+    set empty [list [list [list [_ curriculum-central.none]] 0]]
+
+    return [concat $empty [db_list_of_lists all_uos_names {}]]
 }
 
 

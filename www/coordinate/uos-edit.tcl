@@ -87,11 +87,69 @@ workflow::case::role::add_assignee_widgets \
     -role_ids [workflow::role::get_id -workflow_id $workflow_id \
 		   -short_name unit_coordinator]
 
+set requisite_uos_options \
+    [curriculum_central::stream::all_uos_names_get_options]
+
 ad_form -extend -name uos -form {
     {credit_value:integer
 	{label "[_ curriculum-central.credit_value]"}
 	{value $uos(credit_value)}
         {html {size 3}}
+	{mode display}
+    }
+    {department_id:integer(select)
+	{label "[_ curriculum-central.department]"}
+	{value $uos(department_id)}
+	{options [curriculum_central::departments_get_options] }
+	{help_text "[_ curriculum-central.help_select_a_dept]"}
+	{mode display}
+    }
+    {session_ids:text(multiselect),multiple
+	{label "[_ curriculum-central.sessions]"}
+	{values $uos(session_ids)}
+	{options "[curriculum_central::stream::sessions_get_options]"}
+	{html {size 5}}
+	{help_text "[_ curriculum-central.help_select_sessions_that_uos_is_offered]"}
+	{mode display}
+    }
+    {prerequisite_ids:text(multiselect),multiple
+	{label "[_ curriculum-central.prerequisites]"}
+	{values $uos(prerequisite_ids)}
+	{options $requisite_uos_options}
+	{html {size 5}}
+	{help_text "[_ curriculum-central.help_select_prerequisites_for_uos]"}
+	{mode display}
+    }
+    {assumed_knowledge_ids:text(multiselect),multiple
+	{label "[_ curriculum-central.assumed_knowledge]"}
+	{values $uos(assumed_knowledge_ids)}
+	{options $requisite_uos_options}
+	{html {size 5}}
+	{help_text "[_ curriculum-central.help_select_assumed_knowledge_for_uos]"}
+	{mode display}
+    }
+    {corequisite_ids:text(multiselect),multiple
+	{label "[_ curriculum-central.corequisites]"}
+	{values $uos(corequisite_ids)}
+	{options $requisite_uos_options}
+	{html {size 5}}
+	{help_text "[_ curriculum-central.help_select_corequisites_for_uos]"}
+	{mode display}
+    }
+    {prohibition_ids:text(multiselect),multiple
+	{label "[_ curriculum-central.prohibitions]"}
+	{values $uos(prohibition_ids)}
+	{options $requisite_uos_options}
+	{html {size 5}}
+	{help_text "[_ curriculum-central.help_select_prohibitions_for_uos]"}
+	{mode display}
+    }
+    {no_longer_offered_ids:text(multiselect),multiple
+	{label "[_ curriculum-central.no_longer_offered]"}
+	{values $uos(no_longer_offered_ids)}
+	{options $requisite_uos_options}
+	{html {size 5}}
+	{help_text "[_ curriculum-central.help_select_uos_no_longer_offered]"}
 	{mode display}
     }
 }
@@ -116,32 +174,40 @@ ad_form -extend -name uos -form {
 	{mode display}
         {help_text "[_ curriculum-central.help_lecturer_id]"}
     }
-    {objectives:text(textarea),optional
+    {objectives:richtext(richtext),optional
         {label "[_ curriculum-central.aims_and_objectives]"}
 	{html {cols 50 rows 4}}
 	{value $uos_details(objectives)}
 	{mode display}
+	{htmlarea_p 0}
+	{nospell}
         {help_text "[_ curriculum-central.help_objectives]"}
     }
-    {learning_outcomes:text(textarea),optional
+    {learning_outcomes:richtext(richtext),optional
         {label "[_ curriculum-central.learning_outcomes]"}
 	{html {cols 50 rows 4}}
 	{value $uos_details(learning_outcomes)}
 	{mode display}
+	{htmlarea_p 0}
+	{nospell}
         {help_text "[_ curriculum-central.help_learning_outcomes]"}
     }
-    {syllabus:text(textarea),optional
+    {syllabus:richtext(richtext),optional
         {label "[_ curriculum-central.syllabus]"}
 	{html {cols 50 rows 4}}
 	{value $uos_details(syllabus)}
 	{mode display}
+	{htmlarea_p 0}
+	{nospell}
         {help_text "[_ curriculum-central.help_syllabus]"}
     }
-    {relevance:text(textarea),optional
+    {relevance:richtext(richtext),optional
         {label "[_ curriculum-central.relevance]"}
 	{html {cols 50 rows 4}}
 	{value $uos_details(relevance)}
 	{mode display}
+	{htmlarea_p 0}
+	{nospell}
         {help_text "[_ curriculum-central.help_relevance]"}
     }
     {online_course_content:text,optional
@@ -226,46 +292,58 @@ ad_form -extend -name uos -form {
     {workload_id:integer(hidden),optional
 	{value $uos_workload(workload_id)}
     }
-    {formal_contact_hrs:text(textarea),optional
+    {formal_contact_hrs:richtext(richtext),optional
         {label "[_ curriculum-central.formal_contact_hrs]"}
 	{html {cols 50 rows 4}}
 	{value $uos_workload(formal_contact_hrs)}
 	{mode display}
+	{htmlarea_p 0}
+	{nospell}
         {help_text "[_ curriculum-central.help_formal_contact_hrs]"}
     }
-    {informal_study_hrs:text(textarea),optional
+    {informal_study_hrs:richtext(richtext),optional
         {label "[_ curriculum-central.informal_study_hrs]"}
 	{html {cols 50 rows 4}}
 	{value $uos_workload(informal_study_hrs)}
 	{mode display}
+	{htmlarea_p 0}
+	{nospell}
         {help_text "[_ curriculum-central.help_informal_study_hrs]"}
     }
-    {student_commitment:text(textarea),optional
+    {student_commitment:richtext(richtext),optional
         {label "[_ curriculum-central.student_commitment]"}
 	{html {cols 50 rows 4}}
 	{value $uos_workload(student_commitment)}
 	{mode display}
+	{htmlarea_p 0}
+	{nospell}
         {help_text "[_ curriculum-central.help_student_commitment]"}
     }
-    {expected_feedback:text(textarea),optional
+    {expected_feedback:richtext(richtext),optional
         {label "[_ curriculum-central.expected_feedback]"}
 	{html {cols 50 rows 4}}
 	{value $uos_workload(expected_feedback)}
 	{mode display}
+	{htmlarea_p 0}
+	{nospell}
         {help_text "[_ curriculum-central.help_expected_feedback]"}
     }
-    {student_feedback:text(textarea),optional
+    {student_feedback:richtext(richtext),optional
         {label "[_ curriculum-central.student_feedback]"}
 	{html {cols 50 rows 4}}
 	{value $uos_workload(student_feedback)}
 	{mode display}
+	{htmlarea_p 0}
+	{nospell}
         {help_text "[_ curriculum-central.help_student_feedback]"}
     }
-    {assumed_concepts:text(textarea),optional
+    {assumed_concepts:richtext(richtext),optional
         {label "[_ curriculum-central.assumed_concepts]"}
 	{html {cols 50 rows 4}}
 	{value $uos_workload(assumed_concepts)}
 	{mode display}
+	{htmlarea_p 0}
+	{nospell}
         {help_text "[_ curriculum-central.help_assumed_concepts]"}
     }
 }
@@ -318,10 +396,12 @@ template::form::section uos [_ curriculum-central.history]
 
 # Add widgets for fields that the Unit Coordinator must enter data into.
 ad_form -extend -name uos -form {
-    {activity_log:richtext(richtext)
+    {activity_log:text(textarea)
 	{label "#curriculum-central.activity_log#"}
-	{html {cols 50 rows 13}}
+	{html {cols 50 rows 4}}
         {help_text "[_ curriculum-central.help_activity_log]"}
+	{mode display}
+	{nospell}
     }
     {return_url:text(hidden)
         {value $return_url}
@@ -393,7 +473,15 @@ ad_form -extend -name uos -on_submit {
     if { $enabled_action_id ne "" } {
         foreach field [workflow::action::get_element \
 			   -action_id $action_id -element edit_fields] {
-            set row($field) [element get_value uos $field]
+	    if { $field eq "session_ids" || $field eq "prerequisite_ids" ||
+		 $field eq "assumed_knowledge_ids" ||
+		 $field eq "corequisite_ids" ||
+		 $field eq "prohibition_ids" ||
+		 $field eq "no_longer_offered_ids"} {
+		set row($field) [element get_values uos $field]
+	    } else {
+		set row($field) [element get_value uos $field]
+	    }
         }
     }
 
@@ -499,10 +587,7 @@ ad_form -extend -name uos -on_submit {
     curriculum_central::uos::edit \
 	-uos_id $uos(uos_id) \
 	-enabled_action_id $enabled_action_id \
-	-activity_log \
-	    [template::util::richtext::get_property contents $activity_log] \
-	-activity_log_format \
-  	    [template::util::richtext::get_property format $activity_log] \
+	-activity_log $activity_log \
 	-array row \
 	-entry_id [element get_value uos entry_id]
 

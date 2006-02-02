@@ -6,16 +6,28 @@
    <fullquery name="curriculum_central::uos::get.select_latest_uos_data">
      <querytext>
        SELECT *
-       FROM cc_uos u, cc_uos_revisions r, cr_items i
+       FROM cc_uos u, cc_uos_revisions r, cr_items i, cc_uos_name n
        WHERE u.uos_id = :uos_id
        AND i.item_id = u.uos_id
        AND r.uos_revision_id = i.latest_revision
+       AND n.name_id = u.uos_name_id
      </querytext>
    </fullquery>
 
    <fullquery name="curriculum_central::uos::get_pretty_name.pretty_name">
      <querytext>
-       SELECT uos_code || ' ' ||uos_name FROM cc_uos WHERE uos_id = :uos_id
+       SELECT n.uos_code || ' ' || n.uos_name
+           FROM cc_uos u, cc_uos_name n
+	   WHERE u.uos_id = :uos_id
+	   AND n.name_id = u.uos_name_id
+     </querytext>
+   </fullquery>
+
+   <fullquery name="curriculum_central::uos::uos_name_get_options.names">
+     <querytext>
+       SELECT n.uos_code || ' ' || n.uos_name AS name, n.name_id
+       FROM cc_uos_name n
+       WHERE n.package_id = :package_id
      </querytext>
    </fullquery>
 
@@ -224,12 +236,17 @@
        SELECT cc_uos_revision__new (
            null,
            :uos_id,
-	   :uos_code,
-	   :uos_name,
+	   :uos_name_id,
 	   :credit_value,
+	   :department_id,
 	   :unit_coordinator_id,
+	   :session_ids,
+	   :prerequisite_ids,
+	   :assumed_knowledge_ids,
+	   :corequisite_ids,
+	   :prohibition_ids,
+	   :no_longer_offered_ids,
 	   :activity_log,
-	   :activity_log_format,
 	   now(),
 	   :creation_user,
 	   :creation_ip

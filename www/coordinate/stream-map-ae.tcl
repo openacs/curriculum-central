@@ -29,10 +29,6 @@ set package_id [ad_conn package_id]
 if { [info exists uos_id] } {
     set page_title "[_ curriculum-central.edit_uos_to_stream_mapping]: $stream_name"
 
-    set requisite_uos_options \
-	[curriculum_central::stream::all_uos_except_get_options \
-	     -empty_option -except_uos_id $uos_id]
-
     # Create form for mapping a Unit of Study to the given stream_id.
     ad_form -name stream_map -cancel_url $return_url -form {
 	{map_id:key}
@@ -48,46 +44,10 @@ if { [info exists uos_id] } {
 	    {options "[curriculum_central::stream::years_for_uos_get_options -stream_id $stream_id]"}
 	    {help_text "[_ curriculum-central.help_select_years_that_uos_is_offered]"}
 	}
-	{semester_ids:text(multiselect),multiple
-	    {label "[_ curriculum-central.semesters]"}
-	    {options "[curriculum_central::stream::semesters_in_a_year_get_options -stream_id $stream_id]"}
-	    {html {size 5}}
-	    {help_text "[_ curriculum-central.help_select_semesters_that_uos_is_offered]"}
-	}
 	{core_id:integer(select)
 	    {label "[_ curriculum-central.core_recommended_or_elective]"}
 	    {options "[curriculum_central::stream::stream_uos_relation_get_options]"}
 	    {help_text "[_ curriculum-central.help_select_core_recommended_or_elective]"}
-	}
-	{prerequisite_ids:text(multiselect),multiple
-	    {label "[_ curriculum-central.prerequisites]"}
-	    {options $requisite_uos_options}
-	    {html {size 5}}
-	    {help_text "[_ curriculum-central.help_select_prerequisites_for_uos]"}
-	}
-	{assumed_knowledge_ids:text(multiselect),multiple
-	    {label "[_ curriculum-central.assumed_knowledge]"}
-	    {options $requisite_uos_options}
-	    {html {size 5}}
-	    {help_text "[_ curriculum-central.help_select_assumed_knowledge_for_uos]"}
-	}
-	{corequisite_ids:text(multiselect),multiple
-	    {label "[_ curriculum-central.corequisites]"}
-	    {options $requisite_uos_options}
-	    {html {size 5}}
-	    {help_text "[_ curriculum-central.help_select_corequisites_for_uos]"}
-	}
-	{prohibition_ids:text(multiselect),multiple
-	    {label "[_ curriculum-central.prohibitions]"}
-	    {options $requisite_uos_options}
-	    {html {size 5}}
-	    {help_text "[_ curriculum-central.help_select_prohibitions_for_uos]"}
-	}
-	{no_longer_offered_ids:text(multiselect),multiple
-	    {label "[_ curriculum-central.no_longer_offered]"}
-	    {options $requisite_uos_options}
-	    {html {size 5}}
-	    {help_text "[_ curriculum-central.help_select_uos_no_longer_offered]"}
 	}
     } -select_query_name {form_info} -new_data {
 	# Create new CR object
@@ -97,13 +57,7 @@ if { [info exists uos_id] } {
 		[list stream_id $stream_id] \
 		[list uos_id $uos_id] \
 		[list year_id $year_id] \
-		[list semester_ids $semester_ids] \
 		[list core_id $core_id] \
-		[list prerequisite_ids $prerequisite_ids] \
-		[list assumed_knowledge_ids $assumed_knowledge_ids] \
-		[list corequisite_ids $corequisite_ids] \
-		[list prohibition_ids $prohibition_ids] \
-		[list no_longer_offered_ids $no_longer_offered_ids] \
 		[list object_type "cc_stream_uos_map"]] \
 			       "cc_stream_uos_map"]
 	
@@ -130,7 +84,7 @@ if { [info exists uos_id] } {
 	{return_url:text(hidden) {value $return_url}}
 	{uos_id:integer(select)
 	    {label "[_ curriculum-central.uos]"}
-	    {options "[curriculum_central::stream::all_stream_uos]"}
+	    {options "[curriculum_central::stream::all_uos_get_options]"}
 	    {help_text "[_ curriculum-central.help_select_uos_to_map]"}
 	    {mode edit}
 	}

@@ -1,4 +1,4 @@
-<master>
+<master src="../resources/main-portal">
 <property name="title">@page_title;noquote@</property>
 <property name="context">@context;noquote@</property>
 <property name="header_stuff">
@@ -27,9 +27,9 @@
   <multiple name="stream">
   <ul id="years">
     <li>@stream.year_name@</li>
-    <ul id="semesters">
+    <ul id="sessions">
       <group column="year_id">
-      <li>@stream.semester_name@</li>
+      <li>@stream.session_name@</li>
       <ul id="uos">
         <group column="group">
         <li><a href="@stream.edit_url@"><img src="/shared/images/Edit16.gif" /></a> | <a href="@stream.delete_url@"><img src="/shared/images/Delete16.gif" /></a><span>@stream.uos_code@ @stream.uos_name@ (@stream.core_or_not@)</span></li>

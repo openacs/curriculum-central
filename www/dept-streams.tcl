@@ -15,7 +15,7 @@ db_1row context_faculty {}
 
 set page_title $department_name
 set context [list [list [export_vars -url -base faculty-depts \
-			     {faculty_name faculty_id}] $faculty_name] \
+			     {faculty_id faculty_name}] $faculty_name] \
 		 $page_title]
 set package_id [ad_conn package_id]
 
@@ -27,7 +27,7 @@ if { ![curriculum_central::stream::streams_exist_p] } {
 
 # Get list of streams.
 db_multirow -extend {stream_uos_url} streams streams {} {
-    set stream_uos_url [export_vars -url -base stream-uos \
+    set stream_uos_url [export_vars -url -base stream-map \
 			     {stream_id stream_name}]
 }
 

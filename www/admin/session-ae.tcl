@@ -1,18 +1,18 @@
 ad_page_contract {
-    Add/Edit a semester.
+    Add/Edit a session.
 
     @author Nick Carroll (nick.c@rroll.net)
     @creation-date 2005-11-20
     @cvs-id $Id$
 } {
-    semester_id:integer,optional
-    {return_url "semesters"}
+    session_id:integer,optional
+    {return_url "sessions"}
 }
 
-if { [info exists semester_id] } {
-    set page_title [_ curriculum-central.edit_semester]
+if { [info exists session_id] } {
+    set page_title [_ curriculum-central.edit_session]
 } else {
-    set page_title [_ curriculum-central.add_semester]
+    set page_title [_ curriculum-central.add_session]
 }
 
 set context [list $page_title]
@@ -20,13 +20,13 @@ set package_id [ad_conn package_id]
 set user_id [ad_conn user_id]
 set peeraddr [ad_conn peeraddr]
 
-ad_form -name semester -cancel_url $return_url -form {
-    {semester_id:key(acs_object_id_seq)}
+ad_form -name session -cancel_url $return_url -form {
+    {session_id:key(acs_object_id_seq)}
     {return_url:text(hidden) {value $return_url}}
     {name:text
 	{html {size 50}}
 	{label "#curriculum-central.name#" }
-	{help_text "[_ curriculum-central.help_enter_semester_name]"}
+	{help_text "[_ curriculum-central.help_enter_session_name]"}
     }
     {start_date:date,to_sql(sql_date),to_html(display_date)
 	{label "#curriculum-central.start_date#" }
@@ -40,7 +40,7 @@ ad_form -name semester -cancel_url $return_url -form {
     }
 } -select_query {
        SELECT name, start_date, end_date
-	   FROM cc_semester WHERE semester_id = :semester_id
+	   FROM cc_session WHERE session_id = :session_id
 } -validate {
     {start_date
         { [template::util::date::compare $start_date $end_date] <= 0 }
@@ -58,7 +58,7 @@ ns_log Warning "NC: start_date: $start_date end_date $end_date"
     set modifying_user [ad_conn user_id]
     set modifying_ip [ad_conn peeraddr]
 
-    db_dml semester_update {}
+    db_dml session_update {}
     db_dml object_update {}
 } -after_submit {
     ad_returnredirect $return_url

@@ -10,7 +10,6 @@
 	   stream_name = :stream_name,
 	   stream_code = :stream_code,
 	   year_ids = :year_ids,
-	   semester_ids = :semester_ids,
 	   department_id = :department_id
 	   WHERE stream_id = :stream_id
      </querytext>

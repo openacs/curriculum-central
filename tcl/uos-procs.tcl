@@ -83,6 +83,9 @@ ad_proc -private curriculum_central::uos::workflow_create {} {
                     pretty_past_tense "#curriculum-central.opened#"
 		    allowed_roles { stream_coordinator }
                     new_state open
+		    edit_fields {
+			activity_log
+		    }
                     initial_action_p t
                 }
                 comment {
@@ -92,6 +95,9 @@ ad_proc -private curriculum_central::uos::workflow_create {} {
 			stream_coordinator
 			unit_coordinator
 			lecturer
+		    }
+		    edit_fields {
+			activity_log
 		    }
                     privileges { read write }
                     always_enabled_p t
@@ -105,10 +111,16 @@ ad_proc -private curriculum_central::uos::workflow_create {} {
                     privileges { write }
 		    assigned_states { open }
                     edit_fields { 
-			uos_code
 			uos_name
 			role_unit_coordinator
 			credit_value
+			department_id
+			session_ids
+			prerequisite_ids
+			assumed_knowledge_ids
+			corequisite_ids
+			prohibition_ids
+			no_longer_offered_ids
                     }
                 }
                 edit_tl {
@@ -170,6 +182,9 @@ ad_proc -private curriculum_central::uos::workflow_create {} {
                     assigned_role { unit_coordinator }
                     assigned_states { open }
                     new_state { submitted }
+		    edit_fields {
+			activity_log
+		    }
                     privileges { write }
                 }
                 close {
@@ -179,6 +194,9 @@ ad_proc -private curriculum_central::uos::workflow_create {} {
                     assigned_states { submitted }
                     new_state closed
                     privileges { write }
+		    edit_fields {
+			activity_log
+		    }
 		    callbacks {
 			curriculum-central.UoSGoLive
 		    }
@@ -189,6 +207,9 @@ ad_proc -private curriculum_central::uos::workflow_create {} {
                     allowed_roles { stream_coordinator unit_coordinator }
                     enabled_states { submitted closed }
                     new_state { open }
+		    edit_fields {
+			activity_log
+		    }
                     privileges { write }
                 }
             }
@@ -298,12 +319,17 @@ ad_proc -public curriculum_central::uos::get {
 ad_proc -public curriculum_central::uos::new {
     -uos_id:required
     -package_id:required
-    -uos_code:required
-    -uos_name:required
+    -uos_name_id:required
     -credit_value:required
+    -department_id:required
     -unit_coordinator_id:required
+    -session_ids:required
+    -prerequisite_ids:required
+    -assumed_knowledge_ids:required
+    -corequisite_ids:required
+    -prohibition_ids:required
+    -no_longer_offered_ids:required
     -activity_log:required
-    -activity_log_format:required
     {-user_id ""}
 } {
     Create a new Unit of Study, then send out notifications, starts
@@ -327,12 +353,17 @@ ad_proc -public curriculum_central::uos::new {
 			-uos_id $uos_id \
 			-package_id $package_id \
 			-user_id $user_id \
-			-uos_code $uos_code \
-			-uos_name $uos_name \
+			-uos_name_id $uos_name_id \
 			-credit_value $credit_value \
+			-department_id $department_id \
 			-unit_coordinator_id $unit_coordinator_id \
-			-activity_log $activity_log \
-			-activity_log_format $activity_log_format ]
+			-session_ids $session_ids \
+			-prerequisite_ids $prerequisite_ids \
+			-assumed_knowledge_ids $assumed_knowledge_ids \
+			-corequisite_ids $corequisite_ids \
+			-prohibition_ids $prohibition_ids \
+			-no_longer_offered_ids $no_longer_offered_ids \
+			-activity_log $activity_log ]
 
 	array set assign_array [list unit_coordinator $unit_coordinator_id]
 
@@ -345,7 +376,7 @@ ad_proc -public curriculum_central::uos::new {
 			 -workflow_id $workflow_id \
 			 -object_id $uos_id \
 			 -comment $activity_log \
-			 -comment_mime_type $activity_log_format \
+			 -comment_mime_type "text/plain" \
 			 -user_id $user_id \
 			 -assignment [array get assign_array]]
 
@@ -371,12 +402,17 @@ ad_proc -public curriculum_central::uos::new {
 ad_proc -public curriculum_central::uos::insert {
     -uos_id:required
     -package_id:required
-    -uos_code:required
-    -uos_name:required
+    -uos_name_id:required
     -credit_value:required
+    -department_id:required
     -unit_coordinator_id:required
+    -session_ids:required
+    -prerequisite_ids:required
+    -assumed_knowledge_ids:required
+    -corequisite_ids:required
+    -prohibition_ids:required
+    -no_longer_offered_ids:required
     -activity_log:required
-    -activity_log_format:required
     {-user_id ""}
 } {
     Inserts a new Unit of Study into the content repository.  You should
@@ -389,12 +425,17 @@ ad_proc -public curriculum_central::uos::insert {
         -var_list [list [list uos_id $uos_id] \
 		       [list package_id $package_id] \
 		       [list user_id $user_id] \
-		       [list uos_code $uos_code] \
-		       [list uos_name $uos_name] \
+		       [list uos_name_id $uos_name_id] \
 		       [list credit_value $credit_value] \
+		       [list department_id $department_id] \
 		       [list unit_coordinator_id $unit_coordinator_id] \
+		       [list session_ids $session_ids] \
+		       [list prerequisite_ids $prerequisite_ids] \
+		       [list assumed_knowledge_ids $assumed_knowledge_ids] \
+		       [list corequisite_ids $corequisite_ids] \
+		       [list prohibition_ids $prohibition_ids] \
+		       [list no_longer_offered_ids $no_longer_offered_ids] \
 		       [list activity_log $activity_log] \
-		       [list activity_log_format $activity_log_format] \
 		       [list object_type "cc_uos"]] \
 		    -package_name "cc_uos" \
 		    "cc_uos"]
@@ -463,7 +504,6 @@ ad_proc -public curriculum_central::uos::edit {
     -uos_id:required
     -enabled_action_id:required
     -activity_log:required
-    -activity_log_format:required
     -array:required
     {-user_id ""}
     {-creation_ip ""}
@@ -521,7 +561,7 @@ ad_proc -public curriculum_central::uos::edit {
 	workflow::case::action::execute \
 	    -enabled_action_id $enabled_action_id \
 	    -comment $activity_log \
-	    -comment_mime_type $activity_log_format \
+	    -comment_mime_type "text/plain" \
 	    -user_id $user_id \
 	    -entry_id $entry_id
 	    
@@ -960,6 +1000,25 @@ ad_proc -public curriculum_central::uos::get_pretty_name {
     if a name could not be found.
 } {
     return [db_string pretty_name {} -default ""]
+}
+
+
+ad_proc curriculum_central::uos::uos_name_get_options {
+    {-package_id ""}
+} {
+    Returns a two-column list of registered UoS names.
+
+    @param package_id ID of the current package instance.
+
+    @return Returns a two-column list of registered UoS names.
+} {
+    if { $package_id eq ""} {
+	set package_id [ad_conn package_id]
+    }
+
+    set names_list [db_list_of_lists names {}]
+
+    return $names_list
 }
 
 
@@ -1605,11 +1664,13 @@ ad_proc -public curriculum_central::uos::add_grade_descriptor_widgets {
 	set description [lindex $grade_descriptors 1]
 
 	ad_form -extend -name $form_name -form {
-	    {${prefix}${type_id}:text(textarea)
+	    {${prefix}${type_id}:richtext(richtext)
 		{label "[curriculum_central::uos::get_grade_descriptor_pretty_name -type_id $type_id]"}
 		{html {cols 50 rows 4}}
 		{mode display}
 		{value $description}
+		{htmlarea_p 0}
+		{nospell}
 		{help_text "[_ curriculum-central.help_enter_details_of_what_a_student_must_achieve_to_earn_this_grade]"}
 	    }
 	}
@@ -1716,10 +1777,12 @@ ad_proc -public curriculum_central::uos::add_schedule_widgets {
 	set assessment_ids [lindex $week 2]
 
 	ad_form -extend -name $form_name -form {
-	    {${content_prefix}${week_id}:text(textarea)
+	    {${content_prefix}${week_id}:richtext(richtext)
 		{label "[curriculum_central::uos::get_schedule_pretty_name -week_id $week_id] [_ curriculum-central.course_content]"}
 		{html {cols 50 rows 4}}
 		{mode display}
+		{htmlarea_p 0}
+		{nospell}
 		{value $course_content}
 	    }
 	    {${assessment_prefix}${week_id}:text(multiselect),multiple,optional

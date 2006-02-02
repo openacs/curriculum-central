@@ -11,5 +11,6 @@
 \i faculty-create.sql
 \i department-create.sql
 \i stream-create.sql
+\i uos-names-create.sql
 \i uos-create.sql
 \i staff-create.sql

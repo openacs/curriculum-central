@@ -33,15 +33,15 @@
      </querytext>
    </fullquery>
 
-   <fullquery name="curriculum_central::stream::semesters_in_a_year_get_options.semester_ids">
+   <fullquery name="curriculum_central::stream::sessions_get_options.session_ids">
      <querytext>
-       SELECT semester_ids FROM cc_stream WHERE stream_id = :stream_id
+       SELECT session_id FROM cc_session WHERE package_id = :package_id
      </querytext>
    </fullquery>
 
-   <fullquery name="curriculum_central::stream::semesters_in_a_year_get_options.semester_name">
+   <fullquery name="curriculum_central::stream::sessions_get_options.session_name">
      <querytext>
-       SELECT name from cc_semester WHERE semester_id = :semester_id
+       SELECT name from cc_session WHERE session_id = :session_id
      </querytext>
    </fullquery>
 
@@ -54,11 +54,20 @@
      </querytext>
    </fullquery>
 
-   <fullquery name="curriculum_central::stream::all_stream_uos.all_stream_uos">
+   <fullquery name="curriculum_central::stream::all_uos_get_options.all_uos">
      <querytext>
-       SELECT uos.uos_code || ' ' ||uos.uos_name AS name, uos.uos_id
-           FROM cc_uos uos
+       SELECT n.uos_code || ' ' || n.uos_name AS name, uos.uos_id
+           FROM cc_uos uos, cc_uos_name n
 	   WHERE uos.package_id = :package_id
+	   AND uos.uos_name_id = n.name_id
+     </querytext>
+   </fullquery>
+
+   <fullquery name="curriculum_central::stream::all_uos_names_get_options.all_uos_names">
+     <querytext>
+       SELECT n.uos_code || ' ' || n.uos_name AS name, n.name_id
+           FROM cc_uos_name n
+	   WHERE n.package_id = :package_id
      </querytext>
    </fullquery>
 

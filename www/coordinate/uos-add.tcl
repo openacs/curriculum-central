@@ -35,30 +35,73 @@ set workflow_id [curriculum_central::uos::get_instance_workflow_id]
 set page_title "[_ curriculum-central.add_unit_of_study]"
 set context [list [list . [_ curriculum-central.coordinate]] $page_title]
 
+set requisite_uos_options \
+    [curriculum_central::stream::all_uos_names_get_options]
+
+
 # Create the form.
 ad_form -name uos -cancel_url $return_url -form {
     {uos_id:key(acs_object_id_seq)}
 
-    {uos_code:text
-	{label "#curriculum-central.uos_code#"}
-	{html {size 50}}
-    }
-    {uos_name:text
+    {uos_name_id:integer(select)
 	{label "#curriculum-central.uos_name#"}
-	{html {size 50}}
+	{options [curriculum_central::uos::uos_name_get_options]}
+	{help_text "[_ curriculum-central.help_select_uos_name]"}
     }
     {credit_value:integer
 	{label "#curriculum-central.credit_value#"}
-	{html {size 50}}	
+	{html {size 3}}
+	{help_text "[_ curriculum-central.help_enter_credit_value]"}
+    }
+    {department_id:integer(select)
+	{label "#curriculum-central.department#" }
+	{options [curriculum_central::departments_get_options] }
+	{help_text "[_ curriculum-central.help_select_a_dept]"}
     }
     {unit_coordinator_id:integer(select)
 	{label "#curriculum-central.unit_coordinator#"}
 	{options [curriculum_central::staff_get_options] }
         {help_text "[_ curriculum-central.help_select_unit_coordinator]"}
     }
-    {activity_log:richtext(richtext)
+    {session_ids:text(multiselect),multiple
+	{label "[_ curriculum-central.sessions]"}
+	{options "[curriculum_central::stream::sessions_get_options]"}
+	{html {size 5}}
+	{help_text "[_ curriculum-central.help_select_sessions_that_uos_is_offered]"}
+    }
+    {prerequisite_ids:text(multiselect),multiple
+	{label "[_ curriculum-central.prerequisites]"}
+	{options $requisite_uos_options}
+	{html {size 5}}
+	{help_text "[_ curriculum-central.help_select_prerequisites_for_uos]"}
+    }
+    {assumed_knowledge_ids:text(multiselect),multiple
+	{label "[_ curriculum-central.assumed_knowledge]"}
+	{options $requisite_uos_options}
+	{html {size 5}}
+	{help_text "[_ curriculum-central.help_select_assumed_knowledge_for_uos]"}
+    }
+    {corequisite_ids:text(multiselect),multiple
+	{label "[_ curriculum-central.corequisites]"}
+	{options $requisite_uos_options}
+	{html {size 5}}
+	{help_text "[_ curriculum-central.help_select_corequisites_for_uos]"}
+    }
+    {prohibition_ids:text(multiselect),multiple
+	{label "[_ curriculum-central.prohibitions]"}
+	{options $requisite_uos_options}
+	{html {size 5}}
+	{help_text "[_ curriculum-central.help_select_prohibitions_for_uos]"}
+    }
+    {no_longer_offered_ids:text(multiselect),multiple
+	{label "[_ curriculum-central.no_longer_offered]"}
+	{options $requisite_uos_options}
+	{html {size 5}}
+	{help_text "[_ curriculum-central.help_select_uos_no_longer_offered]"}
+    }
+    {activity_log:text(textarea)
 	{label "#curriculum-central.activity_log#"}
-	{html {cols 50 rows 13}}
+	{html {cols 50 rows 4}}
     }
     {return_url:text(hidden)
 	{value $return_url}
@@ -70,12 +113,17 @@ ad_form -name uos -cancel_url $return_url -form {
 	-uos_id $uos_id \
 	-package_id $package_id \
 	-user_id $user_id \
-	-uos_code $uos_code \
-	-uos_name $uos_name \
+	-uos_name_id $uos_name_id \
 	-credit_value $credit_value \
+	-department_id $department_id \
 	-unit_coordinator_id $unit_coordinator_id \
-	-activity_log [template::util::richtext::get_property contents $activity_log] \
-	-activity_log_format [template::util::richtext::get_property format $activity_log]
+	-session_ids $session_ids \
+	-prerequisite_ids $prerequisite_ids \
+	-assumed_knowledge_ids $assumed_knowledge_ids \
+	-corequisite_ids $corequisite_ids \
+	-prohibition_ids $prohibition_ids \
+	-no_longer_offered_ids $no_longer_offered_ids \
+	-activity_log $activity_log
 
 } -after_submit {
     ad_returnredirect $return_url

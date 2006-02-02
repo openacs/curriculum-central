@@ -18,4 +18,11 @@
 	SELECT * FROM cc_stream WHERE coordinator_id = :user_id LIMIT 1
       </querytext>
     </fullquery>
+
+    <fullquery name="curriculum_central::staff::staff_p.staff_p">
+      <querytext>
+	SELECT * FROM cc_staff WHERE staff_id = :user_id LIMIT 1
+      </querytext>
+    </fullquery>
+
 </queryset>

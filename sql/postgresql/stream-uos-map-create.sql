@@ -55,13 +55,7 @@ create table cc_stream_uos_map_rev (
 				references cr_revisions(revision_id)
 				on delete cascade,
 	year_id			integer,
-	semester_ids		varchar(256),
-	core_id			integer,      -- core, elective, or recommended
-	prerequisite_ids	varchar(256),
-	assumed_knowledge_ids	varchar(256),
-	corequisite_ids		varchar(256),
-	prohibition_ids		varchar(256),
-	no_longer_offered_ids	varchar(256)
+	core_id			integer      -- core, elective, or recommended
 );
 
 -- Create the UoS revision content type.
@@ -76,20 +70,14 @@ select content_type__create_type (
 );
 
 
-select define_function_args('cc_stream_uos_map__new', 'map_id,stream_id,uos_id,year_id,semester_ids,core_id,prerequisite_ids,assumed_knowledge_ids,corequisite_ids,prohibition_ids,no_longer_offered_ids,creation_user,creation_ip,context_id,item_subtype;cc_stream_uos_map,content_type;cc_stream_uos_map_rev,object_type,package_id');
+select define_function_args('cc_stream_uos_map__new', 'map_id,stream_id,uos_id,year_id,core_id,creation_user,creation_ip,context_id,item_subtype;cc_stream_uos_map,content_type;cc_stream_uos_map_rev,object_type,package_id');
 
 create function cc_stream_uos_map__new(
 	integer,	-- map_id
 	integer,	-- stream_id
 	integer,	-- uos_id
 	integer,	-- year_id
-	varchar,	-- semester_ids
 	integer,	-- core_id
-	varchar,	-- prerequisite_ids
-	varchar,	-- assumed_knowledge_ids
-	varchar,	-- corequisite_ids
-	varchar,	-- prohibition_ids
-	varchar,	-- no_longer_offered_ids
 	integer,	-- creation_user
 	varchar,	-- creation_ip
 	integer,	-- context_id
@@ -104,20 +92,14 @@ declare
 	p_stream_id			alias for $2;
 	p_uos_id			alias for $3;
 	p_year_id			alias for $4;
-	p_semester_ids			alias for $5;
-	p_core_id			alias for $6;
-	p_prerequisite_ids		alias for $7;
-	p_assumed_knowledge_ids		alias for $8;
-	p_corequisite_ids		alias for $9;
-	p_prohibition_ids		alias for $10;
-	p_no_longer_offered_ids		alias for $11;
-	p_creation_user			alias for $12;
-	p_creation_ip			alias for $13;
-	p_context_id			alias for $14;
-	p_item_subtype			alias for $15;
-	p_content_type			alias for $16;
-	p_object_type			alias for $17;
-	p_package_id			alias for $18;
+	p_core_id			alias for $5;
+	p_creation_user			alias for $6;
+	p_creation_ip			alias for $7;
+	p_context_id			alias for $8;
+	p_item_subtype			alias for $9;
+	p_content_type			alias for $10;
+	p_object_type			alias for $11;
+	p_package_id			alias for $12;
 
 	v_map_id			cc_stream_uos_map.map_id%TYPE;
 	v_folder_id			integer;
@@ -164,13 +146,7 @@ begin
 		null,				-- revision_id
 		v_map_id,			-- map_id
 		p_year_id,			-- year_id
-		p_semester_ids,			-- semester_ids
 		p_core_id,			-- core_id
-		p_prerequisite_ids,		-- requisite_ids
-		p_assumed_knowledge_ids,	-- assumed_knowledge_ids
-		p_corequisite_ids,		-- corequisite_ids
-		p_prohibition_ids,		-- prohibition_ids
-		p_no_longer_offered_ids,	-- no_longer_offered_ids
 		now(),				-- creation_date
 		p_creation_user,		-- creation_user
 		p_creation_ip			-- creation_ip
@@ -209,13 +185,7 @@ create or replace function cc_stream_uos_map_rev__new (
 	integer,			-- revision_id
 	integer,			-- map_id
 	integer,			-- year_id
-	varchar,			-- semester_ids
 	integer,			-- core_id
-	varchar,			-- prerequisite_ids
-	varchar,			-- assumed_knowledge_ids
-	varchar,			-- corequisite_ids
-	varchar,			-- prohibition_ids
-	varchar,			-- no_longer_offered_ids
 	timestamptz,			-- creation_date
 	integer,			-- creation_user
 	varchar				-- creation_ip
@@ -225,16 +195,10 @@ declare
 	p_revision_id				alias for $1;
 	p_map_id				alias for $2;
 	p_year_id				alias for $3;
-	p_semester_ids				alias for $4;
-	p_core_id				alias for $5;
-	p_prerequisite_ids			alias for $6;
-	p_assumed_knowledge_ids			alias for $7;
-	p_corequisite_ids			alias for $8;
-	p_prohibition_ids			alias for $9;
-	p_no_longer_offered_ids			alias for $10;
-	p_creation_date				alias for $11;
-	p_creation_user				alias for $12;
-	p_creation_ip				alias for $13;
+	p_core_id				alias for $4;
+	p_creation_date				alias for $5;
+	p_creation_user				alias for $6;
+	p_creation_ip				alias for $7;
 
 	v_revision_id				integer;
 begin
@@ -255,26 +219,14 @@ begin
 	);
 
 	-- Insert into the uos-specific revision table
-	INSERT into cc_stream_uos_map_rev (
+	INSERT INTO cc_stream_uos_map_rev (
 		map_rev_id,
 		year_id,
-		semester_ids,
-		core_id,
-		prerequisite_ids,
-		assumed_knowledge_ids,
-		corequisite_ids,
-		prohibition_ids,
-		no_longer_offered_ids
+		core_id
 	) VALUES (
 		v_revision_id,
 		p_year_id,
-		p_semester_ids,
-		p_core_id,
-		p_prerequisite_ids,
-		p_assumed_knowledge_ids,
-		p_corequisite_ids,
-		p_prohibition_ids,
-		p_no_longer_offered_ids
+		p_core_id
 	);
 
 	-- Update the latest revision id in cc_stream_uos_map

@@ -1,5 +1,5 @@
 ad_page_contract {
-    Page for creating semesters.
+    Page for creating sessions.
 
     @author Nick Carroll (nick.c@rroll.net)
     @creation-date 2005-11-15
@@ -8,8 +8,8 @@ ad_page_contract {
     {orderby "name,asc"}
 }
 
-set page_title "[_ curriculum-central.semesters]"
-set context [list [_ curriculum-central.semesters]]
+set page_title "[_ curriculum-central.sessions]"
+set context [list [_ curriculum-central.sessions]]
 set package_id [ad_conn package_id]
 
 set elements {
@@ -18,8 +18,8 @@ set elements {
 	display_template {
 	    <img src="/shared/images/Edit16.gif" height="16" width="16" border="0">
 	}
-	link_url_eval {[export_vars -base semester-ae { semester_id }]}
-	link_html {title "#curriculum-central.edit_semester_info#"}
+	link_url_eval {[export_vars -base session-ae { session_id }]}
+	link_html {title "#curriculum-central.edit_session_info#"}
     }
     name {
 	label "#curriculum-central.name#"
@@ -41,10 +41,10 @@ set elements {
 }
 
 template::list::create \
-    -name semesters \
-    -actions [list "#curriculum-central.add_semester#" [export_vars -base semester-ae {}] "#curriculum-central.add_semester_to_list#"] \
-    -multirow semesters \
-    -no_data "#curriculum-central.no_semesters_created#" \
+    -name sessions \
+    -actions [list "#curriculum-central.add_session#" [export_vars -base session-ae {}] "#curriculum-central.add_session_to_list#"] \
+    -multirow sessions \
+    -no_data "#curriculum-central.no_sessions_created#" \
     -elements $elements \
     -orderby {
         name {orderby {lower(name)}}
@@ -52,6 +52,6 @@ template::list::create \
 	end_date {orderby {end_date}}
     }
 
-db_multirow semesters get_semesters {}
+db_multirow sessions get_sessions {}
 
 ad_return_template

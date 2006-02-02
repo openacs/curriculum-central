@@ -25,7 +25,7 @@ if { ![curriculum_central::staff::stream_coordinator_p $user_id] } {
 set units_of_study [db_list_of_lists units_of_study {}]
 
 template::multirow create stream map_id year_id year_name \
-    semester_id semester_name core_or_not uos_id uos_code uos_name \
+    session_id session_name core_or_not uos_id uos_code uos_name \
     group edit_url delete_url
 
 # Set the modified state to 0 by default.  This means the stream
@@ -43,7 +43,7 @@ foreach uos $units_of_study {
     set uos_id [lindex $uos 3]
     set year_id [lindex $uos 4]
     set year_name [lindex $uos 5]
-    set semester_ids [lindex $uos 6]
+    set session_ids [lindex $uos 6]
     set core_id [lindex $uos 7]
     set live_revision_id [lindex $uos 8]
     set latest_revision_id [lindex $uos 9]
@@ -59,15 +59,15 @@ foreach uos $units_of_study {
 	lappend modified_list $map_id
     }
 
-    foreach semester_id $semester_ids {
-	# Get name for semester_id
-	set semester_name [db_string semester_name {} -default ""]
+    foreach session_id $session_ids {
+	# Get name for session_id
+	set session_name [db_string session_name {} -default ""]
 	
 	# Create a "derived column" called group that is the amalgamation
-	# of the year_id and semester_id.  It is used as a workaround for
+	# of the year_id and session_id.  It is used as a workaround for
 	# bug 428 (http://openacs.org/bugtracker/openacs/bug?bug%5fnumber=428),
 	# when using the <group> tag in the template.
-	set group "$year_id$semester_id"
+	set group "$year_id$session_id"
 
 	set edit_url [export_vars -base stream-map-ae \
 			  {stream_id uos_id map_id return_url}]
@@ -75,7 +75,7 @@ foreach uos $units_of_study {
 			    {stream_id map_id return_url}]
 
 	template::multirow append stream $map_id $year_id $year_name \
-	    $semester_id $semester_name $core_or_not $uos_id $uos_code \
+	    $session_id $session_name $core_or_not $uos_id $uos_code \
 	    $uos_name $group $edit_url $delete_url
     }
 }
@@ -83,8 +83,8 @@ foreach uos $units_of_study {
 set add_url [export_vars -base stream-map-ae {stream_id return_url}]
 set publish_url [export_vars -base stream-publish {stream_id modified_list}]
 
-# Sort stream info by increasing year and semester.
-template::multirow sort stream -increasing year_id semester_id
+# Sort stream info by increasing year and session.
+template::multirow sort stream -increasing year_id session_id
 
 # Get all UoS that are no longer offered.  These are UoS that were
 # previously mapped, but now have a year_id that is set to 0.

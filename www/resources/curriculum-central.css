@@ -139,7 +139,7 @@
 	list-style-type: none;
 }
 
-/* Semester */
+/* Session */
 #cc-stream-container ul ul li {
 	color: #9B9B9B;
 	font-size: 16px;
@@ -197,4 +197,51 @@
 	vertical-align: bottom;
 	border: 0;
 	text-decoration: none;
+}
+
+
+/* Styles for stream maps. */
+
+#cc-stream-map-container {
+	border: 1px solid #000;
+}
+
+#cc-stream-map-container .spacer {
+	clear: both;
+}
+
+#cc-stream-map-container .float {
+	float: left;
+  	width: 120px;
+	height: 80px;
+  	padding: 10px;
+	margin: 1em;
+	border: 1px solid #000;
+}
+
+#cc-stream-map-container .float ul {
+	list-style-type: none;
+	margin: 0px;
+	padding: 0px;
+}
+
+#cc-stream-map-container .float ul li.uos-code {
+	color: red;
+	text-align: center;
+	font-weight: bold;
+	font-size: 12px;
+}
+
+#cc-stream-map-container .float ul li.uos-name {
+	margin-top: 5px;
+	color: green;
+	font-size: 12px;
+	text-align: center;
+}
+
+#cc-stream-map-container .float ul li.session {
+	margin-top: 10px;
+	color: blue;
+	font-size: 12px;
+	text-align: center;
 }

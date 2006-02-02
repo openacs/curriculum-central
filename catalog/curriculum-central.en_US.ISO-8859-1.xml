@@ -2,6 +2,27 @@
 <message_catalog package_key="curriculum-central" package_version="0.1d" locale="en_US" charset="ISO-8859-1">
 
   <msg key="uos">UoS</msg>
+  <msg key="list_of_all_units_of_study">List of all Units of Study.</msg>
+  <msg key="all_units_of_study">All Units of Study</msg>
+  <msg key="no_uos_have_been_created">No Units of Study have been created.</msg>
+  <msg key="view_all_uos">View all Units of Study.</msg>
+  <msg key="help_select_uos_name">Select a name for this UoS.</msg>
+  <msg key="help_enter_credit_value">Enter credit value for the UoS.</msg>
+  <msg key="view_uos_names">View UoS Names</msg>
+  <msg key="add_uos_name">Add UoS Name</msg>
+  <msg key="add_uos_name_to_list">Add UoS name to list</msg>
+  <msg key="help_enter_uos_code">Enter the UoS alpha-numeric code.</msg>
+  <msg key="help_enter_uos_name">Enter the UoS name.</msg>
+  <msg key="no_uos_names_have_been_created">No UoS names have been created</msg>
+  <msg key="uos_names">Unit of Study Names</msg>
+  <msg key="no_years_created">No vocabulary for years have been created.</msg>
+  <msg key="view_uos_offered_by">View Units of Study offered by:</msg>
+  <msg key="edit_year">Edit Year</msg>
+  <msg key="edit_schedule_week">Edit Schedule Week</msg>
+  <msg key="edit_session">Edit Session</msg>
+  <msg key="overview_lc">overview</msg>
+  <msg key="map_lc">map</msg>
+  <msg key="map_view">Map View</msg>
   <msg key="add_uos">Add UoS</msg>
   <msg key="delete">Delete</msg>
   <msg key="stream_mapping_has_been_deleted">Stream mapping has been deleted.</msg>
@@ -18,7 +39,7 @@
   <msg key="stream_overview">Stream Overview</msg>
   <msg key="help_enter_year_name">Enter a name for a school year.  Eg Year 1.</msg>
   <msg key="help_select_uos_to_map">Select UoS to map to the %stream_name% degree stream.</msg>
-  <msg key="help_select_semesters_that_uos_is_offered">Select the semesters that this UoS is offered.  Note: You can select multiple entries by holding down the CTRL key whilst selecting.</msg>
+  <msg key="help_select_sessions_that_uos_is_offered">Select the sessions that this UoS is offered.  Note: You can select multiple entries by holding down the CTRL key whilst selecting.</msg>
   <msg key="help_select_years_that_uos_is_offered">Select the year that this UoS is offered.</msg>
   <msg key="help_select_prerequisites_for_uos">Select prerequisite UoS for the mapped UoS.  Note: You can select multiple entries by holding down the CTRL key whilst selecting.</msg>
   <msg key="help_select_assumed_knowledge_for_uos">Select assumed knowledge for the mapped UoS.  Note: You can select multiple entries by holding down the CTRL key whilst selecting.</msg>
@@ -31,7 +52,7 @@
   <msg key="no_longer_offered">Units no longer offered</msg>
   <msg key="map_uos_to_stream">Map UoS to Stream</msg>
   <msg key="edit_uos_to_stream_mapping">Edit UoS to Stream Mapping</msg>
-  <msg key="help_select_semesters_in_a_year">Select the semesters that apply to the school year.  Note: Hold the CTRL key down to select more than one semester.</msg>
+  <msg key="help_select_sessions_in_a_year">Select the sessions that apply to the school year.  Note: Hold the CTRL key down to select more than one session.</msg>
   <msg key="help_select_years_for_this_stream">Select years that apply to this degree stream.  Note: Hold the CTRL key down to select more than one year.</msg>
   <msg key="you_are_not_the_coordinator_for">You are not the coordinator for any degree streams.</msg>
   <msg key="map_uos_to_this_stream">Map a Unit of Study to this stream.</msg>
@@ -41,7 +62,7 @@
   <msg key="start_date">Start Date</msg>
   <msg key="end_date">End Date</msg>
   <msg key="years">Years</msg>
-  <msg key="help_enter_semester_name">Enter the name for a semester.  Eg 1st Semester, Spring, Fall, 2nd Term, etc.</msg>
+  <msg key="help_enter_session_name">Enter the name for a session.  Eg 1st Session, Spring, Fall, 2nd Term, etc.</msg>
   <msg key="help_enter_start_date">Enter a start date.</msg>
   <msg key="help_enter_end_date">Enter an end date.</msg>
   <msg key="view_years">View Years</msg>
@@ -49,14 +70,15 @@
   <msg key="add_year">Add Year</msg>
   <msg key="edit_year_info">Edit Year</msg>
   <msg key="add_year_to_list">Add year to list.</msg>
-  <msg key="view_semesters">View Semesters</msg>
-  <msg key="add_a_semester">Add a Semester</msg>
-  <msg key="add_semester">Add Semester</msg>
-  <msg key="no_semesters_created">No semesters created</msg>
-  <msg key="add_semester_to_list">Add semester to list.</msg>
-  <msg key="help_enter_semesters_per_year">Enter the number of semesters in a year.</msg>
-  <msg key="semesters_in_a_year">Semesters in a Year</msg>
-  <msg key="semesters">Semesters</msg>
+  <msg key="view_sessions">View Sessions</msg>
+  <msg key="add_a_session">Add a Session</msg>
+  <msg key="add_session">Add Session</msg>
+  <msg key="no_sessions_created">No sessions created</msg>
+  <msg key="add_session_to_list">Add session to list.</msg>
+  <msg key="help_enter_sessions_per_year">Enter the number of sessions in a year.</msg>
+  <msg key="sessions_in_a_year">Sessions in a Year</msg>
+  <msg key="sessions">Sessions</msg>
+  <msg key="session">Session</msg>
   <msg key="only_stream_coordinators_can_develop_a_stream">Only stream coordinators can develop a stream</msg>
   <msg key="view_graduate_attributes">View Graduate Attributes</msg>
   <msg key="add_a_graduate_attribute">Add a Graduate Attribute</msg>
@@ -227,7 +249,7 @@
   <msg key="uos_name">UoS Name</msg>
   <msg key="credit_value">Credit Value</msg>
   <msg key="edit_uos">Edit Unit of Study</msg>
-  <msg key="semester_offering">Semester Offering</msg>
+  <msg key="session_offering">Session Offering</msg>
   <msg key="online_course_content">Online Course Content</msg>
   <msg key="contact_hours">Contact Hours</msg>
   <msg key="before_getting_started">Before using Curriculum Central, you need to create at least one stream.  A stream can be a degree, diploma or even a certificate.</msg>

@@ -1,4 +1,4 @@
-<master>
+<master src="../resources/main-portal">
 <property name="title">@page_title;noquote@</property>
 <property name="context">@context;noquote@</property>
 <property name="header_stuff">
@@ -26,10 +26,10 @@
   <li><a href="year-ae">#curriculum-central.add_a_year#</a></li>
   </ul>
 </li>
-<li><span>#curriculum-central.semesters#</span>
+<li><span>#curriculum-central.sessions#</span>
   <ul>
-  <li><a href="semesters">#curriculum-central.view_semesters#</a></li>
-  <li><a href="semester-ae">#curriculum-central.add_a_semester#</a></li>
+  <li><a href="sessions">#curriculum-central.view_sessions#</a></li>
+  <li><a href="session-ae">#curriculum-central.add_a_session#</a></li>
   </ul>
 </li>
 <li><span>#curriculum-central.streams#</span>

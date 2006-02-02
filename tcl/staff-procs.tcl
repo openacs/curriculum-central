@@ -40,3 +40,17 @@ ad_proc -public curriculum_central::staff::stream_coordinator_p {
     # stream, then the user is a stream coordinator.
     return [db_0or1row is_stream_coordinator {}]
 }
+
+
+ad_proc -public curriculum_central::staff::staff_p {
+    user_id
+} {
+    Checks if the given user is a member of staff or not.
+
+    @param user_id ID of a user.
+    @return Returns 1 if the user is a staff member, otherwise
+    0 is returned.
+} {
+
+    return [db_0or1row staff_p {}]
+}
