@@ -55,7 +55,8 @@ create table cc_stream_uos_map_rev (
 				references cr_revisions(revision_id)
 				on delete cascade,
 	year_id			integer,
-	core_id			integer      -- core, elective, or recommended
+	core_id			integer,      -- core, elective, or recommended
+	note			text
 );
 
 -- Create the UoS revision content type.
@@ -70,7 +71,7 @@ select content_type__create_type (
 );
 
 
-select define_function_args('cc_stream_uos_map__new', 'map_id,stream_id,uos_id,year_id,core_id,creation_user,creation_ip,context_id,item_subtype;cc_stream_uos_map,content_type;cc_stream_uos_map_rev,object_type,package_id');
+select define_function_args('cc_stream_uos_map__new', 'map_id,stream_id,uos_id,year_id,core_id,note,creation_user,creation_ip,context_id,item_subtype;cc_stream_uos_map,content_type;cc_stream_uos_map_rev,object_type,package_id');
 
 create function cc_stream_uos_map__new(
 	integer,	-- map_id
@@ -78,6 +79,7 @@ create function cc_stream_uos_map__new(
 	integer,	-- uos_id
 	integer,	-- year_id
 	integer,	-- core_id
+	text,		-- note
 	integer,	-- creation_user
 	varchar,	-- creation_ip
 	integer,	-- context_id
@@ -93,13 +95,14 @@ declare
 	p_uos_id			alias for $3;
 	p_year_id			alias for $4;
 	p_core_id			alias for $5;
-	p_creation_user			alias for $6;
-	p_creation_ip			alias for $7;
-	p_context_id			alias for $8;
-	p_item_subtype			alias for $9;
-	p_content_type			alias for $10;
-	p_object_type			alias for $11;
-	p_package_id			alias for $12;
+	p_note				alias for $6;
+	p_creation_user			alias for $7;
+	p_creation_ip			alias for $8;
+	p_context_id			alias for $9;
+	p_item_subtype			alias for $10;
+	p_content_type			alias for $11;
+	p_object_type			alias for $12;
+	p_package_id			alias for $13;
 
 	v_map_id			cc_stream_uos_map.map_id%TYPE;
 	v_folder_id			integer;
@@ -147,6 +150,7 @@ begin
 		v_map_id,			-- map_id
 		p_year_id,			-- year_id
 		p_core_id,			-- core_id
+		p_note,				-- note
 		now(),				-- creation_date
 		p_creation_user,		-- creation_user
 		p_creation_ip			-- creation_ip
@@ -186,6 +190,7 @@ create or replace function cc_stream_uos_map_rev__new (
 	integer,			-- map_id
 	integer,			-- year_id
 	integer,			-- core_id
+	text,				-- note
 	timestamptz,			-- creation_date
 	integer,			-- creation_user
 	varchar				-- creation_ip
@@ -196,9 +201,10 @@ declare
 	p_map_id				alias for $2;
 	p_year_id				alias for $3;
 	p_core_id				alias for $4;
-	p_creation_date				alias for $5;
-	p_creation_user				alias for $6;
-	p_creation_ip				alias for $7;
+	p_note					alias for $5;
+	p_creation_date				alias for $6;
+	p_creation_user				alias for $7;
+	p_creation_ip				alias for $8;
 
 	v_revision_id				integer;
 begin
@@ -222,11 +228,13 @@ begin
 	INSERT INTO cc_stream_uos_map_rev (
 		map_rev_id,
 		year_id,
-		core_id
+		core_id,
+		note
 	) VALUES (
 		v_revision_id,
 		p_year_id,
-		p_core_id
+		p_core_id,
+		p_note
 	);
 
 	-- Update the latest revision id in cc_stream_uos_map

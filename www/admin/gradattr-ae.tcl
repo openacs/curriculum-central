@@ -29,13 +29,22 @@ ad_form -name gradattr -cancel_url $return_url -form {
 	{label "[_ curriculum-central.name]" }
 	{help_text "[_ curriculum-central.help_enter_graduate_attribute_name]"}
     }
+    {general_description:richtext(richtext),optional
+        {label "[_ curriculum-central.general_description]"}
+	{html {cols 50 rows 4}}
+	{htmlarea_p 0}
+	{nospell}
+        {help_text "[_ curriculum-central.help_enter_ga_general_description]"}
+    }
 } -select_query {
-       SELECT name FROM cc_uos_gradattr_name WHERE name_id = :name_id
+    SELECT name, general_description
+    FROM cc_uos_gradattr_name WHERE name_id = :name_id
 } -new_data {
     package_instantiate_object \
 	-var_list [list [list package_id $package_id] \
 		        [list object_type cc_uos_gradattr_name] \
-		        [list name $name]] \
+		        [list name $name] \
+  		        [list general_description $general_description]] \
 	-form_id gradattr cc_uos_gradattr_name
 
 } -edit_data {

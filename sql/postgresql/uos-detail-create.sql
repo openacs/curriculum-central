@@ -63,14 +63,14 @@ create table cc_uos_detail_revisions (
 				constraint cc_uos_detail_rev_detail_rev_id_fk
 				references cr_revisions(revision_id)
 				on delete cascade,
-	lecturer_id		integer
-				constraint cc_uos_detail_rev_lecturer_id_fk
-				references users(user_id),
+	lecturer_ids		varchar(256),
+	tutor_ids		varchar(256),
 	objectives		text,
 	learning_outcomes	text,
 	syllabus		text,
 	relevance		text,
-	online_course_content 	varchar(256)
+	online_course_content 	varchar(256),
+	note			text
 );
 
 -- Create the UoS revision content type.
@@ -93,17 +93,19 @@ select content_type__register_child_type (
     null                     	-- max_n
 );
 
-select define_function_args('cc_uos_detail__new', 'detail_id,parent_uos_id,lecturer_id,objectives,learning_outcomes,syllabus,relevance,online_course_content,creation_user,creation_ip,context_id,item_subtype;cc_uos_detail,content_type;cc_uos_detail_revision,object_type,package_id');
+select define_function_args('cc_uos_detail__new', 'detail_id,parent_uos_id,lecturer_ids,tutor_ids,objectives,learning_outcomes,syllabus,relevance,online_course_content,note,creation_user,creation_ip,context_id,item_subtype;cc_uos_detail,content_type;cc_uos_detail_revision,object_type,package_id');
 
 create function cc_uos_detail__new(
 	integer,	-- detail_id
 	integer,	-- parent_uos_id
-	integer,	-- lecturer_id
+	varchar,	-- lecturer_ids
+	varchar,	-- tutor_ids
 	text,		-- objectives
 	text,		-- learning_outcomes
 	text,		-- syllabus
 	text,		-- relevance
 	varchar,	-- online_course_content
+	text,		-- note
 	integer,	-- creation_user
 	varchar,	-- creation_ip
 	integer,	-- context_id
@@ -116,19 +118,21 @@ declare
 
 	p_detail_id			alias for $1;
 	p_parent_uos_id			alias for $2;
-	p_lecturer_id			alias for $3;
-	p_objectives			alias for $4;
-	p_learning_outcomes		alias for $5;
-	p_syllabus			alias for $6;
-	p_relevance			alias for $7;
-	p_online_course_content		alias for $8;
-	p_creation_user			alias for $9;
-	p_creation_ip			alias for $10;
-	p_context_id			alias for $11;
-	p_item_subtype			alias for $12;
-	p_content_type			alias for $13;
-	p_object_type			alias for $14;
-	p_package_id			alias for $15;
+	p_lecturer_ids			alias for $3;
+	p_tutor_ids			alias for $4;
+	p_objectives			alias for $5;
+	p_learning_outcomes		alias for $6;
+	p_syllabus			alias for $7;
+	p_relevance			alias for $8;
+	p_online_course_content		alias for $9;
+	p_note				alias for $10;
+	p_creation_user			alias for $11;
+	p_creation_ip			alias for $12;
+	p_context_id			alias for $13;
+	p_item_subtype			alias for $14;
+	p_content_type			alias for $15;
+	p_object_type			alias for $16;
+	p_package_id			alias for $17;
 
 	v_detail_id			cc_uos_detail.detail_id%TYPE;
 	v_folder_id			integer;
@@ -168,12 +172,14 @@ begin
 	v_revision_id := cc_uos_detail_revision__new (
 		null,				-- detail_revision_id
 		v_detail_id,			-- detail_id
-		p_lecturer_id,			-- lecturer_id
+		p_lecturer_ids,			-- lecturer_ids
+		p_tutor_ids,			-- tutor_ids
 		p_objectives,			-- objectives
 		p_learning_outcomes,		-- learning_outcomes
 		p_syllabus,			-- syllabus
 		p_relevance,			-- relevance
 		p_online_course_content,	-- online_course_content
+		p_note,				-- note
 		now(),				-- creation_date
 		p_creation_user,		-- creation_user
 		p_creation_ip			-- creation_ip
@@ -226,12 +232,14 @@ end;
 create or replace function cc_uos_detail_revision__new (
 	integer,			-- detail_revision_id
 	integer,			-- detail_id
-	integer,			-- lecturer_id
+	varchar,			-- lecturer_ids
+	varchar,			-- tutor_ids
 	text,				-- objectives
 	text,				-- learning_outcomes
 	text,				-- syllabus
 	text,				-- relevance
 	varchar,			-- online_course_content
+	text,				-- note
 	timestamptz,			-- creation_date
 	integer,			-- creation_user
 	varchar				-- creation_ip
@@ -240,15 +248,17 @@ as '
 declare
 	p_detail_revision_id			alias for $1;
 	p_detail_id				alias for $2;
-	p_lecturer_id				alias for $3;
-	p_objectives				alias for $4;
-	p_learning_outcomes			alias for $5;
-	p_syllabus				alias for $6;
-	p_relevance				alias for $7;
-	p_online_course_content			alias for $8;
-	p_creation_date				alias for $9;
-	p_creation_user				alias for $10;
-	p_creation_ip				alias for $11;
+	p_lecturer_ids				alias for $3;
+	p_tutor_ids				alias for $4;
+	p_objectives				alias for $5;
+	p_learning_outcomes			alias for $6;
+	p_syllabus				alias for $7;
+	p_relevance				alias for $8;
+	p_online_course_content			alias for $9;
+	p_note					alias for $10;
+	p_creation_date				alias for $11;
+	p_creation_user				alias for $12;
+	p_creation_ip				alias for $13;
 
 	v_revision_id			integer;
 	v_title				varchar;
@@ -271,12 +281,13 @@ begin
 
 	-- Insert into the uos-specific revision table
 	INSERT into cc_uos_detail_revisions
-		(detail_revision_id, lecturer_id, objectives,
-		learning_outcomes, syllabus, relevance, online_course_content)
+		(detail_revision_id, lecturer_ids, tutor_ids, objectives,
+		learning_outcomes, syllabus, relevance, online_course_content,
+		note)
 	VALUES
-		(v_revision_id, p_lecturer_id, p_objectives,
+		(v_revision_id, p_lecturer_ids, p_tutor_ids, p_objectives,
 		p_learning_outcomes, p_syllabus, p_relevance,
-		p_online_course_content);
+		p_online_course_content, p_note);
 
 	-- Update the latest revision id in cc_uos_detail
 	UPDATE cc_uos_detail SET latest_revision_id = v_revision_id

@@ -11,7 +11,7 @@
 
    <fullquery name="form_info">
      <querytext>
-	SELECT map.uos_id, rev.year_id, rev.core_id
+	SELECT map.uos_id, rev.year_id, rev.core_id, rev.note
 	FROM cc_stream_uos_map map, cc_stream_uos_map_rev rev
 	WHERE map.map_id = :map_id
 	AND rev.map_rev_id = map.latest_revision_id
@@ -25,6 +25,7 @@
 	   :map_id,
 	   :year_id,
 	   :core_id,
+	   :note,
 	   now(),
 	   :modifying_user,
 	   :modifying_ip

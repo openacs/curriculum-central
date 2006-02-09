@@ -10,13 +10,29 @@
   <div class="spacer">&nbsp;</div>
 
   <multiple name="stream">
-  <div class="float">
-    <ul>
-      <li class="uos-code">@stream.uos_code@</li>  
-      <li class="uos-name">@stream.uos_name@</li>
-      <li class="session">@stream.session_name@</li>
+  <ul class="years">
+    <li>@stream.year_name@</li>
+    <ul class="sessions">
+      <group column="year_id">
+      <li>@stream.session_name@</li>
+      
+      <ul id="uos">
+        <group column="year_session_group">
+        <div class="float">
+          <ul>
+            <li class="uos-code">@stream.uos_code@</li>  
+            <li class="uos-name">@stream.uos_name@</li>
+            <li class="info"><a href="" class="button">#curriculum-central.view_details#</a></li>
+          </ul>
+        </div>
+        </group>
+
+        <div class="spacer">&nbsp;</div>
+      </ul>
+
+      </group>
     </ul>
-  </div>
+  </ul>
   </multiple>
 
   <div class="spacer">&nbsp;</div>

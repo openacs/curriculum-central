@@ -167,12 +167,21 @@ ad_form -extend -name uos -form {
     {detail_id:integer(hidden),optional
 	{value $uos_details(detail_id)}
     }
-    {lecturer_id:integer(select),optional
-        {label "[_ curriculum-central.lecturer]"}
+    {lecturer_ids:text(multiselect),multiple,optional
+        {label "[_ curriculum-central.lecturers]"}
 	{options [curriculum_central::staff_get_options] }
-	{value $uos_details(lecturer_id)}
+	{values $uos_details(lecturer_ids)}
+	{html {size 5}}
 	{mode display}
-        {help_text "[_ curriculum-central.help_lecturer_id]"}
+        {help_text "[_ curriculum-central.help_select_lecturer_ids]"}
+    }
+    {tutor_ids:text(multiselect),multiple,optional
+        {label "[_ curriculum-central.tutors]"}
+	{options [curriculum_central::staff_get_options] }
+	{values $uos_details(tutor_ids)}
+	{html {size 5}}
+	{mode display}
+        {help_text "[_ curriculum-central.help_select_tutor_ids]"}
     }
     {objectives:richtext(richtext),optional
         {label "[_ curriculum-central.aims_and_objectives]"}
@@ -216,6 +225,15 @@ ad_form -extend -name uos -form {
 	{value $uos_details(online_course_content)}
 	{mode display}
         {help_text "[_ curriculum-central.help_online_course_content]"}
+    }
+    {note:richtext(richtext),optional
+        {label "[_ curriculum-central.note]"}
+	{html {cols 50 rows 4}}
+	{value $uos_details(note)}
+	{mode display}
+	{htmlarea_p 0}
+	{nospell}
+        {help_text "[_ curriculum-central.help_enter_note]"}
     }
 }
 
@@ -501,12 +519,14 @@ ad_form -extend -name uos -on_submit {
 
 	curriculum_central::uos::update_details \
 	    -detail_id $detail_id \
-	    -lecturer_id $lecturer_id \
+	    -lecturer_ids $lecturer_ids \
+	    -tutor_ids $tutor_ids \
 	    -objectives $objectives \
 	    -learning_outcomes $learning_outcomes \
 	    -syllabus $syllabus \
 	    -relevance $relevance \
-	    -online_course_content $online_course_content
+	    -online_course_content $online_course_content \
+	    -note $note
 
 	curriculum_central::uos::update_tl \
 	    -tl_id $tl_id \

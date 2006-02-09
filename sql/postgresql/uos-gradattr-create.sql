@@ -42,6 +42,7 @@ create table cc_uos_gradattr_name (
 				constraint cc_uos_gradattr_name_pk
 				primary key,
 	name			varchar(256),
+	general_description	text,
 	package_id		integer
 );
 
@@ -184,11 +185,12 @@ create table cc_uos_gradattr_map (
 --
 --
 
-select define_function_args('cc_uos_gradattr_name__new','name_id,name,creation_date;now,creation_user,creation_ip,package_id,context_id');
+select define_function_args('cc_uos_gradattr_name__new','name_id,name,general_description,creation_date;now,creation_user,creation_ip,package_id,context_id');
 
 create function cc_uos_gradattr_name__new (
 	integer,			-- name_id
 	varchar,			-- name
+	text,				-- general_description
 	timestamptz,			-- creation_date
 	integer,			-- creation_user
 	varchar,			-- creation_ip
@@ -198,11 +200,12 @@ create function cc_uos_gradattr_name__new (
 declare
     	p_name_id			alias for $1;        -- default null
     	p_name				alias for $2;
-    	p_creation_date             	alias for $3;        -- default now()
-    	p_creation_user             	alias for $4;        -- default null
-    	p_creation_ip              	alias for $5;        -- default null
-	p_package_id			alias for $6;
-    	p_context_id                	alias for $7;       -- default null
+	p_general_description		alias for $3;
+    	p_creation_date             	alias for $4;        -- default now()
+    	p_creation_user             	alias for $5;        -- default null
+    	p_creation_ip              	alias for $6;        -- default null
+	p_package_id			alias for $7;
+    	p_context_id                	alias for $8;        -- default null
 
 	v_name_id			cc_uos_gradattr_name.name_id%TYPE;
 begin
@@ -219,10 +222,10 @@ begin
     	);
 
 	INSERT INTO cc_uos_gradattr_name (
-		name_id, name, package_id
+		name_id, name, general_description, package_id
 	)
 	VALUES (
-		v_name_id, p_name, p_package_id
+		v_name_id, p_name, p_general_description, p_package_id
 	);
 
     return v_name_id;

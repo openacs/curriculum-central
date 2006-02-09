@@ -6,7 +6,8 @@
    <fullquery name="gradattr_update">
      <querytext>
        UPDATE cc_uos_gradattr_name
-           SET name = :name
+           SET name = :name,
+	   general_description = :general_description
 	   WHERE name_id = :name_id
      </querytext>
    </fullquery>

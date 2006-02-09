@@ -23,19 +23,22 @@
      </querytext>
    </fullquery>
 
-   <fullquery name="curriculum_central::uos::uos_name_get_options.names">
+   <fullquery name="curriculum_central::uos::uos_available_name_get_options.names">
      <querytext>
        SELECT n.uos_code || ' ' || n.uos_name AS name, n.name_id
        FROM cc_uos_name n
        WHERE n.package_id = :package_id
+       AND n.name_id NOT IN (
+           SELECT uos_name_id FROM cc_uos WHERE package_id = :package_id
+       )
      </querytext>
    </fullquery>
 
    <fullquery name="curriculum_central::uos::get_details.latest_details">
      <querytext>
-       SELECT d.detail_id, dr.lecturer_id, dr.objectives,
+       SELECT d.detail_id, dr.lecturer_ids, dr.tutor_ids, dr.objectives,
            dr.learning_outcomes, dr.syllabus, dr.relevance,
-           dr.online_course_content
+           dr.online_course_content, dr.note
        FROM cc_uos u, cc_uos_revisions r, cr_items i,
            cc_uos_detail_revisions dr, cc_uos_detail d
        WHERE u.uos_id = :uos_id
@@ -266,12 +269,14 @@
        SELECT cc_uos_detail_revision__new (
            null,
 	   :detail_id,
-	   :lecturer_id,
+	   :lecturer_ids,
+	   :tutor_ids,
 	   :objectives,
 	   :learning_outcomes,
 	   :syllabus,
 	   :relevance,
 	   :online_course_content,
+	   :note,
 	   now(),
 	   :user_id,
 	   :creation_ip

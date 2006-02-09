@@ -27,7 +27,8 @@ set context [list \
 set units_of_study [db_list_of_lists units_of_study {}]
 
 template::multirow create stream map_id year_id year_name \
-    session_id session_name core_or_not uos_id uos_code uos_name
+    session_id session_name core_or_not uos_id uos_code uos_name \
+    year_session_group
 
 foreach uos $units_of_study {
     set map_id [lindex $uos 0]
@@ -45,10 +46,16 @@ foreach uos $units_of_study {
 	# Get name of session_id
 	set session_name [db_string session_name {} -default ""]
     
+	set year_session_group "${year_id}${session_id}"
+
 	template::multirow append stream $map_id $year_id $year_name \
-	    $session_id $session_name $core_id $uos_id $uos_code $uos_name
+	    $session_id $session_name $core_id $uos_id $uos_code $uos_name \
+	    $year_session_group
     
     }
 }
+
+# Sort stream info by increasing year and session.
+template::multirow sort stream -increasing year_id session_id
 
 ad_return_template

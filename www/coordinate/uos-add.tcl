@@ -45,7 +45,7 @@ ad_form -name uos -cancel_url $return_url -form {
 
     {uos_name_id:integer(select)
 	{label "#curriculum-central.uos_name#"}
-	{options [curriculum_central::uos::uos_name_get_options]}
+	{options [curriculum_central::uos::uos_available_name_get_options]}
 	{help_text "[_ curriculum-central.help_select_uos_name]"}
     }
     {credit_value:integer

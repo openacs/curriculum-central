@@ -213,7 +213,7 @@
 #cc-stream-map-container .float {
 	float: left;
   	width: 120px;
-	height: 80px;
+	height: 100px;
   	padding: 10px;
 	margin: 1em;
 	border: 1px solid #000;
@@ -226,22 +226,40 @@
 }
 
 #cc-stream-map-container .float ul li.uos-code {
-	color: red;
+	color: #E88000;
 	text-align: center;
 	font-weight: bold;
 	font-size: 12px;
+	padding: 0px;
 }
 
 #cc-stream-map-container .float ul li.uos-name {
 	margin-top: 5px;
-	color: green;
+	color: #4B832E;
 	font-size: 12px;
 	text-align: center;
+	padding: 0px;
 }
 
-#cc-stream-map-container .float ul li.session {
+#cc-stream-map-container .float ul li.info {
 	margin-top: 10px;
 	color: blue;
 	font-size: 12px;
 	text-align: center;
+	padding: 0px;
+}
+
+#cc-stream-map-container ul.years li {
+	list-style-type: none;
+	color: #686868;
+	font-size: 18px;
+        font-weight: bold;
+}
+
+#cc-stream-map-container ul.sessions li {
+	list-style-type: none;
+	color: #9B9B9B;
+        font-size: 16px;
+        padding-top: 10px;
+        padding-bottom: 6px;
 }

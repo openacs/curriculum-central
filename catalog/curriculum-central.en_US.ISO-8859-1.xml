@@ -2,6 +2,13 @@
 <message_catalog package_key="curriculum-central" package_version="0.1d" locale="en_US" charset="ISO-8859-1">
 
   <msg key="uos">UoS</msg>
+  <msg key="edit_uos_name">Edit UoS Name</msg>
+  <msg key="general_description">General Description</msg>
+  <msg key="help_enter_ga_general_description">Enter a general description for this Graduate Attribute.</msg>
+  <msg key="tutors">Tutors</msg>
+  <msg key="help_select_tutor_ids">Select tutors from the list for this Unit of Study.  Note: You can select more than one tutor from the list by holding down the CTRL button whilst selecting.</msg>
+  <msg key="note">Note</msg>
+  <msg key="help_enter_note">Enter a note, if required.</msg>
   <msg key="list_of_all_units_of_study">List of all Units of Study.</msg>
   <msg key="all_units_of_study">All Units of Study</msg>
   <msg key="no_uos_have_been_created">No Units of Study have been created.</msg>
@@ -190,7 +197,7 @@
   <msg key="help_expected_feedback">Students can expect feedback for this UoS in the nature of...</msg>
   <msg key="student_feedback">Feedback Provided by Students</msg>
   <msg key="help_student_feedback">Students can provide feedback for this UoS by...</msg>
-  <msg key="help_lecturer_id">Select the lecturer for this Unit of Study.</msg>
+  <msg key="help_select_lecturer_ids">Select the lecturer for this Unit of Study.  Note: You can select more than one lecturer from the list by holding down the CTRL button whilst selecting.</msg>
   <msg key="help_objectives">What are the aims and objectives for this Unit of Study?</msg>
   <msg key="help_learning_outcomes">What are the learning outcomes for this Unit of Study?</msg>
   <msg key="help_syllabus">What are the subjects or topics that will be taught in this course?</msg>

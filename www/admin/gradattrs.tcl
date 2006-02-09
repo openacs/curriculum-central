@@ -27,6 +27,9 @@ set elements {
     name {
 	label "#curriculum-central.name#"
     }
+    general_description {
+	label "#curriculum-central.general_description#"
+    }
 }
 
 template::list::create \
@@ -41,6 +44,9 @@ template::list::create \
 	level {orderby level}
     }
 
-db_multirow gradattrs get_gradattrs {}
+db_multirow gradattrs get_gradattrs {} {
+    set general_description [template::util::richtext::get_property \
+				 contents $general_description]
+}
 
 ad_return_template

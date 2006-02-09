@@ -133,12 +133,14 @@ ad_proc -private curriculum_central::uos::workflow_create {} {
 		    }
                     privileges { write }
 		    edit_fields {
-			lecturer_id
+			lecturer_ids
+			tutor_ids
 			objectives
 			learning_outcomes
 			syllabus
 			relevance
 			online_course_content
+			note
 			tl_approach_ids
 			gradattr_ids
 			textbook_ids
@@ -624,12 +626,14 @@ ad_proc -public curriculum_central::uos::update {
 
 ad_proc -public curriculum_central::uos::update_details {
     -detail_id:required
-    {-lecturer_id ""}
+    {-lecturer_ids ""}
+    {-tutor_ids ""}
     {-objectives ""}
     {-learning_outcomes ""}
     {-syllabus ""}
     {-relevance ""}
     {-online_course_content ""}
+    {-note ""}
     {-user_id ""}
     {-creation_ip ""}
 } {
@@ -637,13 +641,15 @@ ad_proc -public curriculum_central::uos::update_details {
     a new details revision of the given Unit of Study.
 
     @param detail_id The ID of the Unit of Study to update.
-    @param lecturer_id The ID of the selected lecturer.
+    @param lecturer_ids The ID of the selected lecturers.
+    @param tutor_ids The ID of the selected tutors.
     @param objectives Unit of Study objectives.
     @param learning_outcomes Unit of Study learning outcomes.
     @param syllabus Unit of Study syllabus.
     @param relevance Unit of Study relevance.
     @param online_course_content URL of the online course content for the
     associated Unit of Study.
+    @param note Note for the UoS.
     @param user_id The ID of the user that updated the Unit of Study.
     @param creation_ip The IP of the user that made the update.
 
@@ -1003,10 +1009,11 @@ ad_proc -public curriculum_central::uos::get_pretty_name {
 }
 
 
-ad_proc curriculum_central::uos::uos_name_get_options {
+ad_proc -private curriculum_central::uos::uos_available_name_get_options {
     {-package_id ""}
 } {
-    Returns a two-column list of registered UoS names.
+    Returns a two-column list of registered UoS names that cannot be found
+    in cc_uos.
 
     @param package_id ID of the current package instance.
 
@@ -1031,8 +1038,8 @@ ad_proc -public curriculum_central::uos::get_details {
     @param uos_id The ID of the Unit of Study for which we return
     detail fields for.
     @param array A predefined array for returning fields in.  Values include
-    detail_id, lecturer_id, objectives, learning_outcomes, syllabus,
-    relevance, online_course_content.
+    detail_id, lecturer_ids, tutor_ids, objectives, learning_outcomes,
+    syllabus, relevance, online_course_content, note.
 
     @return Array containing all valid fields for the cc_uos_detail table.
 } {
@@ -1042,12 +1049,14 @@ ad_proc -public curriculum_central::uos::get_details {
     if { ![db_0or1row latest_details {} -column_array row] } {
 	# Set default values
 	set row(detail_id) ""
-	set row(lecturer_id) ""
+	set row(lecturer_ids) ""
+	set row(tutor_ids) ""
 	set row(objectives) ""
 	set row(learning_outcomes) ""
 	set row(syllabus) ""
 	set row(relevance) ""
 	set row(online_course_content) ""
+	set row(note) ""
     }
 }
 

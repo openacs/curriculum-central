@@ -37,11 +37,9 @@ create table cc_uos_name (
                         references acs_objects(object_id)
 			constraint cc_uos_name_name_id_pk primary key,
 	uos_code	varchar(256)
-			constraint cc_uos_name_uos_code_nn not null
-			constraint cc_uos_name_uos_code_un unique,
+			constraint cc_uos_name_uos_code_nn not null,
 	uos_name 	varchar(256)
-			constraint cc_uos_name_uos_name_nn not null
-			constraint cc_uos_name_uos_name_un unique,
+			constraint cc_uos_name_uos_name_nn not null,
 	package_id	integer
 			constraint cc_uos_name_package_id_fk
 			references apm_packages(package_id) on delete cascade

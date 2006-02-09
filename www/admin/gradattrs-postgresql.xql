@@ -5,7 +5,7 @@
 
    <fullquery name="get_gradattrs">
      <querytext>
-       SELECT g.name_id, g.name
+       SELECT g.name_id, g.name, g.general_description
        FROM cc_uos_gradattr_name g
 	   WHERE g.package_id = :package_id
 	   [template::list::orderby_clause -orderby -name "gradattrs"]

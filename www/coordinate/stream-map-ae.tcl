@@ -49,6 +49,13 @@ if { [info exists uos_id] } {
 	    {options "[curriculum_central::stream::stream_uos_relation_get_options]"}
 	    {help_text "[_ curriculum-central.help_select_core_recommended_or_elective]"}
 	}
+	{note:richtext(richtext),optional
+	    {label "[_ curriculum-central.note]"}
+	    {html {cols 50 rows 4}}
+	    {htmlarea_p 0}
+	    {nospell}
+	    {help_text "[_ curriculum-central.help_enter_note]"}
+	}
     } -select_query_name {form_info} -new_data {
 	# Create new CR object
 	set map_id [package_instantiate_object \
@@ -58,6 +65,7 @@ if { [info exists uos_id] } {
 		[list uos_id $uos_id] \
 		[list year_id $year_id] \
 		[list core_id $core_id] \
+		[list note $note] \
 		[list object_type "cc_stream_uos_map"]] \
 			       "cc_stream_uos_map"]
 	
