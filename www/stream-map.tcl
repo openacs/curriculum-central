@@ -28,7 +28,7 @@ set units_of_study [db_list_of_lists units_of_study {}]
 
 template::multirow create stream map_id year_id year_name \
     session_id session_name core_or_not uos_id uos_code uos_name \
-    year_session_group
+    year_session_group uos_details_url
 
 foreach uos $units_of_study {
     set map_id [lindex $uos 0]
@@ -48,9 +48,11 @@ foreach uos $units_of_study {
     
 	set year_session_group "${year_id}${session_id}"
 
+	set uos_details_url [export_vars -url -base uos-details {uos_id stream_id}]
+
 	template::multirow append stream $map_id $year_id $year_name \
 	    $session_id $session_name $core_id $uos_id $uos_code $uos_name \
-	    $year_session_group
+	    $year_session_group $uos_details_url
     
     }
 }

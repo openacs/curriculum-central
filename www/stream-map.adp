@@ -22,7 +22,7 @@
           <ul>
             <li class="uos-code">@stream.uos_code@</li>  
             <li class="uos-name">@stream.uos_name@</li>
-            <li class="info"><a href="" class="button">#curriculum-central.view_details#</a></li>
+            <li class="info"><a href="@stream.uos_details_url@" class="button">#curriculum-central.view_details#</a></li>
           </ul>
         </div>
         </group>
