@@ -28,6 +28,55 @@ set context [list \
 # Retrieve Unit of Study details.
 db_1row uos_details {}
 
-set session_names [join [db_list session_names {}] ", "]
+# Create a multirow containing all the UoS details.
+template::multirow create details label value
+
+template::multirow append details [_ curriculum-central.unit_coordinator] \
+    $unit_coordinator_pretty_name
+
+template::multirow append details [_ curriculum-central.credit_value] \
+    $credit_value
+
+template::multirow append details [_ curriculum-central.sessions] \
+    [join [db_list session_names {}] ", "]
+
+template::multirow append details \
+    [_ curriculum-central.online_course_content] $online_course_content
+
+template::multirow append details [_ curriculum-central.aims_and_objectives] \
+    [template::util::richtext::get_property html_value $objectives]
+
+template::multirow append details [_ curriculum-central.learning_outcomes] \
+    [template::util::richtext::get_property html_value $learning_outcomes]
+
+template::multirow append details [_ curriculum-central.syllabus] \
+    [template::util::richtext::get_property html_value $syllabus]
+
+template::multirow append details [_ curriculum-central.relevance] \
+    relevance [template::util::richtext::get_property html_value $relevance]
+
+template::multirow append details [_ curriculum-central.contact_hours] \
+    [template::util::richtext::get_property html_value $formal_contact_hrs]
+
+template::multirow append details [_ curriculum-central.assessments] \
+    [join [db_list assessment_names {}] ", "]
+
+template::multirow append details [_ curriculum-central.prerequisites] \
+    [join [db_list prerequisites {}] ", "]
+
+template::multirow append details [_ curriculum-central.assumed_knowledge] \
+    [join [db_list assumed_knowledge {}] ", "]
+
+template::multirow append details [_ curriculum-central.corequisites] \
+    [join [db_list corequisites {}] ", "]
+
+template::multirow append details [_ curriculum-central.prohibitions] \
+    [join [db_list prohibitions {}] ", "]
+
+template::multirow append details [_ curriculum-central.no_longer_offered] \
+    [join [db_list no_longer_offered {}] ", "]
+
+template::multirow append details [_ curriculum-central.note] \
+    [template::util::richtext::get_property html_value $note]    
 
 ad_return_template
