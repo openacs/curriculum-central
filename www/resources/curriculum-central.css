@@ -173,8 +173,13 @@
 	margin-left: 3px;
 }
 
-#cc-stream-container ul ul ul li span {
+#cc-stream-container ul ul ul li span.label {
 	margin-left: 3em;
+	float:left;
+}
+
+#cc-stream-container ul ul ul li span.options {
+	float: right;
 }
 
 /* UoS no longer offered. Used in stream-view. */
@@ -296,4 +301,8 @@
 
 #cc-list-container table tr td.value {
 	background-color: #F0F0F0;
+}
+
+.spacer {
+	clear: both;
 }

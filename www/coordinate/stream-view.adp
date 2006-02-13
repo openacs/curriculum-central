@@ -32,7 +32,7 @@
       <li>@stream.session_name@</li>
       <ul id="uos">
         <group column="group">
-        <li><a href="@stream.edit_url@"><img src="/shared/images/Edit16.gif" /></a> | <a href="@stream.delete_url@"><img src="/shared/images/Delete16.gif" /></a><span>@stream.uos_code@ @stream.uos_name@ (@stream.core_or_not@)</span></li>
+        <li><span class="label">@stream.uos_code@ @stream.uos_name@ (@stream.core_or_not@)</span><span class="options"><a href="@stream.edit_url@"><img src="/shared/images/Edit16.gif" /></a> | <a href="@stream.delete_url@"><img src="/shared/images/Delete16.gif" /></a></span><div class="spacer"></div></li>
         </group>
       </ul>
       </group>

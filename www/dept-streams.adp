@@ -5,7 +5,7 @@
 #curriculum-central.view_uos_for#
 <ul>
 <multiple name="streams">
-<li>@streams.stream_name@ [#curriculum-central.overview_lc# | <a href="@streams.stream_uos_url@">#curriculum-central.map_lc#</a>]</li>
+<li>@streams.stream_name@ [<a href="@streams.stream_view_url@">#curriculum-central.overview_lc#</a> | <a href="@streams.stream_map_url@">#curriculum-central.map_lc#</a>]</li>
 </multiple>
 </ul>
 

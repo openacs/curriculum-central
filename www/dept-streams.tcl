@@ -26,9 +26,11 @@ if { ![curriculum_central::stream::streams_exist_p] } {
 }
 
 # Get list of streams.
-db_multirow -extend {stream_uos_url} streams streams {} {
-    set stream_uos_url [export_vars -url -base stream-map \
-			     {stream_id stream_name}]
+db_multirow -extend {stream_map_url stream_view_url} streams streams {} {
+    set stream_map_url [export_vars -url -base stream-map {stream_id}]
+
+    set stream_view_url [export_vars -url -base stream-view \
+			     {stream_id}]
 }
 
 ad_return_template

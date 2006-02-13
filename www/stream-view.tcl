@@ -14,7 +14,7 @@ set user_id [ad_conn user_id]
 # Retrieve info about the faculty, department and stream.
 db_1row context {}
 
-set page_title "$stream_name - [_ curriculum-central.map_view]"
+set page_title "$stream_name - [_ curriculum-central.overview]"
 set context [list \
     [list [export_vars -url -base faculty-depts {faculty_name faculty_id}] \
         $faculty_name] \
@@ -49,9 +49,12 @@ foreach uos $units_of_study {
 
 	set uos_details_url [export_vars -url -base uos-details {uos_id stream_id}]
 
+	set core_id [curriculum_central::stream::stream_uos_relation_name \
+			 -id $core_id]
+
 	template::multirow append stream $map_id $year_id $year_name \
-	    $session_id $session_name $core_id $uos_id $uos_code $uos_name \
-	    $year_session_group $uos_details_url
+	    $session_id $session_name $core_id $uos_id $uos_code \
+	    $uos_name $year_session_group $uos_details_url
     
     }
 }
