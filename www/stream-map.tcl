@@ -47,7 +47,8 @@ foreach uos $units_of_study {
     
 	set year_session_group "${year_id}${session_id}"
 
-	set uos_details_url [export_vars -url -base uos-details {uos_id stream_id}]
+	set base_return_url "stream-map"
+	set uos_details_url [export_vars -url -base uos-details {uos_id stream_id base_return_url}]
 
 	template::multirow append stream $map_id $year_id $year_name \
 	    $session_id $session_name $core_id $uos_id $uos_code $uos_name \

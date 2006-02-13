@@ -7,9 +7,15 @@ ad_page_contract {
 } {
     uos_id:integer
     stream_id
+    {base_return_url "stream-map"}
 }
 
 set package_id [ad_conn package_id]
+
+set return_view_type "[_ curriculum-central.map_view]"
+if { $base_return_url eq "stream-view" } {
+    set return_view_type "[_ curriculum-central.overview]"
+}
 
 # Retrieve context details.
 db_1row context_details {}
@@ -21,8 +27,8 @@ set context [list \
         $faculty_name] \
     [list [export_vars -url -base dept-streams \
 	{department_name department_id}] $department_name] \
-    [list [export_vars -url -base stream-map \
-	{stream_name stream_id}] "$stream_name - [_ curriculum-central.map_view]"] \
+    [list [export_vars -url -base $base_return_url \
+	{stream_name stream_id}] "$stream_name - $return_view_type"] \
     $page_title]
 
 # Retrieve Unit of Study details.
