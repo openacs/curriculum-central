@@ -8,6 +8,7 @@ ad_page_contract {
     uos_id:integer
     stream_id:optional
     {base_return_url "stream-map"}
+    department_id:integer
 }
 
 set package_id [ad_conn package_id]
@@ -35,12 +36,22 @@ if { [info exists stream_id] } {
 			  "$stream_name - $return_view_type"] \
 		     $page_title]
 } else {
-    #db_1row context_details_no_stream {}
+    db_1row context_details_no_stream {}
 
-    set page_title ""
-    set context ""
+    set page_title "${uos_code} ${uos_name}"
+
+    set context [list \
+		     [list [export_vars -url -base faculty-depts \
+				{faculty_name faculty_id}] \
+			  $faculty_name] \
+		     [list [export_vars -url -base dept-streams \
+				{department_name department_id}] \
+			  $department_name] \
+		     [list [export_vars -url -base $base_return_url \
+				{department_id}] \
+			  "[_ curriculum-central.all_uos] - [_ curriculum-central.overview]"] \
+		     $page_title]
 }
-
 
 # Retrieve Unit of Study details.
 db_1row uos_details {}

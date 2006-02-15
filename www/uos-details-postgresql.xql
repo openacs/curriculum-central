@@ -5,7 +5,7 @@
 
    <fullquery name="context_details">
      <querytext>
-       SELECT f.faculty_id, f.faculty_name, d.department_id, d.department_name,
+       SELECT f.faculty_id, f.faculty_name, d.department_name,
            s.stream_name, n.uos_code, n.uos_name
        FROM cc_faculty f, cc_department d, cc_stream s,
            cc_uos u, cc_uos_name n
@@ -13,6 +13,20 @@
            AND d.department_id = s.department_id
            AND s.stream_id = :stream_id
            AND s.package_id = :package_id
+	   AND u.uos_id = :uos_id
+	   AND n.name_id = u.uos_name_id
+     </querytext>
+   </fullquery>
+
+   <fullquery name="context_details_no_stream">
+     <querytext>
+       SELECT f.faculty_id, f.faculty_name, d.department_name,
+           n.uos_code, n.uos_name
+       FROM cc_faculty f, cc_department d,
+           cc_uos u, cc_uos_name n
+       WHERE f.faculty_id = d.faculty_id
+           AND d.department_id = :department_id
+           AND d.package_id = :package_id
 	   AND u.uos_id = :uos_id
 	   AND n.name_id = u.uos_name_id
      </querytext>

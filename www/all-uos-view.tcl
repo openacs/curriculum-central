@@ -48,7 +48,7 @@ foreach uos $units_of_study {
 	set year_session_group "${year_id}${session_id}"
 
 	set base_return_url "all-uos-view"
-	set uos_details_url [export_vars -url -base uos-details {uos_id stream_id base_return_url}]
+	set uos_details_url [export_vars -url -base uos-details {uos_id stream_id base_return_url department_id}]
 
 	set core_id [curriculum_central::stream::stream_uos_relation_name \
 			 -id $core_id]

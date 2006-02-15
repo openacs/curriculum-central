@@ -2,6 +2,7 @@
 <message_catalog package_key="curriculum-central" package_version="0.1d" locale="en_US" charset="ISO-8859-1">
 
   <msg key="uos">UoS</msg>
+  <msg key="all_uos">All Units of Study</msg>
   <msg key="overview">Overview</msg>
   <msg key="edit_uos_name">Edit UoS Name</msg>
   <msg key="general_description">General Description</msg>
@@ -318,6 +319,8 @@
   <msg key="create_streams">Create streams.</msg>
   <msg key="add_a_stream">Add a Stream</msg>
   <msg key="view_streams">View Streams</msg>
+  <msg key="all_uos_offered_by_this_department">All Units of Study offered by this department</msg>
+  <msg key="view_uos_by_degree_streams">View Units of Study by degree streams:</msg>
   <msg key="view_uos_for">View Units of Study for:</msg>
   <msg key="view_degree_streams_for">View degree streams for:</msg>
   <msg key="view_curriculum_for">View curriculum for:</msg>
