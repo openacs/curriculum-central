@@ -6,7 +6,7 @@ ad_page_contract {
     @cvs-id $Id$
 } {
     uos_id:integer
-    stream_id
+    stream_id:optional
     {base_return_url "stream-map"}
 }
 
@@ -17,19 +17,30 @@ if { $base_return_url eq "stream-view" } {
     set return_view_type "[_ curriculum-central.overview]"
 }
 
-# Retrieve context details.
-db_1row context_details {}
+if { [info exists stream_id] } {
+    # Retrieve context details.
+    db_1row context_details {}
 
-set page_title "${uos_code} ${uos_name}"
+    set page_title "${uos_code} ${uos_name}"
 
-set context [list \
-    [list [export_vars -url -base faculty-depts {faculty_name faculty_id}] \
-        $faculty_name] \
-    [list [export_vars -url -base dept-streams \
-	{department_name department_id}] $department_name] \
-    [list [export_vars -url -base $base_return_url \
-	{stream_name stream_id}] "$stream_name - $return_view_type"] \
-    $page_title]
+    set context [list \
+		     [list [export_vars -url -base faculty-depts \
+				{faculty_name faculty_id}] \
+			  $faculty_name] \
+		     [list [export_vars -url -base dept-streams \
+				{department_name department_id}] \
+			  $department_name] \
+		     [list [export_vars -url -base $base_return_url \
+				{stream_name stream_id}] \
+			  "$stream_name - $return_view_type"] \
+		     $page_title]
+} else {
+    #db_1row context_details_no_stream {}
+
+    set page_title ""
+    set context ""
+}
+
 
 # Retrieve Unit of Study details.
 db_1row uos_details {}

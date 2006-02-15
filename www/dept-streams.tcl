@@ -25,8 +25,13 @@ if { ![curriculum_central::stream::streams_exist_p] } {
     return
 }
 
+set all_uos_view_url [export_vars -url -base all-uos-view {department_id}]
+
 # Get list of streams.
-db_multirow -extend {stream_map_url stream_view_url} streams streams {} {
+db_multirow -extend {
+    stream_map_url
+    stream_view_url
+} streams streams {} {
     set stream_map_url [export_vars -url -base stream-map {stream_id}]
 
     set stream_view_url [export_vars -url -base stream-view \
