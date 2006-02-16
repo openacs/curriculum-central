@@ -2,7 +2,7 @@
 <property name="title">@page_title;noquote@</property>
 <property name="context">@context;noquote@</property>
 
-#curriculum-central.all_uos_offered_by_this_department# [<a href="@all_uos_view_url@">#curriculum-central.overview_lc#</a> | <a href="">#curriculum-central.map_lc#</a>]
+#curriculum-central.all_uos_offered_by_this_department# [<a href="@all_uos_view_url@">#curriculum-central.overview_lc#</a> | <a href="@all_uos_map_url@">#curriculum-central.map_lc#</a>]
 <p />
 #curriculum-central.view_uos_by_degree_streams#
 <ul>

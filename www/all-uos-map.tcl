@@ -1,11 +1,11 @@
 ad_page_contract {
-    Displays the UoS map for the specified stream ID.
+    Displays the UoS map for the specified department ID.
 
     @author Nick Carroll (nick.c@rroll.net)
     @creation-date 2005-11-15
     @cvs-id $Id$
 } {
-    stream_id:integer
+    department_id:integer
 }
 
 set package_id [ad_conn package_id]
@@ -14,7 +14,7 @@ set user_id [ad_conn user_id]
 # Retrieve info about the faculty, department and stream.
 db_1row context {}
 
-set page_title "$stream_name - [_ curriculum-central.map_view]"
+set page_title "[_ curriculum-central.all_uos] - [_ curriculum-central.map_view]"
 set context [list \
     [list [export_vars -url -base faculty-depts {faculty_name faculty_id}] \
         $faculty_name] \
@@ -47,7 +47,7 @@ foreach uos $units_of_study {
     
 	set year_session_group "${year_id}${session_id}"
 
-	set base_return_url "stream-map"
+	set base_return_url "all-uos-map"
 	set uos_details_url [export_vars -url -base uos-details {uos_id stream_id base_return_url department_id}]
 
 	template::multirow append stream $map_id $year_id $year_name \
