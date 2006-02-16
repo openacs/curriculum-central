@@ -83,14 +83,14 @@ foreach uos $units_of_study {
 set add_url [export_vars -base stream-map-ae {stream_id return_url}]
 set publish_url [export_vars -base stream-publish {stream_id modified_list}]
 
-# Sort stream info by increasing year and session.
-template::multirow sort stream -increasing year_id session_id
-
 # Get all UoS that are no longer offered.  These are UoS that were
 # previously mapped, but now have a year_id that is set to 0.
 db_multirow -extend {edit_url delete_url} not_offered not_offered {} {
     set edit_url [export_vars -base stream-map-ae {stream_id uos_id map_id return_url}]
     set delete_url [export_vars -base stream-map-del {stream_id map_id return_url}]
 }
+
+# Sort stream info by increasing year and session.
+template::multirow sort stream -increasing year_id session_id uos_code
 
 ad_return_template

@@ -71,4 +71,21 @@
      </querytext>
    </fullquery>
 
+   <fullquery name="curriculum_central::stream::stream_uos_relation_get_options.stream_uos_rels">
+     <querytext>
+       SELECT r.name, r.stream_uos_rel_id
+           FROM cc_stream_uos_rel r
+	   WHERE r.package_id = :package_id
+     </querytext>
+   </fullquery>
+
+   <fullquery name="curriculum_central::stream::stream_uos_relation_name.get_name">
+     <querytext>
+       SELECT r.name
+           FROM cc_stream_uos_rel r
+	   WHERE r.package_id = :package_id
+	   AND r.stream_uos_rel_id = :id
+     </querytext>
+   </fullquery>
+
 </queryset>

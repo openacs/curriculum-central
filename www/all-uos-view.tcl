@@ -26,7 +26,7 @@ set context [list \
 set units_of_study [db_list_of_lists units_of_study {}]
 
 template::multirow create stream map_id year_id year_name \
-    session_id session_name core_or_not uos_id uos_code uos_name \
+    session_id session_name rel_name uos_id uos_code uos_name \
     year_session_group uos_details_url
 
 foreach uos $units_of_study {
@@ -36,7 +36,7 @@ foreach uos $units_of_study {
     set uos_id [lindex $uos 3]
     set year_id [lindex $uos 4]
     set year_name [lindex $uos 5]
-    set core_id [lindex $uos 6]
+    set rel_id [lindex $uos 6]
     set live_revision_id [lindex $uos 7]
     set session_ids [lindex $uos 8]
 
@@ -50,17 +50,17 @@ foreach uos $units_of_study {
 	set base_return_url "all-uos-view"
 	set uos_details_url [export_vars -url -base uos-details {uos_id stream_id base_return_url department_id}]
 
-	set core_id [curriculum_central::stream::stream_uos_relation_name \
-			 -id $core_id]
+	set rel_name [curriculum_central::stream::stream_uos_relation_name \
+			 -id $rel_id]
 
 	template::multirow append stream $map_id $year_id $year_name \
-	    $session_id $session_name $core_id $uos_id $uos_code \
+	    $session_id $session_name $rel_name $uos_id $uos_code \
 	    $uos_name $year_session_group $uos_details_url
     
     }
 }
 
 # Sort stream info by increasing year and session.
-template::multirow sort stream -increasing year_id session_id
+template::multirow sort stream -increasing year_id session_id uos_code
 
 ad_return_template

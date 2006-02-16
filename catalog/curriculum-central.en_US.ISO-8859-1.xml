@@ -2,6 +2,16 @@
 <message_catalog package_key="curriculum-central" package_version="0.1d" locale="en_US" charset="ISO-8859-1">
 
   <msg key="uos">UoS</msg>
+  <msg key="edit_stream_uos_rel">Edit Stream to UoS Relation</msg>
+  <msg key="add_stream_uos_rel">Add Stream to UoS Relation</msg>
+  <msg key="help_enter_stream_rel_name">Enter a name for a degree stream to UoS relation.  Examples include: core; recommended; elective.</msg>
+  <msg key="view_degree_stream_rels">View Degree Stream Relations</msg>
+  <msg key="add_a_degree_stream_rel">Add a Degree Stream Relation</msg>
+  <msg key="add_rel">Add Relation</msg>
+  <msg key="no_rels_created">No Stream to UoS Relations have been created.</msg>
+  <msg key="add_rel_to_list">Add Relation to List.</msg>
+  <msg key="edit_stream_rel_info">Edit stream relation information.</msg>
+  <msg key="stream_to_uos_relations">Stream to UoS Relations</msg>
   <msg key="all_uos">All Units of Study</msg>
   <msg key="overview">Overview</msg>
   <msg key="edit_uos_name">Edit UoS Name</msg>

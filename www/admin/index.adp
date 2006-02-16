@@ -32,6 +32,12 @@
   <li><a href="session-ae">#curriculum-central.add_a_session#</a></li>
   </ul>
 </li>
+<li><span>#curriculum-central.stream_to_uos_relations#</span>
+  <ul>
+  <li><a href="stream-rels">#curriculum-central.view_degree_stream_rels#</a></li>
+  <li><a href="stream-rel-ae">#curriculum-central.add_a_degree_stream_rel#</a></li>
+  </ul>
+</li>
 <li><span>#curriculum-central.streams#</span>
   <ul>
   <li><a href="streams">#curriculum-central.view_streams#</a></li>

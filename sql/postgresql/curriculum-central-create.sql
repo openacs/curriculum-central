@@ -14,3 +14,4 @@
 \i uos-names-create.sql
 \i uos-create.sql
 \i staff-create.sql
+\i stream-uos-rel-create.sql

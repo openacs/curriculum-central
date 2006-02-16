@@ -15,7 +15,7 @@
       <li>@stream.session_name@</li>
       <ul id="uos">
         <group column="year_session_group">
-        <li><span class="label">@stream.uos_code@ @stream.uos_name@ (@stream.core_or_not@)</span><span class="options"><a href="@stream.uos_details_url@" class="button">#curriculum-central.view_details#</a></span><div class="spacer"></div></li>
+        <li><span class="label">@stream.uos_code@ @stream.uos_name@ (@stream.rel_name@)</span><span class="options"><a href="@stream.uos_details_url@" class="button">#curriculum-central.view_details#</a></span><div class="spacer"></div></li>
         </group>
       </ul>
       </group>

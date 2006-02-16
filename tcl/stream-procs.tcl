@@ -205,18 +205,13 @@ ad_proc curriculum_central::stream::all_uos_names_get_options {
 
 
 ad_proc curriculum_central::stream::stream_uos_relation_get_options {} {
-    Returns a two-column list of UoS to Stream relations.  The list
-    contains hard coded values for Core, Recommended and Elective, with
-    values of 0, 1, and 2 respectively.
+    Returns a two-column list of UoS to Stream relations.
 
     @return Returns a two-column list of UoS to Stream relations.
 } {
-    set relations [list]
-    lappend relations "[_ curriculum-central.core] 0"
-    lappend relations "[_ curriculum-central.recommended] 1"
-    lappend relations "[_ curriculum-central.elective] 2"
+    set package_id [ad_conn package_id]
 
-    return $relations
+    return [db_list_of_lists stream_uos_rels {}]
 }
 
 
@@ -225,16 +220,12 @@ ad_proc curriculum_central::stream::stream_uos_relation_name {
 } {
     Returns the pretty name for the given relation_id.
 
-    @param id The ID that corresponds to either "Core", "Recommended",
-    or "Elective".
+    @param id The ID that corresponds to a defined stream to UoS relation
+    name.
 
     @see curriculum_central::stream::stream_uos_relation_get_options
 } {
-    if { $id eq 0 } {
-	return [_ curriculum-central.core]
-    } elseif { $id eq 1} {
-	return [_ curriculum-central.recommended]
-    } else {
-	return [_ curriculum-central.elective]
-    }
+    set package_id [ad_conn package_id]
+
+    return [db_string get_name {} -default ""]
 }
