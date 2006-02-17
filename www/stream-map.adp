@@ -9,6 +9,20 @@
 
   <div class="spacer">&nbsp;</div>
 
+  <if @selected_uos_id@ ne "">
+  <div id="requisites-key">
+    <ul>
+      <li class="selected">#curriculum-central.selected_uos#</li>
+      <li class="prerequisite">#curriculum-central.prerequisite#</li>
+      <li class="assumed-knowledge">#curriculum-central.assumed_knowledge#</li>
+      <li class="corequisite">#curriculum-central.corequisite#</li>
+      <li class="prohibition">#curriculum-central.prohibition#</li>
+      <li class="no-longer-offered">#curriculum-central.no_longer_offered#</li>
+    </ul>
+    <h3>Requisites Key</h3>
+  </div>
+  </if>
+
   <multiple name="stream">
   <ul class="years">
     <li>@stream.year_name@</li>
@@ -18,11 +32,14 @@
       
       <ul id="uos">
         <group column="year_session_group">
-        <div class="float">
-          <ul>
+        <div class="@stream.float_class@">
+          <ul class="info">
             <li class="uos-code">@stream.uos_code@</li>  
             <li class="uos-name">@stream.uos_name@</li>
+          </ul>
+	  <ul class="options">
             <li class="info"><a href="@stream.uos_details_url@" class="button">#curriculum-central.view_details#</a></li>
+            <li class="info"><a href="@stream.uos_requisites_url@" class="button">#curriculum-central.requisites#</a></li>
           </ul>
         </div>
         </group>

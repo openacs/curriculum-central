@@ -17,7 +17,7 @@
      <querytext>
        SELECT map.map_id, n.uos_code, n.uos_name, uos.uos_id,
            rev.year_id, y.name, rev.core_id,
-	   map.live_revision_id, uosr.session_ids
+	   map.live_revision_id, uosr.session_ids, uosr.uos_name_id
        FROM cc_uos uos, cc_uos_revisions uosr, cc_stream_uos_map map,
            cc_stream_uos_map_rev rev, cc_year y, cc_uos_name n,
 	   cc_department d
@@ -36,6 +36,16 @@
    <fullquery name="session_name">
      <querytext>
        SELECT cc_session__name(:session_id)
+     </querytext>
+   </fullquery>
+
+   <fullquery name="requisites">
+     <querytext>
+       SELECT rev.prerequisite_ids, rev.assumed_knowledge_ids,
+           rev.corequisite_ids, rev.prohibition_ids, rev.no_longer_offered_ids
+       FROM cc_uos u, cc_uos_revisions rev
+       WHERE u.uos_id = :requisites_id
+       AND u.live_revision_id = rev.uos_revision_id
      </querytext>
    </fullquery>
 

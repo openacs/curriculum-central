@@ -2,6 +2,8 @@
 <message_catalog package_key="curriculum-central" package_version="0.1d" locale="en_US" charset="ISO-8859-1">
 
   <msg key="uos">UoS</msg>
+  <msg key="selected_uos">Selected UoS</msg>
+  <msg key="requisites">Requisites</msg>
   <msg key="edit_stream_uos_rel">Edit Stream to UoS Relation</msg>
   <msg key="add_stream_uos_rel">Add Stream to UoS Relation</msg>
   <msg key="help_enter_stream_rel_name">Enter a name for a degree stream to UoS relation.  Examples include: core; recommended; elective.</msg>
@@ -67,7 +69,9 @@
   <msg key="help_select_uos_no_longer_offered">Select (prohibited) UoS that are no longer offered for the mapped UoS.  Note: You can select multiple entries by holding down the CTRL key whilst selecting.</msg>
   <msg key="assumed_knowledge">Assumed Knowledge</msg>
   <msg key="corequisites">Co-Requisites</msg>
+  <msg key="corequisite">Co-Requisite</msg>
   <msg key="prohibitions">Prohibitions</msg>
+  <msg key="prohibition">Prohibition</msg>
   <msg key="no_longer_offered">Units no longer offered</msg>
   <msg key="map_uos_to_stream">Map UoS to Stream</msg>
   <msg key="edit_uos_to_stream_mapping">Edit UoS to Stream Mapping</msg>
@@ -281,6 +285,7 @@
   <msg key="assessments">Assessments</msg>
   <msg key="core_uos_for">Core UoS for</msg>
   <msg key="recommended_uos_for">Recommended UoS for</msg>
+  <msg key="prerequisite">Prerequisite</msg>
   <msg key="prerequisites">Prerequisites</msg>
   <msg key="aims_and_objectives">Aims and Objectives</msg>
   <msg key="learning_outcomes">Learning Outcomes</msg>
