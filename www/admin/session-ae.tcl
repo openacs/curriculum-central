@@ -47,7 +47,6 @@ ad_form -name session -cancel_url $return_url -form {
         "#curriculum-central.start_date_must_be_set_before_end_date#"
     }
 } -new_data {
-ns_log Warning "NC: start_date: $start_date end_date $end_date"
 
     # Can't use package_instantiate_object because the underlying
     # db_exec_plsql can't know that the contents of the start_date and
