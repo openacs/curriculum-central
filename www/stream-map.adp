@@ -1,4 +1,4 @@
-<master>
+<master src="resources/main-portal">
 <property name="title">@page_title;noquote@</property>
 <property name="context">@context;noquote@</property>
 <property name="header_stuff">
@@ -10,16 +10,18 @@
   <div class="spacer">&nbsp;</div>
 
   <if @selected_uos_id@ ne "">
-  <div id="requisites-key">
+  <div id="key">
     <ul>
       <li class="selected">#curriculum-central.selected_uos#</li>
       <li class="prerequisite">#curriculum-central.prerequisite#</li>
       <li class="assumed-knowledge">#curriculum-central.assumed_knowledge#</li>
+    </ul>
+    <ul>
       <li class="corequisite">#curriculum-central.corequisite#</li>
       <li class="prohibition">#curriculum-central.prohibition#</li>
       <li class="no-longer-offered">#curriculum-central.no_longer_offered#</li>
     </ul>
-    <h3>Requisites Key</h3>
+    <h3>#curriculum-central.key#</h3>
   </div>
   </if>
 

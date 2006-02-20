@@ -30,6 +30,10 @@ if { ![info exists staff_options] } {
     set staff_options {}
 }
 
+if { ![info exists user_options] } {
+    set user_options {}
+}
+
 set user_id [ad_conn user_id]
 
 set package_id [ad_conn package_id]

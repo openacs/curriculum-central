@@ -3,29 +3,53 @@
 <property name="context">@context;noquote@</property>
 <property name="header_stuff">
 <link rel="stylesheet" type="text/css" href="/resources/curriculum-central/curriculum-central.css" media="all">
+<script language="JavaScript">
+<!--
+function go()
+{
+	box = document.forms[0].ga_select;
+	destination = box.options[box.selectedIndex].value;
+	if (destination) location.href = destination;
+}
+// -->
+</script>
 </property>
-<property name="user_options">[<a href="@ga_map_url@">#curriculum-central.graduate_attributes#</a>]</property>
+<property name="user_options">[<a href="@requisites_map_url@">#curriculum-central.requisites#</a>]</property>
 
 <div id="cc-stream-map-container">
 
   <div class="spacer">&nbsp;</div>
 
-  <if @selected_uos_id@ ne "">
+  <div>
+
+  </div>
   <div id="key">
-    #curriculum-central.requisite_key_description#
+    #curriculum-central.ga_key_description#
     <ul>
-      <li class="selected">#curriculum-central.selected_uos#</li>
-      <li class="prerequisite">#curriculum-central.prerequisite#</li>
-      <li class="assumed-knowledge">#curriculum-central.assumed_knowledge#</li>
-    </ul>
-    <ul>
-      <li class="corequisite">#curriculum-central.corequisite#</li>
-      <li class="prohibition">#curriculum-central.prohibition#</li>
-      <li class="no-longer-offered">#curriculum-central.no_longer_offered#</li>
+      <li class="ga-very-low">#curriculum-central.very_low#</li>
+      <li class="ga-low">#curriculum-central.low#</li>
+      <li class="ga-moderate">#curriculum-central.moderate#</li>
+      <li class="ga-high">#curriculum-central.high#</li>
+      <li class="ga-very-high">#curriculum-central.very_high#</li>
     </ul>
     <h3>#curriculum-central.key#</h3>
   </div>
-  </if>
+
+  <center>
+  <form name="ga_nav">
+    #curriculum-central.select_a_graduate_attribute#
+    <select name="ga_select" onChange="go()">
+      <multiple name="ga_names">
+      <if @ga_names.selected_p@>
+        <option value="@ga_names.url@" selected>@ga_names.name@</option>
+      </if>
+      <else>
+        <option value="@ga_names.url@">@ga_names.name@</option>
+      </else>
+      </multiple>    
+    </select>
+  </form>
+  </center>
 
   <multiple name="stream">
   <ul class="years">
@@ -43,7 +67,6 @@
           </ul>
 	  <ul class="options">
             <li class="info"><a href="@stream.uos_details_url@" class="button">#curriculum-central.view_details#</a></li>
-	    <li class="info"><a href="@stream.uos_requisites_url@" class="button">#curriculum-central.requisites#</a></li>
 	  </ul>
         </div>
         </group>

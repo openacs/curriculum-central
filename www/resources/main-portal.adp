@@ -25,6 +25,9 @@
               @staff_options;noquote@
             </div>
 	    </if>
+            <div class="portletOptions">
+              @user_options;noquote@
+            </div>
             <div class="documentContent">
               <slave>
             </div>

@@ -2,6 +2,11 @@
 <message_catalog package_key="curriculum-central" package_version="0.1d" locale="en_US" charset="ISO-8859-1">
 
   <msg key="uos">UoS</msg>
+  <msg key="key">Key</msg>
+  <msg key="requisite_key_description">The varying colours convey the different requisites for the selected Unit of Study.  A white Unit of Study box indicates that the Unit of Study does not affect the selected Unit of Study.</msg>
+  <msg key="select_a_graduate_attribute">Select a Graduate Attribute:</msg>
+  <msg key="ga_key_description">The varying colours convey the level of focus that a Unit of Study has for the selected Graduate Attribute.  A white Unit of Study box indicates that the Unit of Study does not facilitate the selected Graduate Attribute.</msg>
+  <msg key="graduate_attribute_map_view">Graduate Attribute Map View</msg>
   <msg key="selected_uos">Selected UoS</msg>
   <msg key="requisites">Requisites</msg>
   <msg key="edit_stream_uos_rel">Edit Stream to UoS Relation</msg>

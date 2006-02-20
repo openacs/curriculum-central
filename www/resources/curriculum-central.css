@@ -208,29 +208,40 @@
 /* Styles for stream maps. */
 
 #cc-stream-map-container {
-	border: 1px solid #000;
+
 }
 
 #cc-stream-map-container .spacer {
 	clear: both;
 }
 
-#cc-stream-map-container #requisites-key {
+#cc-stream-map-container #key {
 	border: 1px solid #000;
-	width: 80%;
-	margin-left: 10%;
-	margin-rignt: 10%;
-	margin-bottom: 5em;
+	width: 60%;
+	margin-bottom: 1em;
 	text-align: center;
+	margin-left: auto;
+	margin-right: auto;
+	padding: 5px;
 }
 
-#cc-stream-map-container #requisites-key ul li {
-	display:inline;
+#cc-stream-map-container #key ul {
+        margin-left: auto;
+        margin-right: auto;
+}
+
+#cc-stream-map-container #key ul li {
 	list-style-type: none;
 	border: 1px solid #000;
 	padding: 3px;
-	font-size: 12px;
+	margin: 0px;
+	font-size: 10px;
 	font-weight: bold;
+	display: inline;
+}
+
+#cc-stream-map-container #key h3 {
+	clear: left;
 }
 
 #cc-stream-map-container ul {
@@ -242,7 +253,7 @@
 #cc-stream-map-container .float {
 	float: left;
   	width: 120px;
-	height: 120px;
+	height: 113px;
   	padding: 10px;
 	margin: 1em;
 	border: 1px solid #000;
@@ -272,6 +283,26 @@
 	background-color: violet;
 }
 
+#cc-stream-map-container .ga-very-high {
+	background-color: #FF0000;
+}
+
+#cc-stream-map-container .ga-high {
+	background-color: #FF9900;
+}
+
+#cc-stream-map-container .ga-moderate {
+	background-color: #FFFF66;
+}
+
+#cc-stream-map-container .ga-low {
+	background-color: #00CC33;
+}
+
+#cc-stream-map-container .ga-very-low {
+	background-color: #0033CC;
+}
+
 #cc-stream-map-container .float ul {
 	list-style-type: none;
 	margin: 0px;
@@ -281,11 +312,10 @@
 #cc-stream-map-container .float ul.info {
 	height: 80px;
 	background-color:white;
-	border: 1px solid #000;
 }
 
 #cc-stream-map-container .float ul.options {
-	height: 40px;
+	height: 30px;
 }
 
 #cc-stream-map-container .float ul li.uos-code {

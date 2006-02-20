@@ -6,7 +6,7 @@ ad_page_contract {
     @cvs-id $Id$
 } {
     department_id:integer
-    requisites_id:integer,optional
+    gradattr_id:integer,optional
 }
 
 set package_id [ad_conn package_id]
@@ -15,7 +15,7 @@ set user_id [ad_conn user_id]
 # Retrieve info about the faculty, department and stream.
 db_1row context {}
 
-set page_title "[_ curriculum-central.all_uos] - [_ curriculum-central.map_view]"
+set page_title "[_ curriculum-central.all_uos] - [_ curriculum-central.graduate_attribute_map_view]"
 set context [list \
     [list [export_vars -url -base faculty-depts {faculty_name faculty_id}] \
         $faculty_name] \
@@ -23,22 +23,36 @@ set context [list \
 	{department_name department_id}] $department_name] \
     $page_title]
 
-set ga_map_url [export_vars -url -base all-uos-ga-map {department_id}]
+set requisites_map_url [export_vars -url -base all-uos-map {department_id}]
+
+template::multirow create ga_names name name_id selected_p url
+db_foreach ga_name {} {
+    set selected_p 0
+    if { [info exists gradattr_id] } {
+	if { $gradattr_id == $name_id } {
+	    set selected_p 1
+	}
+    }
+    
+    set url [export_vars -url -base all-uos-ga-map -override {{gradattr_id $name_id}} {department_id gradattr_id}]
+
+    template::multirow append ga_names $name $name_id $selected_p $url
+}
+
+# If gradattr_id doesn't exist, then use the first Graduate Attribute
+# from the drop down list as the default value.
+if { ![info exists gradattr_id] } {
+    if { [template::multirow size ga_names] > 0 } {
+	set gradattr_id [template::multirow get ga_names 1 name_id]
+    }
+}
 
 # Retrieve a list of Units of Study.
 set units_of_study [db_list_of_lists units_of_study {}]
 
-set selected_uos_id ""
-if { [info exists requisites_id] } {
-    set selected_uos_id $requisites_id
-
-    # Query for UoS requisites for the selected UoS.
-    db_1row requisites {}
-}
-
 template::multirow create stream map_id year_id year_name \
     session_id session_name core_or_not uos_id uos_code uos_name \
-    year_session_group uos_details_url uos_requisites_url float_class
+    year_session_group uos_details_url float_class
 
 foreach uos $units_of_study {
     set map_id [lindex $uos 0]
@@ -59,35 +73,31 @@ foreach uos $units_of_study {
     
 	set year_session_group "${year_id}${session_id}"
 
-	set base_return_url "all-uos-map"
+	set base_return_url "all-uos-ga-map"
 	set uos_details_url [export_vars -url -base uos-details {uos_id stream_id base_return_url department_id}]
 
-	# Determine style of requisites for the selected UoS, if one was
-	# selected.
+	# Determine style of UoS based on level of Graduate Attribute.
 	set float_class "float"
-	if { $selected_uos_id ne "" } {
-	    if { $selected_uos_id == $uos_id} {
-		set float_class "float selected"
-	    } elseif { [lsearch -exact $prerequisite_ids $uos_name_id] != -1 } {
-		set float_class "float prerequisite"
-	    } elseif { [lsearch -exact $assumed_knowledge_ids $uos_name_id] != -1 } {
-		set float_class "float assumed-knowledge"
-	    } elseif { [lsearch -exact $corequisite_ids $uos_name_id] != -1 } {
-		set float_class "float corequisite"
-	    } elseif { [lsearch -exact $prohibition_ids $uos_name_id] != -1 } {
-		set float_class "float prohibition"
-	    } elseif { [lsearch -exact $no_longer_offered_ids $uos_name_id] != -1 } {
-		set float_class "float no-longer-offered"
+	if { [info exists gradattr_id] } {
+	    if { [db_0or1row ga_level {}] } {
+
+		if { $level == 5} {
+		    set float_class "float ga-very-high"
+		} elseif { $level == 4 } {
+		    set float_class "float ga-high"
+		} elseif { $level == 3 } {
+		    set float_class "float ga-moderate"
+		} elseif { $level == 2 } {
+		    set float_class "float ga-low"
+		} elseif { $level == 1 } {
+		    set float_class "float ga-very-low"
+		}
 	    }
 	}
 
-	set requisites_id $uos_id
-	set uos_requisites_url [export_vars -url -base all-uos-map {requisites_id department_id}]
-
 	template::multirow append stream $map_id $year_id $year_name \
 	    $session_id $session_name $core_id $uos_id $uos_code $uos_name \
-	    $year_session_group $uos_details_url $uos_requisites_url \
-	    $float_class
+	    $year_session_group $uos_details_url $float_class
     
     }
 }
