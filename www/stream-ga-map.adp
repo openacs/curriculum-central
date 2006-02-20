@@ -64,7 +64,7 @@ function go()
           </ul>
 	  <ul class="options">
             <li class="info"><a href="@stream.uos_details_url@" class="button">#curriculum-central.view_details#</a></li>
-	  </ul>
+          </ul>
         </div>
         </group>
 

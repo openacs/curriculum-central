@@ -4,6 +4,7 @@
 <property name="header_stuff">
 <link rel="stylesheet" type="text/css" href="/resources/curriculum-central/curriculum-central.css" media="all">
 </property>
+<property name="user_options">[<a href="@ga_map_url@">#curriculum-central.graduate_attributes#</a>]</property>
 
 <div id="cc-stream-map-container">
 
@@ -11,6 +12,7 @@
 
   <if @selected_uos_id@ ne "">
   <div id="key">
+    #curriculum-central.requisite_key_description#
     <ul>
       <li class="selected">#curriculum-central.selected_uos#</li>
       <li class="prerequisite">#curriculum-central.prerequisite#</li>

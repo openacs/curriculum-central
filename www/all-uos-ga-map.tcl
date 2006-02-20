@@ -80,7 +80,6 @@ foreach uos $units_of_study {
 	set float_class "float"
 	if { [info exists gradattr_id] } {
 	    if { [db_0or1row ga_level {}] } {
-
 		if { $level == 5} {
 		    set float_class "float ga-very-high"
 		} elseif { $level == 4 } {
