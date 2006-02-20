@@ -13,9 +13,12 @@ ad_page_contract {
 
 set package_id [ad_conn package_id]
 
-set return_view_type "[_ curriculum-central.map_view]"
-if { $base_return_url eq "stream-view" } {
+if { $base_return_url eq "stream-view" || $base_return_url eq "all-uos-view" } {
     set return_view_type "[_ curriculum-central.overview]"
+} elseif { $base_return_url eq "stream-ga-map" || $base_return_url eq "all-uos-ga-map"} {
+    set return_view_type "[_ curriculum-central.graduate_attribute_map_view]"
+} else {
+    set return_view_type "[_ curriculum-central.map_view]"
 }
 
 if { [info exists stream_id] } {
@@ -49,7 +52,7 @@ if { [info exists stream_id] } {
 			  $department_name] \
 		     [list [export_vars -url -base $base_return_url \
 				{department_id}] \
-			  "[_ curriculum-central.all_uos] - [_ curriculum-central.overview]"] \
+			  "[_ curriculum-central.all_uos] - $return_view_type"] \
 		     $page_title]
 }
 

@@ -73,7 +73,7 @@ foreach uos $units_of_study {
     
 	set year_session_group "${year_id}${session_id}"
 
-	set base_return_url "stream-map"
+	set base_return_url "stream-ga-map"
 	set uos_details_url [export_vars -url -base uos-details {uos_id stream_id base_return_url department_id}]
 
 	# Determine style of requisites for the selected UoS, if one was
