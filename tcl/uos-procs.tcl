@@ -367,11 +367,50 @@ ad_proc -public curriculum_central::uos::new {
 			-no_longer_offered_ids $no_longer_offered_ids \
 			-activity_log $activity_log ]
 
-	array set assign_array [list unit_coordinator $unit_coordinator_id]
+	# Get a list of stream coordinator IDs.
+	# All stream coordinators for the given department_id
+	# are assigned to the workflow case.
+	set stream_coordinator_ids [db_list get_stream_coordinator_ids {}]
+	set notify_user_ids [list]
+	lappend notify_user_ids $stream_coordinator_ids
 
+	# Add the unit coordinator for notifications, if they
+	# are not a stream coordinator for the given department.
+	if { [lsearch -exact $notify_user_ids $unit_coordinator_id] == -1 } {
+	    lappend notify_user_ids $unit_coordinator_id
+	}
+
+	# Initiate notifications
+	set type_id [notification::type::get_type_id \
+			 -short_name "workflow_case"]
+
+	set request_id [notification::request::get_request_id \
+			    -type_id $type_id \
+			    -object_id $uos_id \
+			    -user_id $user_id]
+
+	set delivery_method_id \
+	    [notification::get_delivery_method_id -name "email"]
+
+	set interval_id \
+	    [notification::interval::get_id_from_name -name "instant"]
+
+	foreach notify_user_id $notify_user_ids {
+	    notification::request::new \
+		-request_id $request_id \
+		-type_id $type_id \
+		-user_id $notify_user_id \
+		-object_id $uos_id \
+		-interval_id $interval_id \
+		-delivery_method_id $delivery_method_id
+	}
+
+	# Initiate the workflow case.
 	set workflow_id [workflow::get_id \
 			     -object_id $package_id \
 			     -short_name [workflow_short_name]]
+
+	array set assign_array [list unit_coordinator $unit_coordinator_id]
 
 	# Create a new workflow case for the given UoS.
 	set case_id [workflow::case::new \
@@ -384,17 +423,14 @@ ad_proc -public curriculum_central::uos::new {
 
 
 	# Get the role_id for the stream coordinator role.
-	set role_id [workflow::role::get_id -workflow_id $workflow_id \
-			 -short_name stream_coordinator]
-
-	# Get a list of stream coordinator IDs.
-	# All stream coordinators are assigned the role of stream coordinator
-	# for all Units of Study.
-	set stream_coordinator_ids [db_list get_stream_coordinator_ids {}]
+	set stream_coordinator_role_id [workflow::role::get_id \
+					    -workflow_id $workflow_id \
+					    -short_name stream_coordinator]
     
 	# Assign the stream coordinators
 	workflow::case::role::assignee_insert -case_id $case_id \
-	    -role_id $role_id -party_ids $stream_coordinator_ids -replace
+	    -role_id $stream_coordinator_role_id \
+	    -party_ids $stream_coordinator_ids -replace
 
 	return $uos_id
     }
@@ -1469,22 +1505,63 @@ ad_proc -private curriculum_central::uos::notification_info::pretty_name {} {
     return "[_ curriculum-central.uos_info]"
 }
 
-# TODO: Finish off this proc properly.
+
 ad_proc -private curriculum_central::uos::notification_info::get_notification_info {
     case_id
     object_id
 } {
-    # TODO: Fix URL
-    # set url "[ad_url][apm_package_url_from_id $bug(project_id)]bug?
-    # [export_vars { { bug_number $bug(bug_number) } }]"
-    set url "[ad_url]"
 
-    set one_line "UoS"
+    set package_id [ad_conn package_id]
+    set url "[ad_url][apm_package_url_from_id $package_id]coordinate/uos-edit?[export_vars { {uos_id $object_id} }]"
+
+    set one_line [curriculum_central::uos::get_pretty_name -uos_id $object_id]
 
     set details_list [list]
-    lappend details_list "label" "value"
+    
+    if { [db_0or1row uos_details {}] } {
+	lappend details_list [_ curriculum-central.credit_value] $credit_value
+	lappend details_list [_ curriculum-central.department] $department_name
+	lappend details_list [_ curriculum-central.sessions] \
+	    [curriculum_central::join_sessions -session_ids $session_ids]
 
-    set notification_subject_tag "Notification Subject Tag"
+	lappend details_list [_ curriculum-central.lecturers] \
+	    [curriculum_central::join_staff -staff_ids $lecturer_ids]
+
+	lappend details_list [_ curriculum-central.tutors] \
+	    [curriculum_central::join_staff -staff_ids $tutor_ids]
+
+	lappend details_list [_ curriculum-central.aims_and_objectives] \
+	    [template::util::richtext::get_property text $objectives]
+
+	lappend details_list [_ curriculum-central.learning_outcomes] \
+	    [template::util::richtext::get_property text $learning_outcomes]
+
+	lappend details_list [_ curriculum-central.syllabus] \
+	    [template::util::richtext::get_property text $syllabus]
+
+	lappend details_list [_ curriculum-central.relevance] \
+	    [template::util::richtext::get_property text $relevance]
+
+	lappend details_list [_ curriculum-central.online_course_content] \
+	    $online_course_content
+
+	lappend details_list [_ curriculum-central.graduate_attributes] \
+	    [curriculum_central::join_graduate_attributes \
+		 -uos_id $object_id]
+
+	lappend details_list [_ curriculum-central.note] \
+	    [template::util::richtext::get_property text $note]
+    }
+    
+
+    # Learning Outcomes
+    # Syllabus
+    # Relevance
+    # Online Course Content
+    # Graduate attributes
+    # Note
+
+    set notification_subject_tag [_ curriculum-central.notification]
 
     return [list $url $one_line $details_list $notification_subject_tag]
 }

@@ -70,4 +70,24 @@
      </querytext>
    </fullquery>
 
+   <fullquery name="curriculum_central::join_sessions.session_name">
+     <querytext>
+       SELECT name FROM cc_session
+       WHERE session_id = :session_id
+       AND package_id = :package_id
+     </querytext>
+   </fullquery>
+
+   <fullquery name="curriculum_central::join_graduate_attributes.ga_name">
+     <querytext>
+       SELECT gan.name
+       FROM cc_uos_gradattr_name gan, cc_uos_gradattr_map gam,
+           cc_uos_gradattr ga, cc_uos_gradattr_set gas
+       WHERE gas.parent_uos_id = :uos_id
+       AND gas.latest_revision_id = gam.revision_id
+       AND gam.gradattr_id = ga.gradattr_id
+       AND ga.name_id = gan.name_id
+     </querytext>
+   </fullquery>
+
 </queryset>

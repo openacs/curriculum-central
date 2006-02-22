@@ -214,3 +214,71 @@ ad_proc curriculum_central::get_export_variables {
 
     return [concat $export_vars $extra_vars]
 }
+
+
+ad_proc curriculum_central::join_sessions {
+    {-session_ids:required}
+    {-separator ", "}
+} {
+    Retrieve the names that match each session ID, and join the names
+    using the given separator.
+
+    @param session_ids A list of session IDs.
+    @param separator Specify a separator that will be used to join the
+    session names together.  Uses a comma by default.
+} {
+    set package_id [ad_conn package_id]
+    set session_names [list]
+
+    foreach session_id $session_ids {
+	lappend session_names [db_string session_name {} -default ""]
+    }
+
+    return [join $session_names $separator]
+}
+
+
+ad_proc curriculum_central::join_staff {
+    {-staff_ids:required}
+    {-separator ", "}
+} {
+    Retrieve the names that match each staff ID, and join the names
+    using the given separator.
+
+    @param staff_ids A list of staff IDs.
+    @param separator Specify a separator that will be used to join the
+    staff names together.  Uses a comma by default.
+} {
+    set package_id [ad_conn package_id]
+    set staff_names [list]
+
+    foreach staff_id $staff_ids {
+	lappend staff_names \
+	    [curriculum_central::staff::pretty_name $staff_id]
+    }
+
+    return [join $staff_names $separator]
+}
+
+
+ad_proc curriculum_central::join_graduate_attributes {
+    {-uos_id:required}
+    {-separator ", "}
+} {
+    Retrieve the graduate attribute names for the given UoS ID, and join
+    the names using the given separator.
+
+    @param uos_id UoS ID to retrieve graduate attributes for.
+    @param separator Specify a separator that will be used to join the
+    graduate_attribute names together.  Uses a comma by default.
+} {
+    set package_id [ad_conn package_id]
+    set ga_names [list]
+
+    db_foreach ga_name {} {
+	lappend ga_names $name
+	    
+    }
+
+    return [join $ga_names $separator]
+}

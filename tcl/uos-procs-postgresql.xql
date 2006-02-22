@@ -231,6 +231,7 @@
      <querytext>
        SELECT DISTINCT coordinator_id FROM cc_stream
        WHERE package_id = :package_id
+       AND department_id = :department_id
      </querytext>
    </fullquery>
 
@@ -679,6 +680,22 @@
            :assessment_prefix || week_id AS assessment_field
        FROM cc_uos_schedule_week WHERE package_id = :package_id
        ORDER BY week_id DESC
+     </querytext>
+   </fullquery>
+
+   <fullquery name="curriculum_central::uos::notification_info::get_notification_info.uos_details">
+     <querytext>
+       SELECT uosr.credit_value, uosr.session_ids, dept.department_name,
+           dr.lecturer_ids, dr.tutor_ids, dr.objectives,
+	   dr.learning_outcomes, dr.syllabus, dr.relevance,
+	   dr.online_course_content, dr.note
+       FROM cc_uos_revisions uosr, cr_items cr, cc_department dept,
+       cc_uos_detail d, cc_uos_detail_revisions dr
+       WHERE cr.item_id = :object_id
+       AND uosr.uos_revision_id = cr.latest_revision
+       AND dept.department_id = uosr.department_id
+       AND d.parent_uos_id = :object_id
+       AND d.latest_revision_id = dr.detail_revision_id
      </querytext>
    </fullquery>
 

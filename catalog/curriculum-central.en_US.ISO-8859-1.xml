@@ -2,6 +2,7 @@
 <message_catalog package_key="curriculum-central" package_version="0.1d" locale="en_US" charset="ISO-8859-1">
 
   <msg key="uos">UoS</msg>
+  <msg key="notification">Notification</msg>
   <msg key="requisites_view">Requisites View</msg>
   <msg key="key">Key</msg>
   <msg key="requisite_key_description">The varying colours convey the different requisites for the selected Unit of Study.  A white Unit of Study box indicates that the Unit of Study does not affect the selected Unit of Study.</msg>
