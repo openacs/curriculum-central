@@ -17,7 +17,6 @@ ad_proc -private curriculum_central::install::package_install {} {
 } {
     db_transaction {
         curriculum_central::install::register_implementations
-        #bug_tracker::search::register_implementations
 	curriculum_central::install::roles_create
         curriculum_central::uos::workflow_create
     }
@@ -31,7 +30,6 @@ ad_proc -private curriculum_central::install::package_uninstall {} {
         curriculum_central::uos::workflow_delete
         curriculum_central::install::roles_delete
         curriculum_central::install::unregister_implementations
-        #bug_tracker::search::unregister_implementations
     }
 }
 
@@ -46,6 +44,12 @@ ad_proc -private curriculum_central::install::package_instantiate {
 
     # Create the UoS workflow
     curriculum_central::uos::instance_workflow_create -package_id $package_id
+
+    # Install default admin values
+    if { [parameter::get -parameter "InsertDefaultValues" -default 1] } {
+	curriculum_central::admin::default_values::insert \
+	    -package_id $package_id
+    }
 }
 
 

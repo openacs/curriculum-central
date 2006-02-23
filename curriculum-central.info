@@ -22,13 +22,16 @@
         <requires url="workflow" version="2.0.0b3"/>
 
         <callbacks>
-            <callback type="after-install"  proc="curriculum_central::install::package_install"/>
             <callback type="before-uninstall"  proc="curriculum_central::install::package_uninstall"/>
-            <callback type="after-instantiate"  proc="curriculum_central::install::package_instantiate"/>
+            <callback type="after-install"  proc="curriculum_central::install::package_install"/>
             <callback type="before-uninstantiate"  proc="curriculum_central::install::package_uninstantiate"/>
+            <callback type="after-instantiate"  proc="curriculum_central::install::package_instantiate"/>
         </callbacks>
         <parameters>
             <parameter datatype="string"  min_n_values="1"  max_n_values="1"  name="CurriculumCentralCSS"  default="/resources/curriculum-central/main-portal.css" description="Specify the location of a CSS file to use for Curriculum Central's colour scheme."/>
+            <parameter datatype="number"  min_n_values="1"  max_n_values="1"  name="DefaultNumDegreeStreamYears"  default="5" description="Default number of years for a degree stream."/>
+            <parameter datatype="number"  min_n_values="1"  max_n_values="1"  name="DefaultNumScheduleWeeks"  default="13" description="Default number of scheduled weeks in a semester."/>
+            <parameter datatype="number"  min_n_values="1"  max_n_values="1"  name="InsertDefaultValues"  default="1" description="Specify a value of 1 if you want default values to be inserted during package instantiation.  Otherwise specify 0 if you don't want default values to be installed."/>
             <parameter datatype="number"  min_n_values="1"  max_n_values="1"  name="LastNumActivityLogEntries"  default="3" description="Number of recent activity log entries to display for a Unit of Study."/>
         </parameters>
 

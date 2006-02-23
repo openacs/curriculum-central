@@ -38,8 +38,7 @@ create table cc_stream_uos_rel (
 			constraint cc_stream_uos_rel_stream_uos_rel_id_pk
 			primary key,
 	name 		varchar(256)
-			constraint cc_stream_uos_rel_name_nn not null
-			constraint cc_stream_uos_rel_name_un unique,
+			constraint cc_stream_uos_rel_name_nn not null,
 	package_id	integer
 			constraint cc_stream_uos_rel_package_id_fk
 			references apm_packages(package_id) on delete cascade

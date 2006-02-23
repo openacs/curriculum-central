@@ -2,6 +2,17 @@
 <message_catalog package_key="curriculum-central" package_version="0.1d" locale="en_US" charset="ISO-8859-1">
 
   <msg key="uos">UoS</msg>
+  <msg key="week">Week</msg>
+  <msg key="research_and_inquiry">Research and Inquiry</msg>
+  <msg key="information_literacy">Information Literacy</msg>
+  <msg key="personal_and_intellectual_autonomy">Personal and Intellectual Autonomy</msg>
+  <msg key="ethical_social_and_professional_understanding">Ethical, Social and Professional Understanding</msg>
+  <msg key="communication">Communication</msg>
+  <msg key="high_distinction">High Distinction</msg>
+  <msg key="distinction">Distinction</msg>
+  <msg key="credit">Credit</msg>
+  <msg key="pass">Pass</msg>
+  <msg key="fail">Fail</msg>
   <msg key="notification">Notification</msg>
   <msg key="requisites_view">Requisites View</msg>
   <msg key="key">Key</msg>
@@ -46,6 +57,7 @@
   <msg key="no_years_created">No vocabulary for years have been created.</msg>
   <msg key="view_uos_offered_by">View Units of Study offered by:</msg>
   <msg key="edit_year">Edit Year</msg>
+  <msg key="year">Year</msg>
   <msg key="edit_schedule_week">Edit Schedule Week</msg>
   <msg key="edit_session">Edit Session</msg>
   <msg key="overview_lc">overview</msg>
