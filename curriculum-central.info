@@ -14,12 +14,12 @@
         <description format="text/html">Curriculum Central is an application for managing subjects comprising a course of study in a School or University.  The application will allow academic staff to collaborate on course syllabus and rubrics, which can then be conveyed to students using course maps.</description>
         <maturity>0</maturity>
 
-        <provides url="curriculum-central" version="0.4.1d"/>
-        <requires url="acs-content-repository" version="5.2.0d2"/>
-        <requires url="acs-kernel" version="5.2.0d2"/>
-        <requires url="acs-tcl" version="5.2.0d1"/>
-        <requires url="notifications" version="5.0.0b4"/>
-        <requires url="workflow" version="2.0.0b3"/>
+        <provides url="curriculum-central" version="0.4.2d"/>
+        <requires url="acs-content-repository" version="5.2.0d18"/>
+        <requires url="acs-kernel" version="5.2.0d10"/>
+        <requires url="acs-tcl" version="5.2.0d5"/>
+        <requires url="notifications" version="5.1.7"/>
+        <requires url="workflow" version="2.0.0b4"/>
 
         <callbacks>
             <callback type="before-uninstall"  proc="curriculum_central::install::package_uninstall"/>
