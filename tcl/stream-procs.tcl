@@ -47,10 +47,14 @@ ad_proc curriculum_central::stream::years_get_options {
 
     # Create an empty option that the user can select.  The value of
     # which is an empty string.
-    set empty_option [list [list [list [_ curriculum-central.none]] 0]]
-    set year_list [db_list_of_lists years {}]
+    set year_list [list [list [_ curriculum-central.none] 0]]
+    db_foreach years {} {
+        set year_name [lang::util::localize $name]
 
-    return [concat $empty_option $year_list]
+        lappend year_list [list $year_name $year_id]
+    }
+
+    return $year_list
 }
 
 
