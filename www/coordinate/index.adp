@@ -9,8 +9,8 @@
 <li><a href="textbooks">#curriculum-central.manage_your_list_of_textbooks#</a></li>
 </ul>
 
-<ul>
 <if @stream_coordinator_p@>
+<ul>
 <li><a href="uos-names">#curriculum-central.view_uos_names#</a></li>
 <li><a href="uos-name-ae">#curriculum-central.add_uos_name#</a></li>
 </ul>
@@ -24,7 +24,6 @@
 <li><a href="uos-add">#curriculum-central.add_unit_of_study#</a></li>
 <li><a href="uos-all-pending">#curriculum-central.all_pending_units_of_study#</a> (@num_all_pending@ #curriculum-central.pending#)</li>
 </ul>
-
 </if>
 
 <ul>
