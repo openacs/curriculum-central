@@ -432,9 +432,8 @@
 
    <fullquery name="curriculum_central::uos::graduate_attributes_get_options.select_ga">
      <querytext>
-       SELECT cc_uos_gradattr_name__name(g.name_id)
-           || ' (' || g.identifier || ')' AS ga_name,
-           g.gradattr_id
+       SELECT cc_uos_gradattr_name__name(g.name_id) AS name,
+           g.identifier, g.gradattr_id
        FROM cc_uos_gradattr g, acs_objects o
        WHERE o.object_id = g.gradattr_id
        AND o.package_id = :package_id

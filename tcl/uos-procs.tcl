@@ -1330,7 +1330,12 @@ ad_proc curriculum_central::uos::graduate_attributes_get_options {
 	set user_id [ad_conn user_id]
     }
 
-    set ga_list [db_list_of_lists select_ga {}]
+    set ga_list [list]
+    db_foreach select_ga {} {
+	set ga_name "[lang::util::localize $name] ($identifier)"
+	
+	lappend ga_list [list $ga_name $gradattr_id]
+    }
 
     return $ga_list
 }
