@@ -26,7 +26,7 @@ ad_form -name stream -cancel_url $return_url -form {
 	{label "#curriculum-central.stream_name#" }
 	{help_text "[_ curriculum-central.help_enter_stream_name]"}
     }
-    {stream_code:text
+    {stream_code:text,optional
 	{html {size 25}}
 	{label "#curriculum-central.stream_code#" }
 	{help_text "[_ curriculum-central.help_enter_stream_code]"}
