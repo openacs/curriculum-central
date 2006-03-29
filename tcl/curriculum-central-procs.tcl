@@ -171,7 +171,12 @@ ad_proc curriculum_central::graduate_attribute_names_get_options {
         set package_id [ad_conn package_id]
     }
 
-    set ga_names_list [db_list_of_lists ga_names {}]
+    set ga_names_list [list]
+    db_foreach ga_names {} {
+	set ga_name [lang::util::localize $name]
+
+	lappend ga_names_list [list $ga_name $name_id]
+    }
 
     return $ga_names_list
 }
