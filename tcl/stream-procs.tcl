@@ -102,7 +102,7 @@ ad_proc curriculum_central::stream::years_for_uos_get_options {
     set year_ids [db_string year_ids {} -default ""]
 
     foreach year_id $year_ids {
-	set year_name [db_string year_name {} -default ""]
+	set year_name [lang::util::localize [db_string year_name {} -default ""]]
 	lappend year_list "[list $year_name] $year_id"
     }
 
@@ -215,7 +215,14 @@ ad_proc curriculum_central::stream::stream_uos_relation_get_options {} {
 } {
     set package_id [ad_conn package_id]
 
-    return [db_list_of_lists stream_uos_rels {}]
+    set rels_list [list]
+    db_foreach stream_uos_rels {} {
+	set rel_name [lang::util::localize $name]
+
+	lappend rels_list [list $rel_name $stream_uos_rel_id]
+    }
+
+    return $rels_list
 }
 
 
