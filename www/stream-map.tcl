@@ -12,11 +12,6 @@ ad_page_contract {
 set package_id [ad_conn package_id]
 set user_id [ad_conn user_id]
 
-set export_p [parameter::get -package_id $package_id -parameter ExportStreamAsXML -default 0]
-if { $export_p } {
-    set export_url [export_vars -url -base stream-export {stream_id}]
-}
-
 # Retrieve info about the faculty, department and stream.
 db_1row context {}
 
@@ -99,5 +94,14 @@ foreach uos $units_of_study {
 
 # Sort stream info by increasing year and session.
 template::multirow sort stream -increasing year_id session_id uos_code
+
+set user_options "\[<a href=\"$ga_map_url\">[_ curriculum-central.graduate_attributes]</a>\]"
+
+set export_p [parameter::get -package_id $package_id -parameter ExportStreamAsXML -default 0]
+if { $export_p } {
+    set export_url [export_vars -url -base stream-export {stream_id}]
+    append user_options "\[<a href=\"$export_url\">[_ curriculum-central.export]</a>\]"
+}
+
 
 ad_return_template
