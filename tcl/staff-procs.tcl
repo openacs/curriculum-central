@@ -22,7 +22,7 @@ ad_proc -public curriculum_central::staff::pretty_name {
     for.
     @return Returns the pretty name of the given staff member.
 } {
-    return [db_string get_pretty_name {}]
+    return [db_string get_pretty_name {} -default ""]
 }
 
 
