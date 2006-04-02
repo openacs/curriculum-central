@@ -60,6 +60,7 @@
            FROM cc_uos uos, cc_uos_name n
 	   WHERE uos.package_id = :package_id
 	   AND uos.uos_name_id = n.name_id
+	   ORDER BY n.uos_code ASC
      </querytext>
    </fullquery>
 
@@ -68,6 +69,7 @@
        SELECT n.uos_code || ' ' || n.uos_name AS name, n.name_id
            FROM cc_uos_name n
 	   WHERE n.package_id = :package_id
+	   ORDER BY n.uos_code ASC
      </querytext>
    </fullquery>
 
