@@ -12,6 +12,11 @@ ad_page_contract {
 set package_id [ad_conn package_id]
 set user_id [ad_conn user_id]
 
+set export_p [parameter::get -package_id $package_id -parameter ExportStreamAsXML -default 0]
+if { $export_p } {
+    set export_url [export_vars -url -base stream-export {stream_id}]
+}
+
 # Retrieve info about the faculty, department and stream.
 db_1row context {}
 

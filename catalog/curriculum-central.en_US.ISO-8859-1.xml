@@ -2,6 +2,8 @@
 <message_catalog package_key="curriculum-central" package_version="0.1d" locale="en_US" charset="ISO-8859-1">
 
   <msg key="uos">UoS</msg>
+  <msg key="export">Export</msg>
+  <msg key="export_feature_has_been_disabled">The export feature has been disabled.</msg>
   <msg key="week">Week</msg>
   <msg key="research_and_inquiry">Research and Inquiry</msg>
   <msg key="information_literacy">Information Literacy</msg>

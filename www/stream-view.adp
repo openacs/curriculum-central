@@ -4,7 +4,7 @@
 <property name="header_stuff">
 <link rel="stylesheet" type="text/css" href="/resources/curriculum-central/curriculum-central.css" media="all">
 </property>
-
+<if @export_p@><property name="user_options">[<a href="@export_url@">#curriculum-central.export#</a>]</property></if>
 
 <div id="cc-stream-container">
   <multiple name="stream">

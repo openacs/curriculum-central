@@ -4,7 +4,7 @@
 <property name="header_stuff">
 <link rel="stylesheet" type="text/css" href="/resources/curriculum-central/curriculum-central.css" media="all">
 </property>
-<property name="user_options">[<a href="@ga_map_url@">#curriculum-central.graduate_attributes#</a>]</property>
+<property name="user_options">[<a href="@ga_map_url@">#curriculum-central.graduate_attributes#</a>]<if @export_p>[<a href="@export_url@">#curriculum-central.export#</a>]</if></property>
 
 <div id="cc-stream-map-container">
 
