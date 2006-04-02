@@ -21,7 +21,7 @@
            rev.year_id, y.name, rev.core_id,
 	   map.live_revision_id, uosr.session_ids, uos.uos_name_id,
 	   rel.name AS rel_name, dr.learning_outcomes, dr.objectives,
-	   dr.syllabus
+	   dr.syllabus, dr.lecturer_ids
        FROM cc_uos uos, cc_uos_revisions uosr, cc_stream_uos_map map,
            cc_stream_uos_map_rev rev, cc_year y, cc_uos_name n,
 	   cc_stream_uos_rel rel, cc_uos_detail_revisions dr, cc_uos_detail d

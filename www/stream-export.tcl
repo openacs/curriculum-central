@@ -51,6 +51,7 @@ foreach uos $units_of_study {
     set outcomes [lindex $uos 11]
     set objectives [lindex $uos 12]
     set syllabus [lindex $uos 13]
+    set lecturer_ids [lindex $uos 14]
 
     foreach session_id $session_ids {
 
@@ -70,6 +71,16 @@ foreach uos $units_of_study {
 	# UoS Code
 	set uos_code_node [$uos_node appendChild [$doc createElement code]]
 	$uos_code_node appendChild [$doc createTextNode $uos_code]
+
+	# UoS Lecturers
+	set lecturers_list [list]
+	foreach lecturer_id [split $lecturer_ids { }] {
+	    set lecturer_name [curriculum_central::staff::pretty_name $lecturer_id]
+	    lappend lecturers_list $lecturer_name
+	}
+	set uos_lecturers [join $lecturers_list {, }]
+	set uos_lecturer_node [$uos_node appendChild [$doc createElement lecturer]]
+	$uos_lecturer_node appendChild [$doc createTextNode $uos_lecturers]
 
 	# Objectives
 	set objectives_node [$uos_node appendChild \
