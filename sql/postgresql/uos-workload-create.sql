@@ -58,13 +58,13 @@ create table cc_uos_workload (
 -- Create the UoS workload content_revision
 create table cc_uos_workload_revisions (
 	workload_revision_id	integer
-				constraint cc_uos_workload_rev_pk
+				constraint cc_uos_workload_revs_pk
 				primary key
-				constraint cc_uos_workload_rev_fk
+				constraint cc_uos_workload_revs_fk
 				references cr_revisions(revision_id)
 				on delete cascade,
-	formal_contact_hrs	varchar(128),
-	informal_study_hrs   	varchar(128),
+	formal_contact_hrs	text,
+	informal_study_hrs   	text,
 	student_commitment	text,
 	expected_feedback	text,
 	student_feedback	text,
@@ -96,8 +96,8 @@ select define_function_args('cc_uos_workload__new', 'workload_id,parent_uos_id,f
 create function cc_uos_workload__new(
 	integer,	-- workload_id
 	integer,	-- parent_uos_id
-	varchar,	-- formal_contact_hrs
-	varchar,	-- informal_study_hrs
+	text,		-- formal_contact_hrs
+	text,		-- informal_study_hrs
 	text,		-- student_commitment
 	text,		-- expected_feedback
 	text,		-- student_feedback
@@ -226,8 +226,8 @@ end;
 create or replace function cc_uos_workload_revision__new (
 	integer,			-- workload_revision_id
 	integer,			-- workload_id
-	varchar,			-- formal_contact_hrs
-	varchar,			-- informal_study_hrs
+	text,				-- formal_contact_hrs
+	text,				-- informal_study_hrs
 	text,				-- student_commitment
 	text,				-- expected_feedback
 	text,				-- student_feedback
