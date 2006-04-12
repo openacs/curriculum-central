@@ -389,6 +389,8 @@
   <msg key="edit_faculty_info">Edit faculty information</msg>
   <msg key="delete_staff">Delete staff member</msg>
   <msg key="want_to_delete_staff">Are you sure you want to delete @staff.staff_name@?  Note: This will not delete the user&#146;s account.</msg>
+  <msg key="delete_tl_method">Delete Teaching and Learning Method</msg>
+  <msg key="want_to_delete_tl_method">Are you sure you want to delete the Teaching and Learning method?</msg>
   <msg key="faculty_name">Faculty Name</msg>
   <msg key="dean">Dean</msg>
   <msg key="add_faculty">Add Faculty</msg>
