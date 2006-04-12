@@ -55,6 +55,14 @@ set elements {
 	}
 	label "#curriculum-central.level#"
     }
+    delete {
+	sub_class narrow
+	display_template {
+	    <img src="/shared/images/Delete16.gif" height="16" width="16" border="0">
+	}
+	link_url_eval {[export_vars -base gradattr-del { gradattr_id }]}
+	link_html {title "#curriculum-central.delete_gradattr#" onclick "return confirm(\'[_ curriculum-central.want_to_delete_gradattr]\');"}
+    }
 }
 
 template::list::create \
