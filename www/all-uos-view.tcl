@@ -25,20 +25,18 @@ set context [list \
 # Retrieve a list of Units of Study.
 set units_of_study [db_list_of_lists units_of_study {}]
 
-template::multirow create stream map_id year_id year_name \
+template::multirow create stream year_id year_name \
     session_id session_name rel_name uos_id uos_code uos_name \
     year_session_group uos_details_url
 
 foreach uos $units_of_study {
-    set map_id [lindex $uos 0]
-    set uos_code [lindex $uos 1]
-    set uos_name [lindex $uos 2]
-    set uos_id [lindex $uos 3]
-    set year_id [lindex $uos 4]
-    set year_name [lindex $uos 5]
-    set rel_id [lindex $uos 6]
-    set live_revision_id [lindex $uos 7]
-    set session_ids [lindex $uos 8]
+    set uos_code [lindex $uos 0]
+    set uos_name [lindex $uos 1]
+    set uos_id [lindex $uos 2]
+    set year_id [lindex $uos 3]
+    set year_name [lindex $uos 4]
+    set rel_id [lindex $uos 5]
+    set session_ids [lindex $uos 6]
 
     foreach session_id $session_ids {
 	
@@ -53,7 +51,7 @@ foreach uos $units_of_study {
 	set rel_name [curriculum_central::stream::stream_uos_relation_name \
 			 -id $rel_id]
 
-	template::multirow append stream $map_id $year_id $year_name \
+	template::multirow append stream $year_id $year_name \
 	    $session_id $session_name $rel_name $uos_id $uos_code \
 	    $uos_name $year_session_group $uos_details_url
     
