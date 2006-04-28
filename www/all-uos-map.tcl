@@ -36,21 +36,19 @@ if { [info exists requisites_id] } {
     db_1row requisites {}
 }
 
-template::multirow create stream map_id year_id year_name \
+template::multirow create stream year_id year_name \
     session_id session_name core_or_not uos_id uos_code uos_name \
     year_session_group uos_details_url uos_requisites_url float_class
 
 foreach uos $units_of_study {
-    set map_id [lindex $uos 0]
-    set uos_code [lindex $uos 1]
-    set uos_name [lindex $uos 2]
-    set uos_id [lindex $uos 3]
-    set year_id [lindex $uos 4]
-    set year_name [lindex $uos 5]
-    set core_id [lindex $uos 6]
-    set live_revision_id [lindex $uos 7]
-    set session_ids [lindex $uos 8]
-    set uos_name_id [lindex $uos 9]
+    set uos_code [lindex $uos 0]
+    set uos_name [lindex $uos 1]
+    set uos_id [lindex $uos 2]
+    set year_id [lindex $uos 3]
+    set year_name [lindex $uos 4]
+    set core_id [lindex $uos 5]
+    set session_ids [lindex $uos 6]
+    set uos_name_id [lindex $uos 7]
 
     foreach session_id $session_ids {
 	
@@ -84,7 +82,7 @@ foreach uos $units_of_study {
 	set requisites_id $uos_id
 	set uos_requisites_url [export_vars -url -base all-uos-map {requisites_id department_id}]
 
-	template::multirow append stream $map_id $year_id $year_name \
+	template::multirow append stream $year_id $year_name \
 	    $session_id $session_name $core_id $uos_id $uos_code $uos_name \
 	    $year_session_group $uos_details_url $uos_requisites_url \
 	    $float_class
