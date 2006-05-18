@@ -84,7 +84,7 @@ template::multirow append details [_ curriculum-central.syllabus] \
     [template::util::richtext::get_property html_value $syllabus]
 
 template::multirow append details [_ curriculum-central.relevance] \
-    relevance [template::util::richtext::get_property html_value $relevance]
+    [template::util::richtext::get_property html_value $relevance]
 
 template::multirow append details [_ curriculum-central.contact_hours] \
     [template::util::richtext::get_property html_value $formal_contact_hrs]
