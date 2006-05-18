@@ -15,9 +15,9 @@
 
    <fullquery name="units_of_study">
      <querytext>
-       SELECT map.map_id, n.uos_code, n.uos_name, uos.uos_id,
+       SELECT DISTINCT n.uos_code, n.uos_name, uos.uos_id,
            rev.year_id, y.name, rev.core_id,
-	   map.live_revision_id, uosr.session_ids, uosr.uos_name_id
+	   uosr.session_ids, uosr.uos_name_id
        FROM cc_uos uos, cc_uos_revisions uosr, cc_stream_uos_map map,
            cc_stream_uos_map_rev rev, cc_year y, cc_uos_name n,
 	   cc_department d
