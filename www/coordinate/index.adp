@@ -28,7 +28,7 @@
 </ul>
 </if>
 
-<h3>curriculum-central.uos_administration</h3>
+<h3>#curriculum-central.uos_administration#</h3>
 <ul>
 <li><a href="uos-pending">#curriculum-central.your_pending_units_of_study#</a> (@num_users_pending@ #curriculum-central.pending#)</li>
 </ul>
