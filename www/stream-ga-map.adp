@@ -7,7 +7,7 @@
 <!--
 function go()
 {
-	box = document.forms[0].ga_select;
+	box = document.ga_nav.ga_select;
 	destination = box.options[box.selectedIndex].value;
 	if (destination) location.href = destination;
 }
