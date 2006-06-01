@@ -1,3 +1,7 @@
+iframe {
+    border: 0;
+}
+
 .portletOptions {
     display: inline;
     font-size: 10px;
