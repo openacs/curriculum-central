@@ -1,4 +1,6 @@
 ad_page_contract {
+    This has been deprecated in favour of iframe/tl-method-ae.
+
     Add/Edit a teaching and learning method.
 
     @author Nick Carroll (nick.c@rroll.net)

@@ -1,4 +1,6 @@
 ad_page_contract {
+    This has been deprecated in favour of iframe/tl-methods-view.
+
     Page for listing Teaching and Learning Approaches.
 
     @author Nick Carroll (nick.c@rroll.net)

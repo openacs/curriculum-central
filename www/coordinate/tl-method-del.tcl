@@ -1,4 +1,6 @@
 ad_page_contract {
+    This has been deprecated in favour of iframe/tl-method-del.
+
     Deletes a Teaching and Learning method.
 
     @param method_id The ID of the Teaching and Learning method to remove.

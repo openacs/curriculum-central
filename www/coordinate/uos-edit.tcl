@@ -242,20 +242,45 @@ curriculum_central::uos::get_tl \
     -uos_id $uos_id \
     -array uos_tl
 
+set edit_tl_p 0
+if { $enabled_action_id ne "" } {
+    # Retrieve some workflow information
+    workflow::case::enabled_action_get \
+	-enabled_action_id $enabled_action_id \
+	-array enabled_action_info
+
+    workflow::action::get \
+	-action_id $enabled_action_info(action_id) \
+	-array action_info
+
+    # If the current action is edit_assessment, then set the
+    # grade descriptor fields as editable.
+    if { $action_info(short_name) eq "edit_tl"} {
+	set edit_tl_p 1
+    }
+}
+
+set tl_methods_url [export_vars -url -base "iframe/tl-methods-view" {uos_id {edit_p $edit_tl_p}}]
+
 # Add widgets for Teaching and Learning.
 ad_form -extend -name uos -form {
     {tl_id:integer(hidden),optional
 	{value $uos_tl(tl_id)}
     }
-    {tl_approach_ids:text(multiselect),multiple,optional
+    {tl_approach_ids:text(inform)
 	{label "[_ curriculum-central.teaching_and_learning_approach]"}
-	{options [curriculum_central::uos::tl_method_get_options]}
-	{html {size 5}}
-	{values $uos_tl(tl_approach_ids)}
 	{mode display}
-        {help_text "[_ curriculum-central.help_tl_approach_ids]"}
+	{after_html
+	    {
+		<iframe src="$tl_methods_url" width="600px" height="350" marginwidth="0" marginheight="0">
+		Your browser does not support IFRAMES,
+		please consider upgrading your browser.
+		</iframe>
+	    }
+	}
     }
 }
+
 
 
 # Retrieve graduate attribute info for Unit of Study.
@@ -298,7 +323,6 @@ ad_form -extend -name uos -form {
         {help_text "[_ curriculum-central.help_select_textbook_ids]"}
     }
 }
-
 
 # Retrieve workload info for Unit of Study.
 curriculum_central::uos::get_workload \
@@ -530,7 +554,7 @@ ad_form -extend -name uos -on_submit {
 
 	curriculum_central::uos::update_tl \
 	    -tl_id $tl_id \
-	    -tl_approach_ids $tl_approach_ids
+	    -uos_id $uos_id
 
 	curriculum_central::uos::update_textbooks \
 	    -textbook_set_id $textbook_set_id \
