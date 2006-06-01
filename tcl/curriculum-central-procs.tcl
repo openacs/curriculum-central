@@ -156,6 +156,31 @@ ad_proc curriculum_central::departments_get_options {
 }
 
 
+ad_proc curriculum_central::tl_names_get_options {
+    {-package_id {}}
+} {
+    Returns a two-column list of valid teaching & learning names that have
+    been defined by the package administrator.  The first column contains the
+    pretty name, and the second contains the corresponding name_id.
+
+    @param package_id The package ID for an instance of Curriculum Central.
+    @return Returns a list of teaching & learning names.
+} {
+    if { [empty_string_p $package_id] } {
+        set package_id [ad_conn package_id]
+    }
+
+    set tl_names_list [list]
+    db_foreach tl_names {} {
+	set tl_name [lang::util::localize $name]
+
+	lappend tl_names_list [list $tl_name $name_id]
+    }
+
+    return $tl_names_list
+}
+
+
 ad_proc curriculum_central::graduate_attribute_names_get_options {
     {-package_id {}}
 } {

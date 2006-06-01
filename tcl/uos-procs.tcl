@@ -711,7 +711,7 @@ ad_proc -public curriculum_central::uos::update_details {
 
 ad_proc -public curriculum_central::uos::update_tl {
     -tl_id:required
-    -tl_approach_ids
+    -uos_id
     {-user_id ""}
     {-creation_ip ""}
 } {
@@ -737,11 +737,16 @@ ad_proc -public curriculum_central::uos::update_tl {
     # Set the default value for revision_id.
     set revision_id ""
     db_transaction {
+	# Retrieve teaching and learning info for Unit of Study.
+	curriculum_central::uos::get_tl \
+	    -uos_id $uos_id \
+	    -array uos_tl
+
 	set revision_id [db_exec_plsql update_tl {}]
 
 	# Foreach tl_approach_id map to the newly created revision_id
 	# retrieved above.
-	foreach tl_approach_id $tl_approach_ids {
+	foreach tl_approach_id $uos_tl(tl_approach_ids) {
 	    db_exec_plsql map_tl_to_revision {}
 	}
     }
