@@ -50,6 +50,12 @@
   <li><a href="grade-ae">#curriculum-central.add_a_grade_descriptor#</a></li>
   </ul>
 </li>
+<li><span>#curriculum-central.tl_names#</span>
+  <ul>
+  <li><a href="tl-names">#curriculum-central.view_tl_names#</a></li>
+  <li><a href="tl-name-ae">#curriculum-central.add_a_tl_name#</a></li>
+  </ul>
+</li>
 <li><span>#curriculum-central.graduate_attributes#</span>
   <ul>
   <li><a href="gradattrs">#curriculum-central.view_graduate_attributes#</a></li>
