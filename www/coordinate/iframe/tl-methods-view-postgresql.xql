@@ -21,7 +21,6 @@
            cc_uos_tl_name n
         WHERE o.package_id = :package_id
 	   AND m.method_id = o.object_id
-	   AND o.creation_user = :user_id
 	   AND t.tl_revision_id = :latest_revision_id
 	   AND m.method_id = t.method_id
 	   AND n.name_id = m.name_id
