@@ -2,9 +2,8 @@
 <property name="title">@page_title;noquote@</property>
 <property name="context">@context;noquote@</property>
 
-<h3>#curriculum-central.manage_items_related_to_your_teaching_style#</h3>
+<h3>Things to delete</h3>
 <ul>
-<li><a href="gradattrs">#curriculum-central.manage_your_list_of_graduate_attributes#</a></li>
 <li><a href="assess-methods">#curriculum-central.manage_your_list_of_assessment_methods#</a></li>
 <li><a href="textbooks">#curriculum-central.manage_your_list_of_textbooks#</a></li>
 </ul>

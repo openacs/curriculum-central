@@ -711,7 +711,7 @@ ad_proc -public curriculum_central::uos::update_details {
 
 ad_proc -public curriculum_central::uos::update_tl {
     -tl_id:required
-    -uos_id
+    -uos_id:required
     {-user_id ""}
     {-creation_ip ""}
 } {
@@ -719,8 +719,7 @@ ad_proc -public curriculum_central::uos::update_tl {
     This update proc creates a new teaching and learning revision..
 
     @param tl_id The ID of the teaching and learning object to update.
-    @param tl_approach_ids List of IDs that need to be mapped to the set
-    of teaching learning approaches (tl_id).
+    @param uos_id Unit of Study ID.
     @param user_id The ID of the user that updated the Unit of Study.
     @param creation_ip The IP of the user that made the update.
 
@@ -798,7 +797,7 @@ ad_proc -public curriculum_central::uos::update_textbooks {
 
 ad_proc -public curriculum_central::uos::update_graduate_attributes {
     -gradattr_set_id:required
-    -gradattr_ids:required
+    -uos_id:required
     {-user_id ""}
     {-creation_ip ""}
 } {
@@ -806,8 +805,7 @@ ad_proc -public curriculum_central::uos::update_graduate_attributes {
     This update proc creates a new graduate attributes revision.
 
     @param gradattr_set_id The ID for a set of graduate attributes.
-    @param gradattr_ids List of selected graduate attributes that need
-    to be mapped to the graduate attributes set.
+    @param uos_id Unit of Study ID.
     @param user_id The ID of the user that updated the Unit of Study.
     @param creation_ip The IP of the user that made the update.
 
@@ -824,11 +822,16 @@ ad_proc -public curriculum_central::uos::update_graduate_attributes {
     # Set the default value for revision_id.
     set revision_id ""
     db_transaction {
+	# Retrieve graduate attribute infor for Unit of Study.
+	curriculum_central::uos::get_graduate_attributes \
+	    -uos_id $uos_id \
+	    -array uos_gradattr
+
 	set revision_id [db_exec_plsql update_ga {}]
 
 	# Foreach gradattr_id map to the newly created revision_id
 	# retrieved above.
-	foreach gradattr_id $gradattr_ids {
+	foreach gradattr_id $uos_gradattr(gradattr_ids) {
 	    db_exec_plsql map_ga_to_revision {}
 	}
     }

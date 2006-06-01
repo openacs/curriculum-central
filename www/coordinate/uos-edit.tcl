@@ -288,18 +288,24 @@ curriculum_central::uos::get_graduate_attributes \
     -uos_id $uos_id \
     -array uos_gradattr
 
+set ga_view_url [export_vars -url -base "iframe/ga-view" {uos_id {edit_p $edit_tl_p}}]
+
 # Add widgets for Graduate Attributes
 ad_form -extend -name uos -form {
     {gradattr_set_id:integer(hidden),optional
 	{value $uos_gradattr(gradattr_set_id)}
     }
-    {gradattr_ids:text(multiselect),multiple,optional
+    {gradattr_ids:text(inform)
 	{label "[_ curriculum-central.graduate_attributes]"}
-	{options [curriculum_central::uos::graduate_attributes_get_options]}
-	{html {size 5}}
-	{values $uos_gradattr(gradattr_ids)}
 	{mode display}
-        {help_text "[_ curriculum-central.help_graduate_attributes]"}
+	{after_html
+	    {
+		<iframe src="$ga_view_url" width="600px" height="485" marginwidth="0" marginheight="0">
+		Your browser does not support IFRAMES,
+		please consider upgrading your browser.
+		</iframe>
+	    }
+	}
     }
 }
 
@@ -562,7 +568,7 @@ ad_form -extend -name uos -on_submit {
 
 	curriculum_central::uos::update_graduate_attributes \
 	    -gradattr_set_id $gradattr_set_id \
-	    -gradattr_ids $gradattr_ids
+	    -uos_id $uos_id
 
 	curriculum_central::uos::update_workload \
 	    -workload_id $workload_id \
