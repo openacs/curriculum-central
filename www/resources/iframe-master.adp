@@ -1,0 +1,10 @@
+@doc_type;noquote@
+<html>
+  <head>
+    <title>@title;noquote@</title>
+    @header_stuff;noquote@
+  </head>
+  <body>
+    <slave>
+  </body>
+</html>
