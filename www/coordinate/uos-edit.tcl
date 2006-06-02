@@ -315,18 +315,25 @@ curriculum_central::uos::get_textbooks \
     -uos_id $uos_id \
     -array uos_textbook
 
+set textbook_view_url [export_vars -url -base "iframe/textbooks-view" \
+			   {uos_id {edit_p $edit_tl_p}}]
+
 # Add widgets for textbook
 ad_form -extend -name uos -form {
     {textbook_set_id:integer(hidden),optional
 	{value $uos_textbook(textbook_set_id)}
     }
-    {textbook_ids:text(multiselect),multiple,optional
+    {textbook_ids:text(inform)
 	{label "[_ curriculum-central.textbooks]"}
-	{options [curriculum_central::uos::textbook_get_options]}
-	{html {size 5}}
-	{values $uos_textbook(textbook_ids)}
 	{mode display}
-        {help_text "[_ curriculum-central.help_select_textbook_ids]"}
+	{after_html
+	    {
+		<iframe src="$textbook_view_url" width="600px" height="270" marginwidth="0" marginheight="0">
+		Your browser does not support IFRAMES,
+		please consider upgrading your browser.
+		</iframe>
+	    }
+	}
     }
 }
 
@@ -564,7 +571,7 @@ ad_form -extend -name uos -on_submit {
 
 	curriculum_central::uos::update_textbooks \
 	    -textbook_set_id $textbook_set_id \
-	    -textbook_ids $textbook_ids
+	    -uos_id $uos_id
 
 	curriculum_central::uos::update_graduate_attributes \
 	    -gradattr_set_id $gradattr_set_id \

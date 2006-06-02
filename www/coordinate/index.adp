@@ -5,7 +5,6 @@
 <h3>Things to delete</h3>
 <ul>
 <li><a href="assess-methods">#curriculum-central.manage_your_list_of_assessment_methods#</a></li>
-<li><a href="textbooks">#curriculum-central.manage_your_list_of_textbooks#</a></li>
 </ul>
 
 <if @stream_coordinator_p@>

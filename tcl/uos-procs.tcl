@@ -756,7 +756,7 @@ ad_proc -public curriculum_central::uos::update_tl {
 
 ad_proc -public curriculum_central::uos::update_textbooks {
     -textbook_set_id:required
-    -textbook_ids:required
+    -uos_id:required
     {-user_id ""}
     {-creation_ip ""}
 } {
@@ -764,8 +764,7 @@ ad_proc -public curriculum_central::uos::update_textbooks {
     This update proc creates a new textbook revision.
 
     @param textbook_set_id The ID for a set of textbooks.
-    @param textbook_ids List of selected textbooks that need
-    to be mapped to the textbook set.
+    @param Unit of Study ID.
     @param user_id The ID of the user that updated the Unit of Study.
     @param creation_ip The IP of the user that made the update.
 
@@ -782,11 +781,16 @@ ad_proc -public curriculum_central::uos::update_textbooks {
     # Set the default value for revision_id.
     set revision_id ""
     db_transaction {
+	# Retrieve textbook info for Unit of Study.
+	curriculum_central::uos::get_textbooks \
+	    -uos_id $uos_id \
+	    -array uos_textbook
+
 	set revision_id [db_exec_plsql update_textbook_set {}]
 
 	# Foreach textbook_id map to the newly created revision_id
 	# retrieved above.
-	foreach textbook_id $textbook_ids {
+	foreach textbook_id $uos_textbook(textbook_ids) {
 	    db_exec_plsql map_textbook_revision {}
 	}
     }
