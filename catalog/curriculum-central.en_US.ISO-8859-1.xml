@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 <message_catalog package_key="curriculum-central" package_version="0.4.1d" locale="en_US" charset="ISO-8859-1">
 
+  <msg key="stream_uos_map">UoS Stream Map</msg>
+  <msg key="uos_graduate_attributes">UoS Graduate Attributes</msg>
+  <msg key="uos_grades">UoS Grades</msg>
   <msg key="want_to_delete_textbook">Are you sure you want to delete the textbook?</msg>
   <msg key="delete_textbook">Delete Textbook</msg>
   <msg key="activity_log">Activity Log</msg>
