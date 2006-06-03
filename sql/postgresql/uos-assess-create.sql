@@ -97,7 +97,7 @@ begin
     ''#curriculum-central.assessment_methods#'',  -- pretty_plural
     ''acs_object'',               	-- supertype
     ''cc_uos_assess_method'',     	-- table_name
-    ''assess_id'',                	-- id_column
+    ''method_id'',                	-- id_column
     null,                          	-- package_name
     ''f'',                         	-- abstract_p
     null,                          	-- type_extension_table
