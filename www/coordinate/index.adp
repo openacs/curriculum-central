@@ -2,11 +2,6 @@
 <property name="title">@page_title;noquote@</property>
 <property name="context">@context;noquote@</property>
 
-<h3>Things to delete</h3>
-<ul>
-<li><a href="assess-methods">#curriculum-central.manage_your_list_of_assessment_methods#</a></li>
-</ul>
-
 <if @stream_coordinator_p@>
 <h3>#curriculum-central.department_level_administration#</h3>
 <ul>

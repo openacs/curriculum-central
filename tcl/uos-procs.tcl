@@ -891,7 +891,7 @@ ad_proc -public curriculum_central::uos::update_workload {
 
 ad_proc -public curriculum_central::uos::update_assess {
     -assess_id:required
-    -assess_method_ids
+    -uos_id:required
     {-user_id ""}
     {-creation_ip ""}
 } {
@@ -899,8 +899,7 @@ ad_proc -public curriculum_central::uos::update_assess {
     This update proc creates a new assessment revision.
 
     @param assess_id The ID of the assessment object to update.
-    @param assess_method_ids List of IDs that need to be mapped to the set
-    of assessment methods.
+    @param uos_id Unit of Study ID.
     @param user_id The ID of the user that updated the Unit of Study.
     @param creation_ip The IP of the user that made the update.
 
@@ -917,11 +916,16 @@ ad_proc -public curriculum_central::uos::update_assess {
     # Set the default value for revision_id.
     set revision_id ""
     db_transaction {
+	# Retrieve assessment info for Unit of Study.
+	curriculum_central::uos::get_assessment \
+	    -uos_id $uos_id \
+	    -array uos_assess
+
 	set revision_id [db_exec_plsql update_assess {}]
 
 	# Foreach assess_method_id map to the newly created revision_id
 	# retrieved above.
-	foreach assess_method_id $assess_method_ids {
+	foreach assess_method_id $uos_assess(assess_method_ids) {
 	    db_exec_plsql map_assess_to_revision {}
 	}
     }

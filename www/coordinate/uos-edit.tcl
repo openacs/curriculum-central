@@ -30,9 +30,32 @@ set workflow_id [curriculum_central::uos::get_instance_workflow_id]
 set enabled_action_id [form get_action uos]
 set action_id ""
 
+# Set some variables to determine edit mode.
+# Required for iframes.
+set edit_tl_p 0
+set edit_assn_p 0
+
 if { $enabled_action_id ne "" } {
-    workflow::case::enabled_action_get -enabled_action_id $enabled_action_id -array enabled_action
+    workflow::case::enabled_action_get \
+	-enabled_action_id $enabled_action_id \
+	-array enabled_action
+
     set action_id $enabled_action(action_id)
+
+    workflow::action::get \
+	-action_id $enabled_action(action_id) \
+	-array action_info
+    
+    # If the current action is edit_tl, then set the
+    # teaching and learning edit flag to true.
+    if { $action_info(short_name) eq "edit_tl"} {
+	set edit_tl_p 1
+    }
+    # If the current action is edit_assessment, then set the
+    # assessment edit flag to true.
+    if { $action_info(short_name) eq "edit_assessment"} {
+	set edit_assn_p 1
+    }
 }
 
 # Buttons
@@ -242,24 +265,6 @@ curriculum_central::uos::get_tl \
     -uos_id $uos_id \
     -array uos_tl
 
-set edit_tl_p 0
-if { $enabled_action_id ne "" } {
-    # Retrieve some workflow information
-    workflow::case::enabled_action_get \
-	-enabled_action_id $enabled_action_id \
-	-array enabled_action_info
-
-    workflow::action::get \
-	-action_id $enabled_action_info(action_id) \
-	-array action_info
-
-    # If the current action is edit_assessment, then set the
-    # grade descriptor fields as editable.
-    if { $action_info(short_name) eq "edit_tl"} {
-	set edit_tl_p 1
-    }
-}
-
 set tl_methods_url [export_vars -url -base "iframe/tl-methods-view" {uos_id {edit_p $edit_tl_p}}]
 
 # Add widgets for Teaching and Learning.
@@ -412,23 +417,26 @@ curriculum_central::uos::get_assessment \
     -uos_id $uos_id \
     -array uos_assess
 
+set assess_view_url [export_vars -url -base "iframe/assess-view" \
+			 {uos_id {edit_p $edit_assn_p}}]
+
 # Add widgets for Assessment
 ad_form -extend -name uos -form {
     {assess_id:integer(hidden),optional
 	{value $uos_assess(assess_id)}
     }
-    {assess_method_ids:text(multiselect),multiple,optional
+    {assess_method_ids:text(inform)
 	{label "[_ curriculum-central.assessment_methods]"}
-	{options [curriculum_central::uos::assess_method_get_options]}
-	{html {size 5}}
-	{values $uos_assess(assess_method_ids)}
+	{label "[_ curriculum-central.assessment_methods]"}
 	{mode display}
-        {help_text "[_ curriculum-central.help_assess_method_ids]"}
-    }
-    {assess_total:text(inform)
-	{label "[_ curriculum-central.current_assessment_total]"}
-	{value "[curriculum_central::uos::get_assessment_total -assess_id $uos_assess(assess_id)]%"}
-	{mode display}
+	{after_html
+	    {
+		<iframe src="$assess_view_url" width="600px" height="380" marginwidth="0" marginheight="0">
+		Your browser does not support IFRAMES,
+		please consider upgrading your browser.
+		</iframe>
+	    }
+	}
     }
 }
 
@@ -590,7 +598,8 @@ ad_form -extend -name uos -on_submit {
 	
 	curriculum_central::uos::update_assess \
 	    -assess_id $assess_id \
-	    -assess_method_ids $assess_method_ids
+	    -uos_id $uos_id
+#	    -assess_method_ids $assess_method_ids
 
 
 	# For Grade Descriptor fields
