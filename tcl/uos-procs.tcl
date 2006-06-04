@@ -73,6 +73,9 @@ ad_proc -private curriculum_central::uos::workflow_create {} {
                 submitted {
                     pretty_name "#curriculum-central.submitted#"
                 }
+		accepted {
+		    pretty_name "#curriculum-central.accepted#"
+		}
                 closed {
                     pretty_name "#curriculum-central.closed#"
                 }
@@ -182,6 +185,7 @@ ad_proc -private curriculum_central::uos::workflow_create {} {
                     pretty_name "#curriculum-central.submit#"
                     pretty_past_tense "#curriculum-central.submitted#"
                     assigned_role { unit_coordinator }
+		    allowed_roles { stream_coordinator }
                     assigned_states { open }
                     new_state { submitted }
 		    edit_fields {
@@ -189,11 +193,22 @@ ad_proc -private curriculum_central::uos::workflow_create {} {
 		    }
                     privileges { write }
                 }
+		accept {
+		    pretty_name "#curriculum-central.accept#"
+                    pretty_past_tense "#curriculum-central.accepted#"
+                    assigned_role { stream_coordinator }
+                    assigned_states { submitted }
+                    new_state accepted
+		    edit_fields {
+			activity_log
+		    }
+                    privileges { write }		    
+		}
                 close {
                     pretty_name "#curriculum-central.close#"
                     pretty_past_tense "#curriculum-central.closed#"
                     assigned_role { stream_coordinator }
-                    assigned_states { submitted }
+                    assigned_states { accepted }
                     new_state closed
                     privileges { write }
 		    edit_fields {
