@@ -4,7 +4,7 @@
 <property name="header_stuff">
 <link rel="stylesheet" type="text/css" href="/resources/curriculum-central/curriculum-central.css" media="all">
 </property>
-
+<property name="staff_options">[<a href="../help">#curriculum-central.manuals#</a>]</property>
 
 <div id="cc-linkless-head-narrow-container">
 <ul>

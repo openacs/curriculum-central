@@ -1,6 +1,7 @@
 <master src="../resources/main-portal">
 <property name="title">@page_title;noquote@</property>
 <property name="context">@context;noquote@</property>
+<property name="staff_options">[<a href="../help">#curriculum-central.manuals#</a>]</property>
 
 <if @stream_coordinator_p@>
 <h3>#curriculum-central.department_level_administration#</h3>
