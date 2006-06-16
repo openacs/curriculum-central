@@ -1,0 +1,37 @@
+set url /[ad_conn extra_url]
+
+# Need uos_id and department_id for UoS.  If department_id cannot be found,
+# then guess using the first department_id found.
+
+if { [regexp {^/uos/+([^/]+)(/*.*)} $url ignore_whole uos_code rest_url] } {
+
+    set name_id_sql "select name_id from cc_uos_name
+                     where lower(uos_code) = lower(:uos_code) LIMIT 1"
+
+    set name_id [db_string uos_name_id $name_id_sql -default ""]
+
+
+    set uos_id_sql "SELECT u.uos_id, r.department_id
+                    FROM cc_uos u, cc_uos_revisions r
+                    WHERE u.uos_name_id = :name_id
+                    AND u.live_revision_id = r.uos_revision_id
+                    LIMIT 1"
+
+    if { [db_0or1row uos_id $uos_id_sql] } {
+        rp_form_put uos_id $uos_id
+        rp_form_put department_id $department_id
+
+        rp_internal_redirect \
+            "/packages/curriculum-central/www/uos-details"        
+    } else {
+        #This is not a known URL format
+        ad_return_exception_page 400 \
+            "[_ curriculum-central.uos_code_not_found]" \
+            "[_ curriculum-central.uos_code_not_found_description]"
+    }
+ns_write $uos_id
+} else {
+    #This is not a known URL format
+    ad_return_exception_page 400 "[_ curriculum-central.bad_uos_url_format]" \
+        [_ curriculum-central.bad_uos_url_format_description]
+}
