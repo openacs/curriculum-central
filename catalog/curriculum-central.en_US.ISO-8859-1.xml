@@ -1,10 +1,8 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 <message_catalog package_key="curriculum-central" package_version="0.4.1d" locale="en_US" charset="ISO-8859-1">
 
-  <msg key="uos_code_not_found">UoS Code Not Found</msg>
-  <msg key="uos_code_not_found_description">We are sorry, but the UoS code that you have specified in the URL does not match a Unit of Study in the database.</msg>
-  <msg key="bad_uos_url_format">Unrecognised URL Format</msg>
-  <msg key="bad_uos_url_format_description">We are sorry.  You have specified an unrecognised URL format for a Unit of Study.</msg>
+  <msg key="accept">Accept</msg>
+  <msg key="accepted">Accepted</msg>
   <msg key="activity_log">Activity Log</msg>
   <msg key="add_a_degree_stream_rel">Add a Degree Stream Relation</msg>
   <msg key="add_a_grade_descriptor">Add a Grade Descriptor</msg>
@@ -67,7 +65,10 @@
   <msg key="assumed_concepts">Assumed Concepts</msg>
   <msg key="assumed_knowledge">Assumed Knowledge</msg>
   <msg key="author">Author</msg>
+  <msg key="bad_uos_url_format">Unrecognised URL Format</msg>
+  <msg key="bad_uos_url_format_description">We are sorry.  You have specified an unrecognised URL format for a Unit of Study.</msg>
   <msg key="before_getting_started">Before using Curriculum Central, you need to create at least one stream.  A stream can be a degree, diploma or even a certificate.</msg>
+  <msg key="by">By</msg>
   <msg key="close">Close</msg>
   <msg key="closed">Closed</msg>
   <msg key="comment">Comment</msg>
@@ -386,6 +387,8 @@
   <msg key="uos_assessment_revisions">Uos Assessment Revisions</msg>
   <msg key="uos_assessments">Uos Assessments</msg>
   <msg key="uos_code">UoS Code</msg>
+  <msg key="uos_code_not_found">UoS Code Not Found</msg>
+  <msg key="uos_code_not_found_description">We are sorry, but the UoS code that you have specified in the URL does not match a Unit of Study in the database.</msg>
   <msg key="uos_detail">UoS Detail</msg>
   <msg key="uos_detail_revision">UoS Detail Revision</msg>
   <msg key="uos_detail_revisions">UoS Detail Revisions</msg>
