@@ -1,13 +1,6 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 <message_catalog package_key="curriculum-central" package_version="0.4.1d" locale="en_US" charset="ISO-8859-1">
 
-  <msg key="accept">Accept</msg>
-  <msg key="accepted">Accepted</msg>
-  <msg key="stream_uos_map">UoS Stream Map</msg>
-  <msg key="uos_graduate_attributes">UoS Graduate Attributes</msg>
-  <msg key="uos_grades">UoS Grades</msg>
-  <msg key="want_to_delete_textbook">Are you sure you want to delete the textbook?</msg>
-  <msg key="delete_textbook">Delete Textbook</msg>
   <msg key="activity_log">Activity Log</msg>
   <msg key="add_a_degree_stream_rel">Add a Degree Stream Relation</msg>
   <msg key="add_a_grade_descriptor">Add a Grade Descriptor</msg>
@@ -165,6 +158,7 @@
   <msg key="graduate_attribute_revision">Graduate Attribute Revision</msg>
   <msg key="graduate_attribute_revisions">Graduate Attribute Revisions</msg>
   <msg key="graduate_attributes">Graduate Attributes</msg>
+  <msg key="help">Help</msg>
   <msg key="help_activity_log">For future reference, enter a short review of changes that were made.</msg>
   <msg key="help_assess_method_ids">Select one or more assessment methods that are used in this Unit of Study.  To select more than one item from the list, hold down the CTRL key whilst selecting an item.  If an item doesn't appear in the list, then click &lt;a href=&quot;assess-method-ae?return_url=%return_url%&quot;&gt;here&lt;/a&gt; to add it (Note: clicking on the link will redirect you to another page).</msg>
   <msg key="help_assumed_concepts">Concepts that are assumed students already know or are familiar with.</msg>
@@ -273,6 +267,9 @@
   <msg key="manage_your_list_of_graduate_attributes">Manage your list of graduate attributes</msg>
   <msg key="manage_your_list_of_textbooks">Manage your list of textbooks</msg>
   <msg key="manage_your_list_of_tl_approaches">Manage your list of teaching &amp; learning approaches</msg>
+  <msg key="manual">Manual</msg>
+  <msg key="manual_for_unit_coordinators">Manual for Unit Coordinators</msg>
+  <msg key="manuals">Manuals</msg>
   <msg key="map_lc">map</msg>
   <msg key="map_uos_to_stream">Map UoS to Stream</msg>
   <msg key="map_uos_to_this_stream">Map a Unit of Study to this stream.</msg>
@@ -410,6 +407,7 @@
   <msg key="uos_textbooks">UoS Textbooks</msg>
   <msg key="uos_workload">UoS Workload</msg>
   <msg key="upper_bound">Upper Bound</msg>
+  <msg key="user_manual">User Manual</msg>
   <msg key="very_high">Very High</msg>
   <msg key="very_low">Very Low</msg>
   <msg key="view_all">View All</msg>
