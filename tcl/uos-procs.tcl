@@ -1680,6 +1680,28 @@ ad_proc -private curriculum_central::uos::go_live::do_side_effect {
 #
 #####
 
+ad_proc -public curriculum_central::uos::get_graduate_attribute_level_name {
+    level
+} {
+    Returns the pretty name for a graduate attribute level.
+} {
+    set name ""
+    if { $level == 1} {
+	set name [_ curriculum-central.very_low]
+    } elseif { $level == 2} {
+	set name [_ curriculum-central.low]
+    } elseif { $level == 3 } {
+	set name [_ curriculum-central.moderate]
+    } elseif { $level == 4 } {
+	set name [_ curriculum-central.high]
+    } elseif { $level == 5 } {
+	set name [_ curriculum-central.very_high]
+    }
+
+    return $name
+}
+
+
 ad_proc -public curriculum_central::uos::get_assessment_total {
     {-assess_id:required}
 } {
