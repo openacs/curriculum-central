@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 <message_catalog package_key="curriculum-central" package_version="0.4.1d" locale="en_US" charset="ISO-8859-1">
 
+  <msg key="uos_code_not_found">UoS Code Not Found</msg>
+  <msg key="uos_code_not_found_description">We are sorry, but the UoS code that you have specified in the URL does not match a Unit of Study in the database.</msg>
+  <msg key="bad_uos_url_format">Unrecognised URL Format</msg>
+  <msg key="bad_uos_url_format_description">We are sorry.  You have specified an unrecognised URL format for a Unit of Study.</msg>
   <msg key="activity_log">Activity Log</msg>
   <msg key="add_a_degree_stream_rel">Add a Degree Stream Relation</msg>
   <msg key="add_a_grade_descriptor">Add a Grade Descriptor</msg>
