@@ -40,7 +40,9 @@
            s.title || ' ' || person__name(s.staff_id)
                AS unit_coordinator_pretty_name,
            dr.online_course_content, dr.objectives, dr.learning_outcomes,
-	   dr.syllabus, dr.relevance, dr.note, wr.formal_contact_hrs
+	   dr.syllabus, dr.relevance, dr.note, dr.lecturer_ids, dr.tutor_ids,
+	   wr.formal_contact_hrs, wr.student_commitment, wr.expected_feedback,
+	   wr.student_feedback, wr.assumed_concepts, wr.informal_study_hrs
        FROM cc_uos u, cc_uos_revisions ur, cc_staff s, cc_uos_detail d,
            cc_uos_detail_revisions dr, cc_uos_workload w,
 	   cc_uos_workload_revisions wr

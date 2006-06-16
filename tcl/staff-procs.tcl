@@ -26,6 +26,26 @@ ad_proc -public curriculum_central::staff::pretty_name {
 }
 
 
+ad_proc -public curriculum_central::staff::pretty_names {
+    name_ids
+} {
+    Takes a list of name_ids, and concatenates the pretty name for each
+    ID to a string with comma delimiters.
+
+    @param name_ids List of name IDs.
+    @return Returns a concatenated string of pretty names.
+} {
+    set names [list]
+
+    foreach name_id $name_ids {
+	set pretty_name [curriculum_central::staff::pretty_name $name_id]
+	lappend names "$pretty_name"
+    }
+
+    return [join $names ,]
+}
+
+
 ad_proc -public curriculum_central::staff::stream_coordinator_p {
     user_id
 } {

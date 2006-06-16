@@ -65,6 +65,12 @@ template::multirow create details label value
 template::multirow append details [_ curriculum-central.unit_coordinator] \
     $unit_coordinator_pretty_name
 
+template::multirow append details [_ curriculum-central.lecturers] \
+    "[curriculum_central::staff::pretty_names $lecturer_ids]"
+
+template::multirow append details [_ curriculum-central.tutors] \
+    "[curriculum_central::staff::pretty_names $tutor_ids]"
+
 template::multirow append details [_ curriculum-central.credit_value] \
     $credit_value
 
@@ -88,6 +94,21 @@ template::multirow append details [_ curriculum-central.relevance] \
 
 template::multirow append details [_ curriculum-central.contact_hours] \
     [template::util::richtext::get_property html_value $formal_contact_hrs]
+
+template::multirow append details [_ curriculum-central.informal_study_hrs] \
+    [template::util::richtext::get_property html_value $informal_study_hrs]
+
+template::multirow append details [_ curriculum-central.student_commitment] \
+    [template::util::richtext::get_property html_value $student_commitment]
+
+template::multirow append details [_ curriculum-central.expected_feedback] \
+    [template::util::richtext::get_property html_value $expected_feedback]
+
+template::multirow append details [_ curriculum-central.student_feedback] \
+    [template::util::richtext::get_property html_value $student_feedback]
+
+template::multirow append details [_ curriculum-central.assumed_concepts] \
+    [template::util::richtext::get_property html_value $assumed_concepts]
 
 template::multirow append details [_ curriculum-central.assessments] \
     [join [db_list assessment_names {}] ", "]
