@@ -18,20 +18,6 @@ function go()
 
 <div id="cc-stream-map-container">
 
-  <div class="spacer">&nbsp;</div>
-
-  <div id="key">
-    #curriculum-central.ga_key_description#
-    <ul>
-      <li class="ga-very-low">#curriculum-central.very_low#</li>
-      <li class="ga-low">#curriculum-central.low#</li>
-      <li class="ga-moderate">#curriculum-central.moderate#</li>
-      <li class="ga-high">#curriculum-central.high#</li>
-      <li class="ga-very-high">#curriculum-central.very_high#</li>
-    </ul>
-    <h3>#curriculum-central.key#</h3>
-  </div>
-
   <center>
   <form name="ga_nav">
     #curriculum-central.select_a_graduate_attribute#
@@ -77,5 +63,19 @@ function go()
   </multiple>
 
   <div class="spacer">&nbsp;</div>
+
+  <div class="spacer">&nbsp;</div>
+
+  <div id="key">
+    #curriculum-central.ga_key_description#
+    <ul>
+      <li class="ga-very-low">#curriculum-central.very_low#</li>
+      <li class="ga-low">#curriculum-central.low#</li>
+      <li class="ga-moderate">#curriculum-central.moderate#</li>
+      <li class="ga-high">#curriculum-central.high#</li>
+      <li class="ga-very-high">#curriculum-central.very_high#</li>
+    </ul>
+    <h3>#curriculum-central.key#</h3>
+  </div>
 
 </div>
