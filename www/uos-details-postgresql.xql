@@ -113,4 +113,5 @@
        WHERE n.name_id IN ([join $no_longer_offered_ids ,])
      </querytext>
    </fullquery>
+
 </queryset>

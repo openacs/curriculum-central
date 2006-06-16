@@ -129,6 +129,6 @@ template::multirow append details [_ curriculum-central.no_longer_offered] \
     [join [db_list no_longer_offered {}] ", "]
 
 template::multirow append details [_ curriculum-central.note] \
-    [template::util::richtext::get_property html_value $note]    
+    [template::util::richtext::get_property html_value $note]
 
 ad_return_template

@@ -14,5 +14,11 @@
       <td class="value"><if @details.value@ ne "">@details.value;noquote@</if><else>&nbsp;</else></td>
     </tr>
     </multiple>
+
+    <include src="/packages/curriculum-central/lib/tl-methods">
+    <include src="/packages/curriculum-central/lib/graduate-attributes">
+    <include src="/packages/curriculum-central/lib/textbooks">
+    <include src="/packages/curriculum-central/lib/grades">
+    <include src="/packages/curriculum-central/lib/schedule">
   </table>
 </div>
