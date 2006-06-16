@@ -6,6 +6,8 @@ ad_page_contract {
     @cvs-id $Id$
 }
 
+auth::require_login
+
 set page_title [_ curriculum-central.user_manual]
 set context [_ curriculum-central.help]
 

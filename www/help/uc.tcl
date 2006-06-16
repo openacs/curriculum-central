@@ -5,6 +5,8 @@ ad_page_contract {
     @cvs-id $Id$
 }
 
+auth::require_login
+
 set page_title [_ curriculum-central.manual_for_unit_coordinators]
 set context [list [list index [_ curriculum-central.help]] [_ curriculum-central.manual]]
 
