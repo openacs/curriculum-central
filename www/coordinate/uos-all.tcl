@@ -44,9 +44,16 @@ template::list::create \
     -no_data "#curriculum-central.no_uos_have_been_created#" \
     -elements $elements
 
-db_multirow -extend {unit_coordinator} all_uos get_all_uos {} {
-    set unit_coordinator [curriculum_central::staff::pretty_name $unit_coordinator_id]
+# If stream coordinator, then list all UoS, otherwise list all UoS that the
+# user is the unit coordinator of.
+if { [curriculum_central::staff::stream_coordinator_p $user_id] } {
+    db_multirow -extend {unit_coordinator} all_uos get_all_uos {} {
+	set unit_coordinator [curriculum_central::staff::pretty_name $unit_coordinator_id]
+    }
+} else {
+    db_multirow -extend {unit_coordinator} all_uos get_all_uc_uos {} {
+	set unit_coordinator [curriculum_central::staff::pretty_name $unit_coordinator_id]
+    }
 }
-
 
 ad_return_template

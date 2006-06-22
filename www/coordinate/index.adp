@@ -15,7 +15,6 @@
 </ul>
 
 <ul>
-<li><a href="uos-all">#curriculum-central.view_all_uos#</a></li>
 <li><a href="uos-add">#curriculum-central.add_unit_of_study#</a></li>
 <li><a href="uos-all-pending">#curriculum-central.all_pending_units_of_study#</a> (@num_all_pending@ #curriculum-central.pending#)</li>
 </ul>
@@ -23,5 +22,6 @@
 
 <h3>#curriculum-central.uos_administration#</h3>
 <ul>
+<li><a href="uos-all">#curriculum-central.view_all_uos#</a></li>
 <li><a href="uos-pending">#curriculum-central.your_pending_units_of_study#</a> (@num_users_pending@ #curriculum-central.pending#)</li>
 </ul>
