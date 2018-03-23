@@ -177,7 +177,7 @@
   <msg key="help_enter_credit_value">Enter credit value for the UoS.</msg>
   <msg key="help_enter_department_name">Enter a name for this department.  Examples: School of Electrical and Information Engineering; or Department of Chemical Engineering.</msg>
   <msg key="help_enter_description">Enter a description of the T&amp;L approach, and describe the objectives of the approach.  Why do you feel that this delivery approach is appropriate and will successfully develop student learning?</msg>
-  <msg key="help_enter_details_of_what_a_student_must_achieve_to_earn_this_grade">Enter details of what a student must acheive to earn this grade.</msg>
+  <msg key="help_enter_details_of_what_a_student_must_achieve_to_earn_this_grade">Enter details of what a student must achieve to earn this grade.</msg>
   <msg key="help_enter_end_date">Enter an end date.</msg>
   <msg key="help_enter_faculty_name">Enter a name for this faculty.  Example: Faculty of Engineering.</msg>
   <msg key="help_enter_fax">Enter the staff member's fax number.</msg>
