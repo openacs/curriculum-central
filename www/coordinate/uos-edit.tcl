@@ -531,7 +531,7 @@ if { $enabled_action_id ne "" } {
 
 # on_submit block
 ad_form -extend -name uos -on_submit {
-    array set row [list]
+    array set row {}
 
     if { $enabled_action_id ne "" } {
         foreach field [workflow::action::get_element \

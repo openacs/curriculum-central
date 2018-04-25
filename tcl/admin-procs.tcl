@@ -72,7 +72,7 @@ ad_proc -private curriculum_central::admin::default_values::insert_years {
     set limit [parameter::get -parameter "DefaultNumDegreeStreamYears" \
 		   -default 5]
     
-    set names [list]
+    set names {}
     
     set x 1
     while { $x <= $limit } {
@@ -150,7 +150,7 @@ ad_proc -private curriculum_central::admin::default_values::insert_graduate_attr
     @param package_id Package ID of Curriculum Central that we want to
     insert default values for.
 } {
-    set attribute_names [list]
+    set attribute_names {}
     lappend attribute_names \
 	"#curriculum-central.research_and_inquiry#"
 
@@ -188,7 +188,7 @@ ad_proc -private curriculum_central::admin::default_values::insert_schedule_week
     set limit [parameter::get -parameter "DefaultNumScheduleWeeks" \
 		   -default 13]
     
-    set names [list]
+    set names {}
     
     set x 1
     while { $x <= $limit } {
