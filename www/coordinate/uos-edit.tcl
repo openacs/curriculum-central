@@ -59,7 +59,7 @@ if { $enabled_action_id ne "" } {
 }
 
 # Buttons
-set actions [list]
+set actions {}
 if { $enabled_action_id eq "" } {
     foreach available_enabled_action_id [workflow::case::get_available_enabled_action_ids -case_id $case_id] {
 	workflow::case::enabled_action_get -enabled_action_id $available_enabled_action_id -array enabled_action
@@ -475,7 +475,7 @@ ad_form -extend -name uos -form {
 
 
 # Export filters
-set filters [list]
+set filters {}
 foreach name [curriculum_central::get_export_variables] {
     if { [info exists $name] } {
         lappend filters [list "${name}:text(hidden),optional" [list value [set $name]]]
@@ -603,7 +603,7 @@ ad_form -extend -name uos -on_submit {
 
 
 	# For Grade Descriptor fields
-	set grade_descriptors [list]
+	set grade_descriptors {}
 
 	if { $enabled_action_id ne "" } {
 	    # Get the grade descriptors, and the information
@@ -626,7 +626,7 @@ ad_form -extend -name uos -on_submit {
     } elseif { $action_info(short_name) eq "edit_schedule" } {
 
 	# For schedule fields
-	set schedule_fields [list]
+	set schedule_fields {}
 
 	if { $enabled_action_id ne "" } {
 	    # Get the schedule fields, and the information

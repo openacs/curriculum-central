@@ -7,4 +7,4 @@ ad_page_contract {
 }
 
 set page_title "[_ curriculum-central.admin]"
-set context [list]
+set context {}
