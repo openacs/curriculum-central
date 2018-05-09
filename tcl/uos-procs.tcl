@@ -571,7 +571,7 @@ ad_proc -public curriculum_central::uos::edit {
 
     upvar $array row
 
-    array set assignments {}
+    array set assignments [list]
 
     if { $user_id eq "" } {
 	set user_id [ad_conn user_id]
@@ -1361,7 +1361,7 @@ ad_proc curriculum_central::uos::graduate_attributes_get_options {
 	set user_id [ad_conn user_id]
     }
 
-    set ga_list {}
+    set ga_list [list]
     db_foreach select_ga {} {
 	set ga_name "[lang::util::localize $name] ($identifier)"
 	
@@ -1552,7 +1552,7 @@ ad_proc -private curriculum_central::uos::notification_info::get_notification_in
 
     set one_line [curriculum_central::uos::get_pretty_name -uos_id $object_id]
 
-    set details_list {}
+    set details_list [list]
     
     if { [db_0or1row uos_details {}] } {
 	lappend details_list [_ curriculum-central.credit_value] $credit_value
@@ -1783,7 +1783,7 @@ ad_proc -public curriculum_central::uos::add_grade_descriptor_widgets {
 	set package_id [ad_conn package_id]
     }
 
-    array set row {}
+    array set row [list]
 
     if { ![db_0or1row latest_grade_set {} -column_array row] } {
 	set row(grade_set_id) ""
@@ -1899,7 +1899,7 @@ ad_proc -public curriculum_central::uos::add_schedule_widgets {
 	template::form::section $form_name $section_name
     }
 
-    array set row {}
+    array set row [list]
 
     if { ![db_0or1row latest_schedule_set {} -column_array row] } {
 	set row(schedule_set_id) ""

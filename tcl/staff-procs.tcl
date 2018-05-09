@@ -35,7 +35,7 @@ ad_proc -public curriculum_central::staff::pretty_names {
     @param name_ids List of name IDs.
     @return Returns a concatenated string of pretty names.
 } {
-    set names {}
+    set names [list]
 
     foreach name_id $name_ids {
 	set pretty_name [curriculum_central::staff::pretty_name $name_id]
